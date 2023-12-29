@@ -15,6 +15,10 @@ class Receipt extends Model
     ];
 
     public function products() {
-        $this->hasMany(Product::class);
+        return $this->hasMany(Product::class);
+    }
+
+    public function okved() {
+        return $this->belongsTo(Okved::class);
     }
 }

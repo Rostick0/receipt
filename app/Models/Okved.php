@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Okved extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'price',
-        'quantity',
-        'sum',
-        'receipt_id',
+        'parent_id'
     ];
 
-    public function receipt() {
-        return $this->belongsTo(Receipt::class);
+    public function parent() {
+        return $this->hasMany(Okved::class, 'parent_id', 'id');
     }
 }
