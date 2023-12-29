@@ -11,6 +11,10 @@ class Receipt extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        
+
     ];
+
+    public function products() {
+        $this->hasMany(Product::class);
+    }
 }

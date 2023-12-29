@@ -38,6 +38,7 @@ return new class extends Migration
             $table->integer('totalSum');
             $table->integer('user');
             $table->integer('userInn');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('OKVED');
             $table->softDeletes();
             $table->timestamps();

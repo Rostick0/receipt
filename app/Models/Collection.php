@@ -5,19 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Collection extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'price',
-        'quantity',
-        'sum',
-        'receipt_id',
+        'imitation_id',
+        'type',
     ];
-
-    public function receipt() {
-        $this->belongsTo(Receipt::class);
-    }
 }
