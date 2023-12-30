@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CollectionSeeder::class
+            CollectionSeeder::class,
+            OkvedObserver::class,
         ]);
     }
 }
