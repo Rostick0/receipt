@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\Filter;
 use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
+use Illuminate\Http\Request;
 
 class ReceiptController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    private static function getWhere()
     {
-        //
+        return [];
+    }
+    
+    public function index(Request $request)
+    {
+        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
+    
+        return view('pages.' . app('routeByName') . 'receipt.index', compact('receipts'));
     }
 
     /**
@@ -21,7 +27,7 @@ class ReceiptController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -29,7 +35,12 @@ class ReceiptController extends Controller
      */
     public function store(StoreReceiptRequest $request)
     {
-        //
+        $receipts = Receipt::create([
+            ...$request->validated(),
+            'user_id' => auth()->id()
+        ]);
+
+        // return redirect()->route('');
     }
 
     /**
