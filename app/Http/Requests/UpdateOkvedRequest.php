@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOkvedRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateOkvedRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
     }
 
     /**
@@ -22,7 +23,8 @@ class UpdateOkvedRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'parent_id' => 'nullable|'  . Rule::exists('okveds', 'id'),
         ];
     }
 }

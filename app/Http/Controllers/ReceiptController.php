@@ -6,6 +6,7 @@ use App\Filters\Filter;
 use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
+use App\Utils\AccessUtil;
 use Illuminate\Http\Request;
 
 class ReceiptController extends Controller
@@ -27,7 +28,7 @@ class ReceiptController extends Controller
      */
     public function create()
     {
-        
+        return view('pages.receipt.create');
     }
 
     /**
@@ -46,32 +47,50 @@ class ReceiptController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Receipt $receipt)
+    public function show(int $id)
     {
-        //
+        $receipt = Receipt::findOrFail($id);
+
+        return view('pages.receipt.show', compact('receipt'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Receipt $receipt)
+    public function edit(int $id)
     {
-        //
+        $receipt = Receipt::findOrFail($id);
+
+        return view('pages.receipt.edit', compact('receipt'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReceiptRequest $request, Receipt $receipt)
+    public function update(UpdateReceiptRequest $request, int $id)
     {
-        //
+        $data = Receipt::findOrFail($id);
+
+        if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
+
+        $data->update(
+            $request->validated()
+        );
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Receipt $receipt)
+    public function destroy(int $id)
     {
-        //
+        $data = Receipt::findOrFail($id);
+
+        if (AccessUtil::cannot('delete', $data)) return AccessUtil::errorMessage();
+
+        Receipt::destroy($id);
+
+        // return redirect()->route()
     }
 }

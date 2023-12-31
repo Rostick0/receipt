@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Okved;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreOkvedRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreOkvedRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check() && auth()->user()?->can('create', Okved::class);;
     }
 
     /**
@@ -22,7 +24,8 @@ class StoreOkvedRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'parent_id' => 'nullable|' . Rule::exists('okveds', 'id'),
         ];
     }
 }
