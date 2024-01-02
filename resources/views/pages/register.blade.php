@@ -2,7 +2,7 @@
 
 @section('html')
     <div class="auth">
-        <form class="auth-form" action="{{url()->current()}}" method="POST">
+        <form class="auth-form" action="{{ url()->current() }}" method="POST">
             @csrf
             <div class="auth-form__inputs">
                 <label class="label">
