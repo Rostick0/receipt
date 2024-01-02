@@ -114,3 +114,12 @@
         margin-top: 10px;
     }
 }
+
+
+.receipt {
+    &-get {
+        display: flex;
+        align-items: flex-start;
+        grid-gap: 30px 80px;
+    }
+}

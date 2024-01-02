@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('dateTime')->nullable();
             $table->float('cashTotalSum')->nullable();
             $table->float('creditSum')->nullable();
             $table->float('ecashTotalSum')->nullable();
