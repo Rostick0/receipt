@@ -18,9 +18,11 @@ class ReceiptController extends Controller
     
     public function index(Request $request)
     {
-        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
+        // $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
+        $receipts = [];     
     
-        return view('pages.' . app('routeByName') . 'receipt.index', compact('receipts'));
+        // app('routeByName') 
+        return view('pages.receipt.index', compact('receipts'));
     }
 
     /**
@@ -91,6 +93,6 @@ class ReceiptController extends Controller
 
         Receipt::destroy($id);
 
-        // return redirect()->route()
+        return redirect()->route('receipt.destroy');
     }
 }

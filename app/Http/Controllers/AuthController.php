@@ -21,11 +21,6 @@ class AuthController extends Controller
         return $this::redirectProfile();
     }
 
-    public function login_view()
-    {
-        return view('pages.login');
-    }
-
     public function register(RegisterAuthRequest $request)
     {
         $user = User::create($request->validated());
@@ -33,11 +28,6 @@ class AuthController extends Controller
         auth()->login($user);
 
         return $this::redirectProfile();
-    }
-
-    public function register_view()
-    {
-        return view('pages.register');
     }
 
     public function logout(Request $request)

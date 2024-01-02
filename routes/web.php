@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OkvedController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +21,25 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'guest'], function ($router) {
-    Route::get('/login', [AuthController::class, 'login_view'])->name('login');
+    Route::view('/login', 'pages.login')->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    Route::get('/register', [AuthController::class, 'register_view'])->name('register');
+    Route::view('/register', 'pages.register')->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+Route::resources([
+    'receipt' => ReceiptController::class,
+]);
+
+
 Route::group(['middleware' => 'auth'], function () {
+    
+    Route::group(['middleware' => 'admin'], function () {
+        Route::resources([
+            'okved' => OkvedController::class,
+        ]);
+    });
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
