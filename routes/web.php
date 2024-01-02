@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('pages.index');
+});
 
 Route::group(['middleware' => 'guest'], function ($router) {
-    Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/login', [AuthController::class, 'login_view']);
+    Route::get('/login', [AuthController::class, 'login_view'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 
-    Route::get('/register', [AuthController::class, 'register'])->name('register');
-    Route::post('/register', [AuthController::class, 'register_view']);
+    Route::get('/register', [AuthController::class, 'register_view'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
 Route::group(['middleware' => 'auth'], function () {
