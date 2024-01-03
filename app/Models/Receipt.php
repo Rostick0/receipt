@@ -11,14 +11,46 @@ class Receipt extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-
+        'dateTime',
+        'cashTotalSum',
+        'creditSum',
+        'ecashTotalSum',
+        'code',
+        'fiscalDocumentFormatVer',
+        'fiscalDocumentNumber',
+        'fiscalDriveNumber',
+        'fiscalSign',
+        'kktRegId',
+        'nds0',
+        'ndsNo',
+        'nds10',
+        'nds20',
+        'operationType',
+        'prepaidSum',
+        'provisionSum',
+        'requestNumber',
+        'retailPlace',
+        'retailPlaceAddress',
+        'shiftNumber',
+        'taxationType',
+        'totalSum',
+        'user',
+        'userInn',
+        'user_id',
+        'okved_id',
     ];
 
-    public function products() {
+    public function products()
+    {
         return $this->hasMany(Product::class);
     }
 
-    public function okved() {
+    public function okved()
+    {
         return $this->belongsTo(Okved::class);
+    }
+
+    public function operationTypeCollection() {
+        return $this->belongsTo(Collection::class)->where('operation_type');
     }
 }
