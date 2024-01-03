@@ -118,8 +118,64 @@
 
 .receipt {
     &-get {
-        display: flex;
-        align-items: flex-start;
-        grid-gap: 30px 80px;
+
+        &__container {
+            display: flex;
+            align-items: flex-start;
+            grid-gap: 30px 80px;
+        }
+
+        &-details {
+            &[open] &__switch {
+                background-color: var(--blue);
+           
+                &::before {
+                    transform: rotate(-45deg);
+                    margin-bottom: 3px;
+                }
+            }
+
+            &[open] &__content {
+                border-color: var(--blue);
+            }
+
+            &__switch {
+                background-color: var(--grey);
+                color: #fff;
+                cursor: pointer;
+                list-style: none;
+                padding: 10px;
+
+                &::before {
+                    content: "";
+                    border-left: 2px solid;
+                    border-bottom: 2px solid;
+                    border-color: #fff;
+                    display: inline-block;
+                    transform: rotate(-225deg);
+                    margin-right: 8px;
+                    width: 6px;
+                    height: 6px;
+                }
+            }
+
+            &__content {
+                border: 1px solid;
+                border-color: var(--grey);
+                display: flex;
+                flex-direction: column;
+                row-gap: 8px;
+                padding: 10px 10px 20px;
+            }
+
+            .label {
+                font-size: 13px;
+            }
+
+            .input {
+                border-radius: .5rem;
+                padding: 6px 10px;
+            }
+        }
     }
 }
