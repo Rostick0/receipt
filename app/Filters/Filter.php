@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Utils\FilterHasRequestUtil;
+use App\Utils\FilterHasUtil;
 use App\Utils\FilterRequestUtil;
 use App\Utils\OrderByUtil;
 use App\Utils\QueryString;
@@ -14,10 +15,7 @@ class Filter
 {
     public static function all($request, Model $model, array $fillable_block = [], array $where = []): Paginator
     {
-        $data = $model->with(QueryString::convertToArray($request->extends));
-        $data = FilterRequestUtil::all($request, $data, $fillable_block);
-        $data = FilterHasRequestUtil::all($request, $data, $fillable_block);
-        $data = OrderByUtil::set($request->sort, $data);
+        $data = Filter::query($request, $model, $fillable_block, $where);
 
         if ($where) $data->where($where);
 
@@ -31,6 +29,7 @@ class Filter
         $data = $model->with(QueryString::convertToArray($request->extends));
         $data = FilterRequestUtil::all($request, $data, $fillable_block);
         $data = FilterHasRequestUtil::all($request, $data, $fillable_block);
+        $data = FilterHasUtil::all($request, $data, $fillable_block);
         $data = OrderByUtil::set($request->sort, $data);
 
         if ($where) $data->where($where);
