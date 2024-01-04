@@ -5,6 +5,8 @@
     --blue-hover: rgb(100, 175, 255);
     --grey: rgb(197, 197, 197);
     --grey-hover: rgb(167, 167, 167);
+    --red: rgb(255, 80, 80);
+    --red-hover: rgb(255, 60, 60);
 }
 
 .link {
@@ -14,6 +16,15 @@
 
     &:hover {
         color: var(--blue-hover);
+    }
+
+    &-red {
+        @extend .link;
+        color: var(--red);
+
+        &:hover {
+            color: var(--red-hover);
+        }
     }
 }
 
@@ -32,6 +43,25 @@
     margin: 0 auto;
     width: 100%;
     max-width: 1280px;
+}
+
+.form {
+    border: 1px solid var(--grey);
+    border-radius: .75rem;
+    padding: 20px;
+
+    &__col-2 {
+        display: grid;
+        grid-gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__inputs {
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+        margin-bottom: 20px;
+    }
 }
 
 .error {
@@ -134,20 +164,6 @@
 .auth {
     margin: 20vh auto 0;
     max-width: 325px;
-
-    &-form {
-        border: 1px solid var(--grey);
-        border-radius: .75rem;
-        padding: 20px;
-
-
-        &__inputs {
-            display: flex;
-            flex-direction: column;
-            row-gap: 12px;
-            margin-bottom: 20px;
-        }
-    }
 
     &__link {
         font-size: 14px;
@@ -319,5 +335,9 @@
                 flex-grow: 1;
             }
         }
+    }
+
+    &-mutation {
+        &__form {}
     }
 }

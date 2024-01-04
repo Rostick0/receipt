@@ -28,13 +28,9 @@ Route::group(['middleware' => 'guest'], function ($router) {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::resources([
-    'receipt' => ReceiptController::class,
-]);
+Route::resource('receipt', ReceiptController::class)->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);;
 
-Route::resources([
-    'okved' => OkvedController::class,
-]);
+Route::resource('okved', OkvedController::class)->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {

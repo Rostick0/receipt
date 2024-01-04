@@ -2,9 +2,9 @@
 
 @section('html')
     <div class="auth">
-        <form class="auth-form" action="{{ url()->current() }}" method="POST">
+        <form class="form auth-form" action="{{ url()->current() }}" method="POST">
             @csrf
-            <div class="auth-form__inputs">
+            <div class="form__inputs auth-form__inputs">
                 <label class="label">
                     <span class="label__title">Имя</span>
                     <input class="input" type="text" name="name" required>

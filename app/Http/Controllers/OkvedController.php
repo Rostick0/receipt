@@ -39,7 +39,7 @@ class OkvedController extends Controller
         );
 
 
-        // return redirect()->route('')
+        return redirect()->route('okved.update', ['okved' => $okved->id]);
     }
 
     /**
@@ -79,6 +79,6 @@ class OkvedController extends Controller
 
         Okved::destroy($id);
 
-        return redirect()->route('');
+        return redirect()->route('okved.index');
     }
 }
