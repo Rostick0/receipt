@@ -32,14 +32,20 @@ Route::resources([
     'receipt' => ReceiptController::class,
 ]);
 
+Route::resources([
+    'okved' => OkvedController::class,
+]);
 
 Route::group(['middleware' => 'auth'], function () {
-    
     Route::group(['middleware' => 'admin'], function () {
-        Route::resources([
-            'okved' => OkvedController::class,
-        ]);
+        // Route::resources([
+        //     'okved' => OkvedController::class,
+        // ]);
     });
+
+    // Route::resources([
+    //     'receipt' => ReceiptController::class,
+    // ]);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

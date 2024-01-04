@@ -15,6 +15,10 @@ class Okved extends Model
     ];
 
     public function parent() {
+        return $this->belongsTo(Okved::class, 'parent_id', 'id');
+    }
+
+    public function children() {
         return $this->hasMany(Okved::class, 'parent_id', 'id');
     }
 }
