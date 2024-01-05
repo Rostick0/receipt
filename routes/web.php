@@ -28,20 +28,16 @@ Route::group(['middleware' => 'guest'], function ($router) {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::resource('receipt', ReceiptController::class)->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);;
+Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);;
 
-Route::resource('okved', OkvedController::class)->only(['index', 'store', 'show', 'edit', 'update', 'destroy']);
+Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
-        // Route::resources([
-        //     'okved' => OkvedController::class,
-        // ]);
+        // Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
     });
 
-    // Route::resources([
-    //     'receipt' => ReceiptController::class,
-    // ]);
+    // Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);;
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
