@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ReceiptUploaderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,5 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => 'api',
 ], function () {
-    Route::post('receipt-upload', [ReceiptController::class, 'upload']);
+    Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show', 'store']);
+    // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
+    // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
 });

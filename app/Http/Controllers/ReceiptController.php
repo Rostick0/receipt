@@ -6,12 +6,9 @@ use App\Filters\Filter;
 use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
-use App\Http\Requests\UploadReceiptRequest;
-use App\Models\User;
 use App\Utils\AccessUtil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Validator;
 
 class ReceiptController extends Controller
 {
@@ -98,41 +95,5 @@ class ReceiptController extends Controller
         Receipt::destroy($id);
 
         return redirect()->route('receipt.index');
-    }
-
-    public function upload(UploadReceiptRequest $request)
-    {
-        $errors = [];
-        $access = 0;
-
-        $for_load = [];
-
-        collect(json_decode($request->file('upload')->getContent(), true))->lazy()->each(function ($item, $index) use (&$access, &$for_load, &$errors) {
-            $validator = Validator::make(
-                $item,
-                (new StoreReceiptRequest)->rules()
-            );
-
-            if ($validator->passes()) {
-                $access += 1;
-                $for_load[] = $validator->validated();
-            } else {
-                $errors[] = [
-                    'index' => $index + 1,
-                    'errors' => $validator->errors()?->getMessages() ?? null,
-                ];
-            }
-        });
-
-        collect($for_load)->lazy()->chunk(250)->each(function ($items) {
-            User::find(auth()->id())->receipts()->createMany($items);
-
-            sleep(0.05);
-        });
-
-        return new JsonResponse([
-            'count' => 'Количество загруженных чеков - ' . $access,
-            'invalid data' => $errors,
-        ]);
     }
 }
