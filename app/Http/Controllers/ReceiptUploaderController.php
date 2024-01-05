@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShowReceiptUploaderRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadReceiptRequest;
 use App\Http\Requests\StoreReceiptRequest;
+use App\Http\Requests\StoreReceiptUploaderRequest;
 use App\Http\Requests\UploadReceiptUploaderRequest;
+use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
 class ReceiptUploaderController extends Controller
 {
-    public function show(int $id) {
+    public function show(ShowReceiptUploaderRequest $request, int $id) {
+        $data = Receipt::with('products')->findOrFail($id);
 
+        // dd($data);
     }
 
-    public function store(UploadReceiptUploaderRequest $request)
+    public function store(StoreReceiptUploaderRequest $request)
     {
         $errors = [];
         $access = 0;

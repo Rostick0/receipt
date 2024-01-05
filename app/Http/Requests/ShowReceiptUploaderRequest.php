@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UploadReceiptUploaderRequest extends FormRequest
+class ShowReceiptUploaderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
+        return true;
         return auth()->check();
     }
 
@@ -22,7 +23,7 @@ class UploadReceiptUploaderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'upload' => 'required|file|mimes:json'
+            //
         ];
     }
 }
