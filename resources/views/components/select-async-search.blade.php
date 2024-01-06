@@ -1,12 +1,12 @@
-@props(['data_url', 'date_item_name', 'data_item_id', 'title', 'placeholder'])
+@props(['data_url', 'date_item_name', 'data_item_id', 'title', 'placeholder', 'name'])
 
 <div class="select-async-search" data-url="{{ $data_url }}" data-item-id="{{ $data_item_id ?? '' }}">
     <div class="select-async-search__switch">
         @isset($title)
             <div class="select-async-search__title">{{ $title }}</div>
         @endisset
-        <input class="input select-async-search__name" value="{{ $date_item_name ?? ''}}" type="text" required
-            readonly>
+        <input class="input select-async-search__name" value="{{ $date_item_name ?? '' }}" name="{{ $name ?? '' }}"
+            type="text" required readonly>
         <input type="radio" name="okved_id" value="{{ $data_item_id ?? '' }}" hidden>
     </div>
     <div class="select-async-search__content">
