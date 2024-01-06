@@ -234,30 +234,7 @@
                                 @enderror
                             </label>
                         </div>
-                        <div class="select-async-search" data-url="/api/okved">
-                            <div class="select-async-search__switch">
-                                <div class="select-async-search__title">ОКВЭД</div>
-                                <input class="input select-async-search__name" type="text" required readonly>
-                            </div>
-                            <div class="select-async-search__content">
-                                <div class="select-async-search__block">
-                                    <input class="input select-async-search__search" placeholder="ОКВЭД" type="search">
-                                </div>
-                                <ul class="select-async-search__list">
-                                    {{-- @foreach ($okveds as $item)
-                                        <li class="select-async-search__item">
-                                            <label>
-                                                {{ $item->name }}
-                                                <input class="input select-async-search__value" type="radio"
-                                                    name="okved_id" value="{{ $item->id }}" hidden>
-                                            </label>
-                                        </li>
-                                    @endforeach --}}
-                                </ul>
-                                <div class="select-async-search__observer"></div>
-                            </div>
-
-                        </div>
+                        <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" />
                     </div>
                     <button class="btn">Создать</button>
                 </form>

@@ -26,6 +26,7 @@ export const throttle = (func, ms) => {
         const selectInput = item.querySelector('.select-async-search__name');
         const selectList = item.querySelector('.select-async-search__list');
         const selectSearch = item.querySelector('.select-async-search__search');
+
         let isObserve = false;
         let page = 0;
 
@@ -42,8 +43,7 @@ export const throttle = (func, ms) => {
             selectItems?.forEach(selectItem => {
                 const radioInput = selectItem.querySelector('.select-async-search__value')
 
-                radioInput.onclick = (e) => {
-                    console.log(e.target.value);
+                radioInput.onclick = () => {
                     selectInput.value = selectItem.textContent.trim();
                     toggleActive();
                 }
@@ -67,7 +67,7 @@ export const throttle = (func, ms) => {
                     `<li class="select-async-search__item">
                         <label>
                             ${dataItem?.name}
-                            <input class="input select-async-search__value" type="radio" name="okved_id" value="${dataItem?.id}" hidden>
+                            <input class="input select-async-search__value" type="radio" name="okved_id" value="${dataItem?.id}" ${dataItem?.id == item.getAttribute('data-item-id') ? 'checked' : ''} hidden>
                         </label>
                     </li>`
                 );
@@ -80,24 +80,24 @@ export const throttle = (func, ms) => {
             }
 
             initialClick();
-        }
+        };
 
         const clearList = () => {
             page = 0;
             selectList.innerHTML = "";
-        }
+        };
 
         const visibleObserver = () => {
             if (!isObserve) return;
 
             search();
-        }
+        };
 
         const observer = new IntersectionObserver(throttle(visibleObserver, 300), {
             threshold: 1
         });
 
-        const selectObserver = item.querySelector('.select-async-search__observer')
+        const selectObserver = item.querySelector('.select-async-search__observer');
         observer.observe(selectObserver);
 
         isObserve = true;
