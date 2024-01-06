@@ -6,6 +6,8 @@ use App\Filters\Filter;
 use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
+use App\Models\Collection;
+use App\Models\Okved;
 use App\Utils\AccessUtil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,7 +33,11 @@ class ReceiptController extends Controller
      */
     public function create()
     {
-        return view('pages.receipt.create');
+        $operation_types = Collection::where('type', 'operation_type')->get();
+        $taxation_types = Collection::where('type', 'taxation_type')->get();
+        $okveds = Okved::limit(40)->get();
+
+        return view('pages.receipt.create', compact(['operation_types', 'taxation_types', 'okveds']));
     }
 
     /**
@@ -64,7 +70,11 @@ class ReceiptController extends Controller
     {
         $receipt = Receipt::findOrFail($id);
 
-        return view('pages.receipt.edit', compact('receipt'));
+        $operation_types = Collection::where('type', 'operation_type')->get();
+        $taxation_types = Collection::where('type', 'taxation_type')->get();
+        $okveds = Okved::limit(40)->get();
+
+        return view('pages.receipt.edit', compact(['receipt', 'operation_types', 'taxation_types', 'okveds']));
     }
 
     /**

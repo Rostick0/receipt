@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\ReceiptUploaderController;
+use App\Http\Controllers\Api\OkvedController;
+use App\Http\Controllers\Api\ReceiptUploaderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,5 @@ Route::group([
     Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show', 'store']);
     // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
     // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
+    Route::get('okved', [OkvedController::class, 'index']);
 });

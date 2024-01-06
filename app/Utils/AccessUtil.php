@@ -14,8 +14,9 @@ class AccessUtil
 
     public static function errorMessage(): JsonResponse
     {
-        return new JsonResponse([
-            'message' => __('auth.access')
-        ],  403);
+        return abort(403);
+        // return new JsonResponse([
+        //     'message' => __('auth.access')
+        // ],  403);
     }
 }

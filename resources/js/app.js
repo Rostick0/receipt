@@ -1,1 +1,111 @@
 import './bootstrap';
+
+export const throttle = (func, ms) => {
+    let locked = false
+
+    return function () {
+        if (locked) return
+
+        const context = this
+        const args = arguments
+
+        locked = true
+
+        setTimeout(() => {
+            func.apply(context, args)
+            locked = false
+        }, ms)
+    }
+}
+
+(function () {
+    const selectAsyncSearch = document.querySelectorAll('.select-async-search');
+
+    selectAsyncSearch?.forEach(item => {
+        const selectSwitch = item.querySelector('.select-async-search__switch');
+        const selectInput = item.querySelector('.select-async-search__name');
+        const selectList = item.querySelector('.select-async-search__list');
+        const selectSearch = item.querySelector('.select-async-search__search');
+        let isObserve = false;
+        let page = 0;
+
+        const toggleActive = () => {
+            item.classList.toggle('_active');
+        };
+
+        selectSwitch.onclick = () => {
+            toggleActive();
+        };
+
+        const initialClick = () => {
+            const selectItems = item.querySelectorAll('.select-async-search__item');
+            selectItems?.forEach(selectItem => {
+                const radioInput = selectItem.querySelector('.select-async-search__value')
+
+                radioInput.onclick = (e) => {
+                    console.log(e.target.value);
+                    selectInput.value = selectItem.textContent.trim();
+                    toggleActive();
+                }
+            });
+        };
+
+        initialClick();
+
+        const search = async () => {
+            page += 1;
+
+            const response = await fetch(item.getAttribute('data-url') + '?' + new URLSearchParams({
+                "filterLIKE[name]": selectSearch.value,
+                limit: 40,
+                page
+            }));
+            const { data } = await response?.json();
+
+            data?.data?.forEach(dataItem => {
+                selectList.insertAdjacentHTML('beforeend',
+                    `<li class="select-async-search__item">
+                        <label>
+                            ${dataItem?.name}
+                            <input class="input select-async-search__value" type="radio" name="okved_id" value="${dataItem?.id}" hidden>
+                        </label>
+                    </li>`
+                );
+            });
+
+            if (data?.current_page <= data?.last_page) {
+                isObserve = true
+            } else {
+                isObserve = false;
+            }
+
+            initialClick();
+        }
+
+        const clearList = () => {
+            page = 0;
+            selectList.innerHTML = "";
+        }
+
+        const visibleObserver = () => {
+            console.log(5);
+            if (!isObserve) return;
+
+            search();
+        }
+
+        const observer = new IntersectionObserver(throttle(() => visibleObserver(), 300), {
+            threshold: 0.5
+        });
+
+        const selectObserver = item.querySelector('.select-async-search__observer')
+        observer.observe(selectObserver);
+
+        isObserve = true;
+
+        selectSearch.oninput = throttle(() => {
+            clearList();
+            search();
+        }, 1000);
+    });
+})();
