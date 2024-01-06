@@ -38,8 +38,7 @@ class OkvedController extends Controller
             $request->validated()
         );
 
-
-        return redirect()->route('okved.update', ['okved' => $okved->id]);
+        return redirect()->route('okved.update', ['edit' => $okved->id]);
     }
 
     /**

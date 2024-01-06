@@ -163,15 +163,20 @@
                         <li class="receipt-item">
                             <div class="receipt-item__top">
                                 <div class="receipt-tiem__id">Чек № 1</div>
-                                <a class="link receipt-item__more" href="">Подробнее</a>
+                                <button class="link receipt-item__more">Подробнее</button>
                             </div>
-                            <div class="receipt-item__center">ООО чеки</div>
-                            <div class="receipt-item__bottom">
-                                <div class="receipt-item__date">09.12.2024 13:55</div>
-                                <div class="receipt-item__amount">
-                                    <strong>Итого:</strong>
-                                    <div>1232.75 руб.</div>
+                            <div class="receipt-item__short-info">
+                                <div class="receipt-item__center">ООО чеки</div>
+                                <div class="receipt-item__bottom">
+                                    <div class="receipt-item__date">09.12.2024 13:55</div>
+                                    <div class="receipt-item__amount">
+                                        <strong>Итого:</strong>
+                                        <div>1232.75 руб.</div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="receipt-item__info">
+                                
                             </div>
                         </li>
                     </ul>

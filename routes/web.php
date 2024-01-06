@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OkvedController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\TestController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +31,8 @@ Route::group(['middleware' => 'guest'], function ($router) {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);;
+Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 
 Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 
