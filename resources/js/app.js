@@ -88,14 +88,13 @@ export const throttle = (func, ms) => {
         }
 
         const visibleObserver = () => {
-            console.log(5);
             if (!isObserve) return;
 
             search();
         }
 
-        const observer = new IntersectionObserver(throttle(() => visibleObserver(), 300), {
-            threshold: 0.5
+        const observer = new IntersectionObserver(throttle(visibleObserver, 300), {
+            threshold: 1
         });
 
         const selectObserver = item.querySelector('.select-async-search__observer')
