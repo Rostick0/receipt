@@ -13,7 +13,7 @@
                             <label class="label">
                                 <span class="label__title">Имя</span>
                                 <input class="input" type="text" name="name"
-                                    value="{{ old('name') ?? $product->name }}">
+                                    value="{{ old('name') ?? $product->name }}" maxlength="255" required>
                                 @error('name')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -21,7 +21,7 @@
                             <label class="label">
                                 <span class="label__title">Цена</span>
                                 <input class="input" type="number" name="price"
-                                    value="{{ old('price') ?? $product->price }}">
+                                    value="{{ old('price') ?? $product->price }}" required>
                                 @error('price')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -31,7 +31,7 @@
                             <label class="label">
                                 <span class="label__title">Количество</span>
                                 <input class="input" type="number" name="quantity"
-                                    value="{{ old('quantity') ?? $product->quantity }}">
+                                    value="{{ old('quantity') ?? $product->quantity }}" required>
                                 @error('quantity')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -44,7 +44,8 @@
                     @csrf
                     <input type="hidden" name="_method" value="DELETE">
                     <button class="link link-red">Удалить</button>
-                    <a class="link" href="{{ route('receipt.edit', ['receipt' => $product->receipt]) }}">Вернуться к чеку</a>
+                    <a class="link" href="{{ route('receipt.edit', ['receipt' => $product->receipt]) }}">Вернуться к
+                        чеку</a>
                 </form>
             </div>
         </div>
