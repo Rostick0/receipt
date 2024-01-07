@@ -19,9 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.index');
-});
+Route::get('/', [ReceiptController::class, 'index']);
 
 Route::group(['middleware' => 'guest'], function ($router) {
     Route::view('/login', 'pages.login')->name('login');

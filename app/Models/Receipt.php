@@ -51,6 +51,10 @@ class Receipt extends Model
     }
 
     public function operationTypeCollection() {
-        return $this->belongsTo(Collection::class)->where('operation_type');
+        return $this->belongsTo(OperationType::class);
+    }
+
+    public function taxationTypeCollection() {
+        return $this->belongsTo(TaxationType::class);
     }
 }

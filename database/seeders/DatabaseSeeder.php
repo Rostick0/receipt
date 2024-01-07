@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Product;
+use App\Models\Receipt;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,8 +23,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CollectionSeeder::class,
+            TaxationTypeSeeder::class,
+            OperationTypeSeeder::class,
             OkvedObserver::class,
+            UserSeeder::class,
         ]);
+
+        Receipt::factory(50)
+            ->has(Product::factory(3), 'products')
+            ->create();
     }
 }

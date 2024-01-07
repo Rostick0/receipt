@@ -13,6 +13,14 @@ class OkvedObserver extends Seeder
      */
     public function run(): void
     {
-        
+        $data = [ 
+            [
+                'id' => 1,
+                'name' => 'Производство синтетических волокон',
+                'parent_id' => null,
+            ],
+        ];
+
+        Okved::insert($data);
     }
 }

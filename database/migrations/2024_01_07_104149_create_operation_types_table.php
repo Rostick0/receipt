@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collections', function (Blueprint $table) {
+        Schema::create('operation_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('imitation_id')->nullable(); // this id use in other api
-            $table->string('type');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('collections');
+        Schema::dropIfExists('operation_types');
     }
 };
