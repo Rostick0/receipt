@@ -1,10 +1,10 @@
 <header class="header">
     <div class="container header__container">
         <nav class="header__nav">
-            <a class="header__nav_item" href="/">Чеки</a>
+            <a class="header__nav_item" href="/">Мои чеки</a>
             @auth
                 <a class="header__nav_item" href="">Мои чеки</a>
-                <a class="header__nav_item" href="">Добавить чек</a>
+                <a class="header__nav_item" href="{{ route('receipt.create') }}">Добавить чек</a>
             @endauth
         </nav>
         @guest

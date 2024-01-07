@@ -26,7 +26,7 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|max:255',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'receipt_id' => 'required|' . Rule::exists('okveds', 'id'),
+            'receipt_id' => 'required|' . Rule::exists('receipts', 'id'),
         ];
     }
 }

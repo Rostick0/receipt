@@ -27,9 +27,16 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">Количество</span>
-                                <input class="input" type="number" name="quantity"
-                                    value="{{ old('quantity') }}">
+                                <input class="input" type="number" name="quantity" value="{{ old('quantity') }}">
                                 @error('quantity')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
+                                <span class="label__title">ID чека</span>
+                                <input class="input" type="number" name="receipt_id"
+                                    value="{{ old('receipt_id') ?? Request::get('receipt_id') }}">
+                                @error('receipt_id')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
@@ -37,6 +44,7 @@
                     </div>
                     <button class="btn">Создать</button>
                 </form>
+                <a class="link" href="{{ route('receipt.edit', ['receipt' => $product->receipt]) }}">Вернуться к чеку</a>
             </div>
         </div>
     </div>

@@ -40,6 +40,12 @@
                     </div>
                     <button class="btn">Создать</button>
                 </form>
+                <form action="{{ route('product.destroy', ['product' => $product->id]) }}" method="post">
+                    @csrf
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="link link-red">Удалить</button>
+                    <a class="link" href="{{ route('receipt.edit', ['receipt' => $product->receipt]) }}">Вернуться к чеку</a>
+                </form>
             </div>
         </div>
     </div>

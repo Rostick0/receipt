@@ -177,7 +177,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">Место розничной торговли</span>
-                                <input class="input" type="number" name="retailPlace" maxlength="255"
+                                <input class="input" type="text" name="retailPlace" maxlength="255"
                                     value="{{ old('retailPlace') }}">
                                 @error('retailPlace')
                                     <span class="error">{{ $message }}</span>
@@ -185,7 +185,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">Адрес</span>
-                                <input class="input" type="number" name="retailPlaceAddress" maxlength="255"
+                                <input class="input" type="text" name="retailPlaceAddress" maxlength="255"
                                     value="{{ old('retailPlaceAddress') }}">
                                 @error('retailPlaceAddress')
                                     <span class="error">{{ $message }}</span>

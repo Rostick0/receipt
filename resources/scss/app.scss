@@ -215,6 +215,7 @@
 
 .main {
     flex-grow: 1;
+    padding-bottom: 40px;
 }
 
 
@@ -414,6 +415,17 @@
     }
 
     &-mutation {
-        &__form {}
+        &__form {
+            margin-bottom: 30px;
+        }
+
+        &-products {
+            &__top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+        }
     }
 }

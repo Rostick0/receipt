@@ -23,7 +23,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $product = Product::create([
-            $request->validated(),
+            ...$request->validated(),
             'sum' => $request->price * $request->quantity
         ]);
 
@@ -52,7 +52,7 @@ class ProductController extends Controller
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
 
         $data->update([
-            $request->validated(),
+            ...$request->validated(),
             'sum' => $request->price * $request->quantity
         ]);
 
@@ -70,6 +70,6 @@ class ProductController extends Controller
 
         Product::destroy($id);
 
-        return redirect()->route('receipt.show', ['receipt' => $data->receipt_id]);
+        return redirect()->route('receipt.edit', ['receipt' => $data->receipt_id]);
     }
 }

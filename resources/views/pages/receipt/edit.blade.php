@@ -180,7 +180,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">Место розничной торговли</span>
-                                <input class="input" type="number" name="retailPlace" maxlength="255"
+                                <input class="input" type="text" name="retailPlace" maxlength="255"
                                     value="{{ old('retailPlace') ?? $receipt->retailPlace }}">
                                 @error('retailPlace')
                                     <span class="error">{{ $message }}</span>
@@ -188,7 +188,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">Адрес</span>
-                                <input class="input" type="number" name="retailPlaceAddress" maxlength="255"
+                                <input class="input" type="text" name="retailPlaceAddress" maxlength="255"
                                     value="{{ old('retailPlaceAddress') ?? $receipt->retailPlaceAddress }}">
                                 @error('retailPlaceAddress')
                                     <span class="error">{{ $message }}</span>
@@ -244,6 +244,37 @@
                     </div>
                     <button class="btn">Изменить</button>
                 </form>
+            </div>
+            <div class="okved-mutation-products">
+                <div class="okved-mutation-products__top">
+                    <h2>Товары</h2>
+                    <a class="btn" href="{{ route('product.create', ['receipt_id' => $receipt->id]) }}">Добавить</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <th>ID</th>
+                        <th>Название</th>
+                        <th>Цена</th>
+                        <th>Количества</th>
+                        <th>Сумма</th>
+                        <th>Действие</th>
+                    </thead>
+                    <tbody>
+                        @foreach ($receipt->products as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->price / 100 }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>{{ $item->sum / 100 }}</td>
+                                <td>
+                                    <a class="link"
+                                        href="{{ route('product.edit', ['product' => $item->id]) }}">Ред</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

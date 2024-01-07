@@ -40,6 +40,7 @@ class AuthController extends Controller
 
     public static function redirectProfile()
     {
+        
         // return auth()->user()->is_admin ? redirect()->route('music.list') : redirect()->route('client.index', [
         //     'user' => User::find(auth()->id())
         // ]);
