@@ -160,7 +160,28 @@
                 </form>
                 <div class="receipt-get__content">
                     <ul class="receipt-list">
-                        <li class="receipt-item">
+                        @foreach ($receipts as $item)
+                            <li class="receipt-item">
+                                <div class="receipt-item__top">
+                                    <div class="receipt-tiem__id">Чек № {{ $item->id }}</div>
+                                    <button class="link receipt-item__more">Подробнее</button>
+                                </div>
+                                <div class="receipt-item__short-info">
+                                    <div class="receipt-item__center">{{ $item->user }}</div>
+                                    <div class="receipt-item__bottom">
+                                        <div class="receipt-item__date">{{ Carbon\Carbon::parse($item->dateTime)->translatedFormat('d.m.Y H:i:s') }}</div>
+                                        <div class="receipt-item__amount">
+                                            <strong>Итого:</strong>
+                                            <div>{{ $item->totalSum / 100 }} руб.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="receipt-item__info">
+
+                                </div>
+                            </li>
+                        @endforeach
+                        {{-- <li class="receipt-item">
                             <div class="receipt-item__top">
                                 <div class="receipt-tiem__id">Чек № 1</div>
                                 <button class="link receipt-item__more">Подробнее</button>
@@ -178,8 +199,11 @@
                             <div class="receipt-item__info">
                                 
                             </div>
-                        </li>
+                        </li> --}}
                     </ul>
+                    <div class="pagination-margin">
+                        {{ $receipts->appends(Request::all())->links('vendor.pagination') }}
+                    </div>
                 </div>
             </div>
         </div>

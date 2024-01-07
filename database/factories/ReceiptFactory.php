@@ -46,7 +46,7 @@ class ReceiptFactory extends Factory
             'shiftNumber' => fake()->numberBetween(1, 500),
             'taxationType' => $taxation_type_ids[random_int(0, 4)],
             'totalSum' => $cashTotalSum + $creditSum + $ecashTotalSum,
-            'user' => 1,
+            'user' => fake()->name(),
             'userInn' => substr((string) fake()->creditCardNumber(), 0, 12),
             'user_id' => 1,
             'okved_id' => 1,
