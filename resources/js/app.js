@@ -108,3 +108,13 @@ export const throttle = (func, ms) => {
         }, 1000);
     });
 })();
+
+(function() {
+    const receiptItems = document.querySelectorAll('.receipt-item');
+
+    receiptItems?.forEach(item => {
+        const more = item.querySelector('.receipt-item__more');
+
+        more.onclick = () => item.classList.toggle('_active');
+    })
+})();

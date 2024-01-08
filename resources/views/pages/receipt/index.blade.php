@@ -160,7 +160,7 @@
                 </form>
                 <div class="receipt-get__content">
                     <ul class="receipt-list">
-                        @foreach ($receipts as $item)
+                        {{-- @foreach ($receipts as $item)
                             <li class="receipt-item">
                                 <div class="receipt-item__top">
                                     <div class="receipt-tiem__id">Чек № {{ $item->id }}</div>
@@ -180,8 +180,8 @@
 
                                 </div>
                             </li>
-                        @endforeach
-                        {{-- <li class="receipt-item">
+                        @endforeach --}}
+                        <li class="receipt-item">
                             <div class="receipt-item__top">
                                 <div class="receipt-tiem__id">Чек № 1</div>
                                 <button class="link receipt-item__more">Подробнее</button>
@@ -196,13 +196,82 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="receipt-item__info">
-                                
+                            <div class="receipt-item-info">
+                                <div class="text-center">Компания</div>
+                                <div class="text-center">Адрес</div>
+                                <div class="text-center">ИНН</div>
+                                <br>
+                                <div class="text-center">Дата и время покупки</div>
+                                <div class="text-center">Вид чека</div>
+                                {{-- <div class="receipt-item-info__hr"></div> --}}
+                                <table class="table receipt-item-info__table">
+                                    <thead>
+                                        <tr class="receipt-item-info__tr">
+                                            <th>№</th>
+                                            <th>Название</th>
+                                            <th>Цена</th>
+                                            <th>Кол.</th>
+                                            <th>Сумма</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="receipt-item-info__tr">
+                                            <td>1</td>
+                                            <td>Абоба</td>
+                                            <td>0.00</td>
+                                            <td>4</td>
+                                            <td>0.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="receipt-item-info__total">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>Итого:</strong>
+                                        <div>-</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>Наличные</div>
+                                        <div>-</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>Карта</div>
+                                        <div>-</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>НДС</div>
+                                        <div>-</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div>Вид налогооблажения</div>
+                                        <div>-</div>
+                                    </div>
+                                    <div class="receipt-item-info__hr"></div>
+                                    <div class="d-flex">
+                                        <div>РЕГ. НОМЕР ККТ:&ensp;</div>
+                                        <div>000</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>ФН:&ensp;</div>
+                                        <div>000</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>ФД:&ensp;</div>
+                                        <div>000</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>ФПД:&ensp;</div>
+                                        <div>000</div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div>ОКВЭД:&ensp;</div>
+                                        <div>000</div>
+                                    </div>
+                                </div>
                             </div>
-                        </li> --}}
+                        </li>
                     </ul>
                     <div class="pagination-margin">
-                        {{ $receipts->appends(Request::all())->links('vendor.pagination') }}
+                        {{-- {{ $receipts->appends(Request::all())->links('vendor.pagination') }} --}}
                     </div>
                 </div>
             </div>
