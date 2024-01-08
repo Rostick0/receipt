@@ -7,31 +7,38 @@ use App\Http\Requests\Auth\LoginAuthRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
     public function login(LoginAuthRequest $request)
     {
-        if (!auth()->attempt($request->validated(), true)) {
+        if (!$token = JWTAuth::attempt($request->validated())) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
             ]);
         }
 
-        $token = auth()->user()->createToken('token', ['telegram'])->plainTextToken;
-
         return new JsonResponse([
             'data' => [
-                'token' => $token
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')?->factory()->getTTL() * 60 * 24 * 7,
+                'user' => auth()->user()
             ]
+        ]);
+    }
+
+    public function me()
+    {
+        return new JsonResponse([
+            'data' => auth()->user()
         ]);
     }
 
     public function logout(Request $request)
     {
-        auth()->user()?->tokens()->where('abilities', '["telegram"]')->delete();
         auth()->logout();
-        $request->session()->flush();
 
         return new JsonResponse([
             'message' => 'Выход из приложения'

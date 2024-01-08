@@ -8,7 +8,7 @@
     @vite(['resources/scss/app.scss'])
     {{-- <title>@yield('seo_title', $site->seo_title)</title> --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="token" content="{{ auth()->user()?->tokens()?->whereNot('abilities', '["telegram"]')->first()->token ?? null }}">
+    <meta name="token" content="{{ Cookie::get('token') ?? null }}">
     {{-- <meta name="description" content="@yield('seo_description', $site->seo_description)"> --}}
 </head>
 

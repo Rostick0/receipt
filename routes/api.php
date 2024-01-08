@@ -22,13 +22,31 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => [
+        'api',
+    ],
+
 ], function () {
-    Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show', 'store']);
+    Route::group([
+        'prefix' => 'auth'
+    ], function () {
+        Route::post('login', [AuthController::class, 'login']);
+
+        Route::group([
+            'middleware' => 'auth:api'
+        ], function () {
+            Route::get('me', [AuthController::class, 'me']);
+            Route::post('logout', [AuthController::class, 'logout']);
+        });
+    });
+
+    Route::group([
+        'middleware' => 'auth:api'
+    ], function () {
+        Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show', 'store']);
+    });
+
     // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
     // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     Route::get('okved', [OkvedController::class, 'index']);
-
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('logout', [AuthController::class, 'logout']);
 });
