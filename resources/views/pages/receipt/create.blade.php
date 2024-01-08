@@ -1,6 +1,7 @@
 @extends('layout.index')
 
 @section('html')
+    @dd(auth()->user()?->tokens()?->first())
     <div class="okved-mutation">
         <div class="container">
             <div class="okved-mutation__container">
@@ -238,6 +239,19 @@
                     </div>
                     <button class="btn">Создать</button>
                 </form>
+                <h3>Вы также можете загрузить файлом JSON</h3>
+                <br>
+                <form class="form" id="form-upload-json" action="{{ route('receipt-upload.store') }}" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="form__inputs">
+                        <label class="label">
+                            <div class="span__label">Загрузка json</div>
+                            <input class="input" name="upload" type="file" accept=".json">
+                        </label>
+                    </div>
+                    <button class="btn">Загрузить</button>
+                </form>
+
             </div>
         </div>
     </div>

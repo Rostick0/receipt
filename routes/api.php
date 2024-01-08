@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OkvedController;
 use App\Http\Controllers\Api\ReceiptUploaderController;
 use Illuminate\Http\Request;
@@ -27,4 +28,7 @@ Route::group([
     // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
     // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     Route::get('okved', [OkvedController::class, 'index']);
+
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });

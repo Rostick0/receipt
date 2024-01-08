@@ -18,6 +18,8 @@ class AuthController extends Controller
             ]);
         }
 
+        auth()->user()->createToken('token')->plainTextToken;
+
         return $this::redirectProfile();
     }
 
@@ -32,6 +34,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        auth()->user()?->tokens()->whereNot('abilities', '["telegram"]')->delete();
         auth()->logout();
         $request->session()->flush();
 

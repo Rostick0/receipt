@@ -118,3 +118,14 @@ export const throttle = (func, ms) => {
         more.onclick = () => item.classList.toggle('_active');
     })
 })();
+
+(function () {
+    const formUploadJson = document.querySelector('#form-upload-json');
+    
+    formUploadJson.onsubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const formProps = Object.fromEntries(formData);
+        console.log(formProps);
+    }  
+})();

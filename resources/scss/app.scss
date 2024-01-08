@@ -38,6 +38,15 @@
     &:hover {
         background-color: var(--blue-hover);
     }
+
+    &-red {
+        @extend .btn;
+        background-color: var(--red);
+
+        &:hover {
+            background-color: var(--red-hover);
+        }
+    }
 }
 
 .container {
