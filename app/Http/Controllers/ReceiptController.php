@@ -22,11 +22,12 @@ class ReceiptController extends Controller
 
     public function index(Request $request)
     {
-        // $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
-        $receipts = [];
+        $operation_types = OperationType::get();
+        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
+        // $receipts = [];
 
         // app('routeByName') 
-        return view('pages.receipt.index', compact('receipts'));
+        return view('pages.receipt.index', compact(['operation_types', 'receipts']));
     }
 
     /**

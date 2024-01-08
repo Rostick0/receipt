@@ -3,6 +3,12 @@
     
 }
 
+.align {
+    &-self-start {
+        align-self: start;
+    }
+}
+
 .justify-content-between {
     justify-content: space-between;
 }

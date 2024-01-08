@@ -265,6 +265,12 @@
             row-gap: 30px;
             width: 100%;
             max-width: 250px;
+
+            &_bottom {
+                display: flex;
+                flex-direction: column;
+                row-gap: 8px;
+            }
         }
 
         &__content {
@@ -357,6 +363,7 @@
 
     &-list {
         display: grid;
+        align-items: start;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 30px;
     }
@@ -370,12 +377,25 @@
         font-size: 14px;
 
         &._active {
-            .receipt-item__short-info {
-                display: none;
-            }
+            .receipt-item {
 
-            .receipt-item-info {
-                display: flex;
+                &__short-info {
+                    display: none;
+                }
+
+                &-info {
+                    display: flex;
+                }
+
+                &__more {
+                    &_active {
+                        display: none;
+                    }
+
+                    &_hidden {
+                        display: block;
+                    }
+                }
             }
         }
 
@@ -387,6 +407,10 @@
 
         &__more {
             font-size: 95%;
+
+            &_hidden {
+                display: none;
+            }
         }
 
         &__center {
@@ -418,7 +442,7 @@
 
             &__tr {
                 border-bottom: 1px solid var(--grey);
-                
+
                 th,
                 td {
                     padding: 6px 4px;
