@@ -131,47 +131,48 @@ export const throttle = (func, ms) => {
         const formProps = Object.fromEntries(formData);
         console.log(formProps);
 
-      try {
-        const res = await axios.post('/api/receipt-upload', formProps, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        if (res?.status >= 400) return;
-
-        const { data } = res;
-
-        const formResult = document.querySelector('#form-result');
-        const formResultCount = formResult.querySelector('.form-result__count');
-        const formResultErrors = formResult.querySelector('.form-result__errors');
-
-        if (!formResult.classList.contains('_active')) formResult.classList.add('_active');
-
-        formResultCount.textContent = data?.count;
-        console.log(data?.errors);
-
-        if (data?.errors?.length) {
-            data?.errors?.forEach(item => {
-                let divErrors = '';
-                console.log(item);
-                if (item?.errors) {
-                    for (const [key, value] of Object.entries(item?.errors)) {
-                        divErrors += `${key}:&ensp;${value}<br />`;
-                        console.log(key, value);
-                    }
+        try {
+            const res = await axios.post('/api/receipt-upload', formProps, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
+            });
 
-                formResultErrors.insertAdjacentHTML('beforeend', `
+            if (res?.status >= 400) return;
+
+            const { data } = res;
+
+            const formResult = document.querySelector('#form-result');
+            const formResultCount = formResult.querySelector('.form-result__count');
+            const formResultErrors = formResult.querySelector('.form-result__errors');
+
+            if (!formResult.classList.contains('_active')) formResult.classList.add('_active');
+
+            formResultCount.textContent = data?.count;
+            console.log(data?.errors);
+
+            if (data?.errors?.length) {
+                data?.errors?.forEach(item => {
+                    let divErrors = '';
+                    console.log(item);
+                    if (item?.errors) {
+                        for (const [key, value] of Object.entries(item?.errors)) {
+                            divErrors += `${key}:&ensp;${value}<br />`;
+                            console.log(key, value);
+                        }
+                    }
+
+                    formResultErrors.insertAdjacentHTML('beforeend', `
                         <div>Элемент под индексом: ${item?.index}</div>
                         <div>${divErrors}</div>
                         <br />
                         <br />
                 `);
-            });
+                });
+            }
+        } catch (e) {
+            alert('Некорректный файл');
         }
-      } catch (e) {
-        alert('Некорректный файл');
-      }
     }
+
 })();

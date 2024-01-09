@@ -35,7 +35,7 @@ return new class extends Migration
             $table->string('retailPlaceAddress')->nullable();
             $table->integer('shiftNumber')->nullable();
             $table->integer('taxationType')->unsigned();
-            $table->integer('totalSum');
+            $table->integer('totalSum')->default(0);
             $table->string('user');
             $table->string('userInn');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
