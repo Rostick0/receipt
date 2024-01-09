@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import './bootstrap';
 
 export const throttle = (func, ms) => {
@@ -110,7 +109,7 @@ export const throttle = (func, ms) => {
     });
 })();
 
-(function() {
+(function () {
     const receiptItems = document.querySelectorAll('.receipt-item');
 
     receiptItems?.forEach(item => {
@@ -122,13 +121,57 @@ export const throttle = (func, ms) => {
 
 (function () {
     const formUploadJson = document.querySelector('#form-upload-json');
-    
+
     if (!formUploadJson) return;
 
-    formUploadJson.onsubmit = (e) => {
+    formUploadJson.onsubmit = async (e) => {
         e.preventDefault();
+
         const formData = new FormData(e.target);
         const formProps = Object.fromEntries(formData);
         console.log(formProps);
-    }  
+
+      try {
+        const res = await axios.post('/api/receipt-upload', formProps, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        if (res?.status >= 400) return;
+
+        const { data } = res;
+
+        const formResult = document.querySelector('#form-result');
+        const formResultCount = formResult.querySelector('.form-result__count');
+        const formResultErrors = formResult.querySelector('.form-result__errors');
+
+        if (!formResult.classList.contains('_active')) formResult.classList.add('_active');
+
+        formResultCount.textContent = data?.count;
+        console.log(data?.errors);
+
+        if (data?.errors?.length) {
+            data?.errors?.forEach(item => {
+                let divErrors = '';
+                console.log(item);
+                if (item?.errors) {
+                    for (const [key, value] of Object.entries(item?.errors)) {
+                        divErrors += `${key}:&ensp;${value}<br />`;
+                        console.log(key, value);
+                    }
+                }
+
+                formResultErrors.insertAdjacentHTML('beforeend', `
+                        <div>Элемент под индексом: ${item?.index}</div>
+                        <div>${divErrors}</div>
+                        <br />
+                        <br />
+                `);
+            });
+        }
+      } catch (e) {
+        alert('Некорректный файл');
+      }
+    }
 })();

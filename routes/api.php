@@ -41,10 +41,13 @@ Route::group([
     });
 
     Route::group([
-        // 'middleware' => 'auth:api'
+        'middleware' => 'auth:api'
     ], function () {
-        Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show', 'store']);
+        Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['store']);
     });
+
+    Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show']);
+
 
     // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
     // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);

@@ -64,8 +64,8 @@ class ReceiptUploaderController extends Controller
         });
 
         return new JsonResponse([
-            'count' => 'Количество загруженных чеков - ' . $access,
-            'invalid data' => $errors,
+            'count' => $access,
+            'errors' => $errors,
         ]);
     }
 }

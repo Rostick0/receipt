@@ -76,6 +76,21 @@
     &-delete {
         margin-top: 20px;
     }
+
+    &-result {
+        display: none;
+        flex-direction: column;
+        row-gap: 8px;
+        margin-top: 30px;
+
+        &._active {
+            display: flex;
+        }
+
+        &__item {
+            display: flex;
+        }
+    }
 }
 
 .error {

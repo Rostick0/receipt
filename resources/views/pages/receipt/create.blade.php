@@ -250,7 +250,14 @@
                     </div>
                     <button class="btn">Загрузить</button>
                 </form>
-
+                <div class="form-result" id="form-result">
+                    <div class="form-result__item">
+                        <strong>Успешно загружено:&ensp;</strong><span class="form-result__count"></span>
+                    </div>
+                    <div class="form-result__item">
+                        <strong>Ошибки:&ensp;</strong><span class="form-result__errors"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
