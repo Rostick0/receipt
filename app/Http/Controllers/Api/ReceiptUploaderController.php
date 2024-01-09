@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShowReceiptUploaderRequest;
 use Illuminate\Http\Request;
-use App\Http\Requests\UploadReceiptRequest;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\StoreReceiptUploaderRequest;
-use App\Http\Requests\UploadReceiptUploaderRequest;
 use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
+
 class ReceiptUploaderController extends Controller
 {
     public function show(ShowReceiptUploaderRequest $request, int $id)

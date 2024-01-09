@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         auth()->login(JWTAuth::user(), true);
 
-        return redirect('/')->withCookie('token', $token);
+        return $this->redirectProfile($token);
     }
 
     public function register(RegisterAuthRequest $request)
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         auth()->login(JWTAuth::user(), true);
 
-        return redirect('/')->withCookie('token', $token);
+        return $this->redirectProfile($token);
     }
 
     public function logout(Request $request)
@@ -44,8 +44,9 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public static function redirectProfile()
+    public static function redirectProfile($token)
     {
+        return redirect('/')->withCookie(Cookie::make('token', $token, 60 * 24 * 365));
 
         // return auth()->user()->is_admin ? redirect()->route('music.list') : redirect()->route('client.index', [
         //     'user' => User::find(auth()->id())
