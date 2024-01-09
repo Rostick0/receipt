@@ -9,6 +9,7 @@ use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\StoreReceiptUploaderRequest;
 use App\Models\Receipt;
 use App\Models\User;
+use Hamcrest\Arrays\IsArray;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
@@ -36,7 +37,10 @@ class ReceiptUploaderController extends Controller
 
         // if (!$valid_json->passes()) return new JsonResponse($valid_json->errors(), 422);
 
-        collect(json_decode($request->file('upload')->getContent(), true))->lazy()->each(function ($item, $index) use (&$access, &$for_load, &$errors) {
+        $get_content = json_decode($request->file('upload')->getContent(), true);
+        $data = is_array($get_content) ? $get_content : [$get_content];
+
+        collect($data)->lazy()->each(function ($item, $index) use (&$access, &$for_load, &$errors) {
             $validator = Validator::make(
                 $item,
                 (new StoreReceiptRequest)->rules()
