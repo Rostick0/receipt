@@ -13,13 +13,13 @@ use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
-
 class ReceiptUploaderController extends Controller
 {
-    public function show(ShowReceiptUploaderRequest $request, int $id) {
-        $data = Receipt::with('products')->findOrFail($id);
+    public function show(ShowReceiptUploaderRequest $request, int $id)
+    {
+        $data = Receipt::findOrFail($id);
 
-        // dd($data);
+        return new JsonResponse($data);
     }
 
     public function store(StoreReceiptUploaderRequest $request)

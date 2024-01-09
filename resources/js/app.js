@@ -123,6 +123,8 @@ export const throttle = (func, ms) => {
 (function () {
     const formUploadJson = document.querySelector('#form-upload-json');
     
+    if (!formUploadJson) return;
+
     formUploadJson.onsubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
