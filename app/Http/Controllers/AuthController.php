@@ -29,9 +29,11 @@ class AuthController extends Controller
     {
         $user = User::create($request->validated());
 
-        auth()->login($user);
+        $token = JWTAuth::attempt($request->only(['email', 'password']));
 
-        return $this::redirectProfile();
+        auth()->login(JWTAuth::user(), true);
+
+        return redirect('/')->withCookie('token', $token);
     }
 
     public function logout(Request $request)

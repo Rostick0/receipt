@@ -1,7 +1,6 @@
 @extends('layout.index')
 
 @section('html')
-    @dd(auth()->user()?->tokens()?->first())
     <div class="okved-mutation">
         <div class="container">
             <div class="okved-mutation__container">
