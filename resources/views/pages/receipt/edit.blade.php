@@ -245,6 +245,12 @@
                     <button class="btn">Изменить</button>
                 </form>
             </div>
+            <form class="form-delete" action="{{ route('receipt.destroy', ['receipt' => $receipt->id]) }}" method="POST">
+                @csrf
+                <input type="hidden" name="_method" value="DELETE"> 
+                <button class="link-red">Удалить</button>
+            </form>
+            <br>
             <div class="okved-mutation-products">
                 <div class="okved-mutation-products__top">
                     <h2>Товары</h2>
