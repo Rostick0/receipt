@@ -51,16 +51,16 @@ class ReceiptPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    // public function restore(User $user, Receipt $receipt): bool
-    // {
-    //     //
-    // }
+    public function restore(User $user, Receipt $receipt): bool
+    {
+        return  $user->role == 'admin';
+    }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    // public function forceDelete(User $user, Receipt $receipt): bool
-    // {
-    //     //
-    // }
+    public function forceDelete(User $user, Receipt $receipt): bool
+    {
+        return  $user->role == 'admin';
+    }
 }

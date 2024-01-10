@@ -37,6 +37,11 @@ Route::resource('okved', OkvedController::class)->only(['index', 'create', 'stor
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
         // Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+        Route::group(['prefix' => 'receipt'], function () {
+            Route::get('/trash', [ReceiptController::class, 'trash']);
+            Route::patch('/restore/{id}', [ReceiptController::class, 'restore']);
+            Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete']);
+        });
     });
 
     // Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);;

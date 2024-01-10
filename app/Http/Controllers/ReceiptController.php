@@ -23,7 +23,7 @@ class ReceiptController extends Controller
     public function index(Request $request)
     {
         $operation_types = OperationType::get();
-        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());     
+        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());
         // $receipts = [];
 
         // app('routeByName') 
@@ -72,7 +72,7 @@ class ReceiptController extends Controller
     {
         $receipt = Receipt::findOrFail($id);
 
-        
+
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();;
         $okveds = Okved::limit(40)->get();
@@ -108,5 +108,33 @@ class ReceiptController extends Controller
         Receipt::destroy($id);
 
         return redirect()->route('receipt.index');
+    }
+
+    public function restore(int $id)
+    {
+        $data = Receipt::withTrashed()->findOrFail($id);
+
+        if (AccessUtil::cannot('restore', $data)) return AccessUtil::errorMessage();
+
+        $data->forceDelete();
+        
+        return redirect()->back();
+    }
+
+    public function trash(Request $request) {
+        $receipts = Receipt::onlyTrashed()->paginate(20);
+
+        return view('pages.receipt.trash', compact(['receipts']));
+    }
+
+    public function forceDelete(int $id)
+    {
+        $data = Receipt::withTrashed()->findOrFail($id);
+
+        if (AccessUtil::cannot('forceDelete', $data)) return AccessUtil::errorMessage();
+
+        $data->forceDelete();
+
+        return redirect()->back();
     }
 }
