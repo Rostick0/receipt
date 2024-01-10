@@ -6,7 +6,8 @@
                 <a class="header__nav_item" href="{{ route('receipt.create') }}">Добавить чек</a>
 
                 @if (auth()->user()->hasRole('admin'))
-                    <a class="header__nav_item" href="{{ route('okved.index') }}">Список ОКВЭД</a>
+                <a class="header__nav_item" href="{{ route('receipt.trash') }}">Корзина чеков</a>
+                <a class="header__nav_item" href="{{ route('okved.index') }}">Список ОКВЭД</a>
                     <a class="header__nav_item" href="{{ route('okved.create') }}">Добавить ОКВЭД</a>
                 @endif
             @endauth

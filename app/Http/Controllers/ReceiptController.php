@@ -116,7 +116,7 @@ class ReceiptController extends Controller
 
         if (AccessUtil::cannot('restore', $data)) return AccessUtil::errorMessage();
 
-        $data->forceDelete();
+        $data->restore();
         
         return redirect()->back();
     }

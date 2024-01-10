@@ -2,11 +2,14 @@
 
 <div class="receipt-item">
     <div class="receipt-item__top">
-        <div class="receipt-tiem__id">Чек № {{ $receipt->id }}</div>
-        <button class="link receipt-item__more">
-            <span class="receipt-item__more_active">Подробнее</span>
-            <span class="receipt-item__more_hidden">Скрыть</span>
-        </button>
+        <div class="receipt-item__id">Чек № {{ $receipt->id }}</div>
+        <div class="receipt-item__action">
+            {{ $action ?? '' }}
+            <button class="link receipt-item__more">
+                <span class="receipt-item__more_active">Подробнее</span>
+                <span class="receipt-item__more_hidden">Скрыть</span>
+            </button>
+        </div>
     </div>
     <div class="receipt-item__short-info">
         <div class="receipt-item__center">{{ $receipt->user }}</div>

@@ -29,6 +29,11 @@ Route::group(['middleware' => 'guest'], function ($router) {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+Route::group(['prefix' => 'receipt'], function () {
+    Route::get('/trash', [ReceiptController::class, 'trash'])->name('receipt.trash');
+    Route::patch('/restore/{id}', [ReceiptController::class, 'restore'])->name('receipt.restore');
+    Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete'])->name('receipt.forceDelete');
+});
 Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
 Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 
@@ -37,11 +42,11 @@ Route::resource('okved', OkvedController::class)->only(['index', 'create', 'stor
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
         // Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
-        Route::group(['prefix' => 'receipt'], function () {
-            Route::get('/trash', [ReceiptController::class, 'trash']);
-            Route::patch('/restore/{id}', [ReceiptController::class, 'restore']);
-            Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete']);
-        });
+        // Route::group(['prefix' => 'receipt'], function () {
+        //     Route::get('/trash', [ReceiptController::class, 'trash'])->name('receipt.trash');
+        //     Route::patch('/restore/{id}', [ReceiptController::class, 'restore'])->name('receipt.restore');
+        //     Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete'])->name('receipt.forceDelete');
+        // });
     });
 
     // Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);;
