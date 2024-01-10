@@ -27,12 +27,12 @@
                             </label>
                         </div>
                     </div>
-                    <input type="hidden" name="_method" value="PATCH">
-                    <button class="btn">Создать</button>
+                    {{ method_field('PATCH') }}
+                    <button class="btn">Изменить</button>
                 </form>
                 <form class="form-delete" action="{{ route('okved.destroy', ['okved' => $okved->id]) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="_method" value="DELETE"> 
+                    {{ method_field('DELETE') }}
                     <button class="link-red">Удалить</button>
                 </form>
             </div>

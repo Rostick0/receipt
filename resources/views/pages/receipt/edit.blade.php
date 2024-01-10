@@ -7,7 +7,7 @@
                 <form class="form okved-mutation__form" action="{{ route('receipt.update', ['receipt' => $receipt->id]) }}"
                     method="POST">
                     @csrf
-                    <input type="hidden" name="_method" value="PATCH">
+                    {{ method_field('PATCH') }}
                     <div class="form__inputs">
                         <div class="form__col-2">
                             <label class="label">
@@ -247,7 +247,7 @@
             </div>
             <form class="form-delete" action="{{ route('receipt.destroy', ['receipt' => $receipt->id]) }}" method="POST">
                 @csrf
-                <input type="hidden" name="_method" value="DELETE"> 
+                {{ method_field('DELETE') }}
                 <button class="link-red">Удалить</button>
             </form>
             <br>
