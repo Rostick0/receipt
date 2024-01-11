@@ -28,13 +28,21 @@ class UserTelegramController extends Controller
         ]);
     }
 
-
     public function destroy(int $telegram_user_id)
     {
         UserTelegram::where('telegram_user_id', $telegram_user_id)->delete();
 
         return new JsonResponse([
             'data' => 'Deleted'
+        ]);
+    }
+
+    public function me(int $telegram_user_id)
+    {
+        $user_telegram = UserTelegram::where('telegram_user_id', $telegram_user_id)->firstOrFail();
+
+        return new JsonResponse([
+            'data' => $user_telegram
         ]);
     }
 }
