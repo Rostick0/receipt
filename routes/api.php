@@ -56,10 +56,10 @@ Route::group([
         'prefix' => 'telegram',
         'middleware' => 'telegram.token'
     ], function () {
+        Route::get('user/me', [TelegramReceiptUploaderController::class, 'me']);
         Route::apiResource('user', UserTelegramController::class)->only(['store', 'destroy']);
 
         Route::apiResource('receipt-upload', TelegramReceiptUploaderController::class)->only(['store']);
-        Route::get('user', [TelegramReceiptUploaderController::class, 'me']);
 
         // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     });
