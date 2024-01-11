@@ -39,7 +39,7 @@ class UserTelegramController extends Controller
 
     public function me(int $telegram_user_id)
     {
-        $user_telegram = UserTelegram::where('telegram_user_id', $telegram_user_id)->firstOrFail();
+        $user_telegram = UserTelegram::with(['user'])->where('telegram_user_id', $telegram_user_id)->firstOrFail();
 
         return new JsonResponse([
             'data' => $user_telegram
