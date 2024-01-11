@@ -18,7 +18,7 @@ class UserTelegramController extends Controller
 
     public function store(StoreUserTelegramRequest $request)
     {
-        if (!$token = JWTAuth::attempt($request->validated())) {
+        if (!$token = JWTAuth::attempt($request->only(['email', 'password']))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
             ]);
