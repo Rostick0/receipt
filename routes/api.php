@@ -3,7 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OkvedController;
 use App\Http\Controllers\Api\ReceiptUploaderController;
-use App\Http\Controllers\UserTelegramController;
+use App\Http\Controllers\Telegram\ReceiptUploaderController as TelegramReceiptUploaderController;
+use App\Http\Controllers\Telegram\UserTelegramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,14 +50,14 @@ Route::group([
 
     Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show']);
 
-
-    // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
-    // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     Route::get('okved', [OkvedController::class, 'index']);
 
     Route::group([
         'prefix' => 'telegram'
     ], function () {
-        Route::apiResource('user', UserTelegramController::class)->only(['store', 'show', 'destroy']);
+        Route::apiResource('user', UserTelegramController::class)->only(['store', 'destroy']);
+        Route::apiResource('receipt-upload', TelegramReceiptUploaderController::class)->only(['store']);
+
+        // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     });
 });

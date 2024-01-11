@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserTelegram extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'telegram_user_id',
+        'user_id',
+    ];
 }

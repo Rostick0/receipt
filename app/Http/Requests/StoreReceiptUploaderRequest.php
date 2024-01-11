@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreReceiptUploaderRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreReceiptUploaderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return auth()->check() || $this->chat_id;
     }
 
     /**
@@ -22,7 +23,8 @@ class StoreReceiptUploaderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'upload' => 'required|file|mimes:json'
+            'upload' => 'required|file|mimes:json',
+            'chat_id' => 'nullable|numeric|' . Rule::exists('user_telegrams', 'telegram_user_id'),
         ];
     }
 }
