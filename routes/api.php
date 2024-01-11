@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OkvedController;
 use App\Http\Controllers\Api\ReceiptUploaderController;
+use App\Http\Controllers\UserTelegramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,4 +53,10 @@ Route::group([
     // Route::get('receipt-upload/{id}', [ReceiptUploaderController::class, 'show']);
     // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     Route::get('okved', [OkvedController::class, 'index']);
+
+    Route::group([
+        'prefix' => 'telegram'
+    ], function () {
+        Route::apiResource('user', UserTelegramController::class)->only(['store', 'destroy']);
+    });
 });
