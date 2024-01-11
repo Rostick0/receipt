@@ -57,6 +57,6 @@ Route::group([
     Route::group([
         'prefix' => 'telegram'
     ], function () {
-        Route::apiResource('user', UserTelegramController::class)->only(['store', 'destroy']);
+        Route::apiResource('user', UserTelegramController::class)->only(['store', 'show', 'destroy']);
     });
 });
