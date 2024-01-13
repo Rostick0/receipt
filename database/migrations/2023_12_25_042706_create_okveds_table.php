@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('okveds', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 512);
             $table->integer('parent_id')->nullable();
             $table->timestamps();
         });

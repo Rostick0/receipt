@@ -23,14 +23,14 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            TaxationTypeSeeder::class,
-            OperationTypeSeeder::class,
+            // TaxationTypeSeeder::class,
+            // OperationTypeSeeder::class,
             OkvedObserver::class,
-            UserSeeder::class,
+            // UserSeeder::class,
         ]);
 
-        Receipt::factory(50)
-            ->has(Product::factory(3), 'products')
-            ->create();
+        // Receipt::factory(50)
+        //     ->has(Product::factory(3), 'products')
+        //     ->create();
     }
 }
