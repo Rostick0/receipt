@@ -28,17 +28,20 @@ class ReceiptUploaderUtil
 
             $products = [];
 
-            foreach ($item['products'] as $item_product) {
-                $valid = Validator::make($item_product, (new UpdateProductRequest)->rules());
-
-                if ($valid->passes()) {
-                    $products[] = [
-                        ...$valid->validated(),
-                        'sum' => $item_product['price'] * $item_product['quantity']
-                    ];
+            if (!empty($item['products'] ?? null)) {
+                foreach ($item['products'] as $item_product) {
+                    $valid = Validator::make($item_product, (new UpdateProductRequest)->rules());
+    
+                    if ($valid->passes()) {
+                        $products[] = [
+                            ...$valid->validated(),
+                            'sum' => $item_product['price'] * $item_product['quantity']
+                        ];
+                    }
                 }
             }
 
+          
             if ($validator->passes()) {
                 $access += 1;
                 $for_load[] = [
