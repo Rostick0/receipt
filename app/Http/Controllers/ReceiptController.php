@@ -24,9 +24,7 @@ class ReceiptController extends Controller
     {
         $operation_types = OperationType::get();
         $receipts = Filter::all($request, new Receipt, [], $this::getWhere());
-        // $receipts = [];
 
-        // app('routeByName') 
         return view('pages.receipt.index', compact(['operation_types', 'receipts']));
     }
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\LazyCollection;
 
-class OkvedObserver extends Seeder
+class OkvedSeeder extends Seeder
 {
     /**
      * Run the database seeds.

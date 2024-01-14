@@ -22,12 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        App::singleton('routeByName', function () {
-            if (auth()->user()?->role == 'admin') return 'admin';
-
-            return 'client';
-        });
-
-        Carbon::setLocale(config('app.locale'));
+        
     }
 }

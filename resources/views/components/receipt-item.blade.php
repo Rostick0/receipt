@@ -2,7 +2,7 @@
 
 <div class="receipt-item">
     <div class="receipt-item__top">
-        <div class="receipt-item__id">Чек № {{ $receipt->id }}</div>
+        <a class="receipt-item__id text-blue" href="{{ route('receipt.show', ['receipt' => $receipt->id]) }}">Чек № {{ $receipt->id }}</a>
         <div class="receipt-item__action">
             {{ $action ?? '' }}
             <button class="link receipt-item__more">

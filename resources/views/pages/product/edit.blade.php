@@ -38,7 +38,7 @@
                             </label>
                         </div>
                     </div>
-                    <button class="btn">Создать</button>
+                    <button class="btn">Изменить</button>
                 </form>
                 <form action="{{ route('product.destroy', ['product' => $product->id]) }}" method="post">
                     @csrf
