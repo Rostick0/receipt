@@ -12,6 +12,7 @@ class StoreReceiptUploaderRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        dd($this->chat_id);
         return auth()->check() || $this->chat_id;
     }
 
