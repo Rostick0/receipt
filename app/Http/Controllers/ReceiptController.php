@@ -10,6 +10,7 @@ use App\Models\Okved;
 use App\Models\OperationType;
 use App\Models\TaxationType;
 use App\Utils\AccessUtil;
+use App\Utils\PriceUtil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,9 +21,28 @@ class ReceiptController extends Controller
         return [];
     }
 
+    private function requestMergePrice(&$request, $filter, $name)
+    {
+        if (isset($request[$filter][$name])) $request->merge([$filter => [
+            ...$request->input($filter),
+            $name => $request[$filter][$name] * 100
+        ]]);
+    }
+
     public function index(Request $request)
     {
         $operation_types = OperationType::get();
+        $this->requestMergePrice($request, 'filterLEQ', 'products.price');
+        $this->requestMergePrice($request, 'filterGEQ', 'products.price');
+        $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
+        $this->requestMergePrice($request, 'filterGEQ', 'products.sum');
+        $this->requestMergePrice($request, 'filterLEQ', 'totalSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'totalSum');
+        $this->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
+        $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
+
         $receipts = Filter::all($request, new Receipt, [], $this::getWhere());
 
         return view('pages.receipt.index', compact(['operation_types', 'receipts']));
@@ -45,6 +65,14 @@ class ReceiptController extends Controller
      */
     public function store(StoreReceiptRequest $request)
     {
+        $request->merge([
+            'cashTotalSum' => PriceUtil::checkAndMultiplication($request->cashTotalSum),
+            'creditSum' => PriceUtil::checkAndMultiplication($request->creditSum),
+            'ecashTotalSum' => PriceUtil::checkAndMultiplication($request->ecashTotalSum),
+            'prepaidSum' => PriceUtil::checkAndMultiplication($request->prepaidSum),
+            'provisionSum' => PriceUtil::checkAndMultiplication($request->provisionSum),
+        ]);
+
         $receipt = Receipt::create([
             ...$request->validated(),
             'user_id' => auth()->id()
@@ -70,7 +98,6 @@ class ReceiptController extends Controller
     {
         $receipt = Receipt::findOrFail($id);
 
-
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();;
         $okveds = Okved::limit(40)->get();
@@ -87,9 +114,15 @@ class ReceiptController extends Controller
 
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
 
-        $data->update(
-            $request->validated()
-        );
+        $request->merge([
+            'cashTotalSum' => PriceUtil::checkAndMultiplication($request->cashTotalSum),
+            'creditSum' => PriceUtil::checkAndMultiplication($request->creditSum),
+            'ecashTotalSum' => PriceUtil::checkAndMultiplication($request->ecashTotalSum),
+            'prepaidSum' => PriceUtil::checkAndMultiplication($request->prepaidSum),
+            'provisionSum' => PriceUtil::checkAndMultiplication($request->provisionSum),
+        ]);
+
+        $data->update($request->validated());
 
         return redirect()->back();
     }
@@ -115,11 +148,12 @@ class ReceiptController extends Controller
         if (AccessUtil::cannot('restore', $data)) return AccessUtil::errorMessage();
 
         $data->restore();
-        
+
         return redirect()->back();
     }
 
-    public function trash(Request $request) {
+    public function trash(Request $request)
+    {
         $receipts = Receipt::onlyTrashed()->paginate(20);
 
         return view('pages.receipt.trash', compact(['receipts']));

@@ -20,8 +20,8 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">Цена</span>
-                                <input class="input" type="number" name="price"
-                                    value="{{ old('price') ?? $product->price }}" required>
+                                <input class="input" type="number" name="price" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('price') ?? $product->price) }}" required>
                                 @error('price')
                                     <span class="error">{{ $message }}</span>
                                 @enderror

@@ -23,13 +23,13 @@
                                 <div class="receipt-get__col">
                                     <label class="label">
                                         <span class="label__title">Цена от</span>
-                                        <input class="input" type="number" name="filterGEQ[products.price]"
-                                            value="{{ Request::get('filterGEQ')['products.price'] ?? null }}">
+                                        <input class="input" type="number" name="filterGEQ[products.price]" step="0.01"
+                                            @if (isset(Request::get('filterGEQ')['products.price'])) value="{{ Request::get('filterGEQ')['products.price'] / 100 }}" @endif>
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Цена до</span>
-                                        <input class="input" type="number" name="filterLEQ[products.price]"
-                                            value="{{ Request::get('filterLEQ')['products.price'] ?? null }}">
+                                        <input class="input" type="number" name="filterLEQ[products.price]" step="0.01"
+                                            @if (isset(Request::get('filterLEQ')['products.price'])) value="{{ Request::get('filterLEQ')['products.price'] / 100 }}" @endif>
                                     </label>
                                 </div>
                                 <div class="receipt-get__col">
@@ -47,13 +47,13 @@
                                 <div class="receipt-get__col">
                                     <label class="label">
                                         <span class="label__title">Сумма от</span>
-                                        <input class="input" type="number" name="filterGEQ[products.sum]"
-                                            value="{{ Request::get('filterGEQ')['products.sum'] ?? null }}">
+                                        <input class="input" type="number" name="filterGEQ[products.sum]" step="0.01"
+                                            @if (isset(Request::get('filterGEQ')['products.sum'])) value="{{ Request::get('filterGEQ')['products.sum'] / 100 }}" @endif>
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Сумма до</span>
-                                        <input class="input" type="number" name="filterLEQ[products.sum]"
-                                            value="{{ Request::get('filterLEQ')['products.sum'] ?? null }}">
+                                        <input class="input" type="number" name="filterLEQ[products.sum]" step="0.01"
+                                            @if (isset(Request::get('filterLEQ')['products.sum'])) value="{{ Request::get('filterLEQ')['products.sum'] / 100 }}" @endif>
                                     </label>
                                 </div>
                             </div>
@@ -95,48 +95,51 @@
                                 </label>
                             </div>
                         </details>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterGEQ')['ecashTotalSum']) ||
-                                isset(Request::get('filterLEQ')['ecashTotalSum']) ||
+                        <details class="details receipt-get-details" @if (isset(Request::get('filterGEQ')['totalSum']) ||
+                                isset(Request::get('filterLEQ')['totalSum']) ||
                                 isset(Request::get('filterGEQ')['cashTotalSum']) ||
                                 isset(Request::get('filterLEQ')['cashTotalSum']) ||
                                 isset(Request::get('filterGEQ')['creditSum']) ||
-                                isset(Request::get('filterLEQ')['creditSum']))  @endif>
+                                isset(Request::get('filterLEQ')['creditSum'])) open @endif>
                             <summary class="receipt-get-details__switch">Сумма по чеку</summary>
                             <div class="receipt-get-details__content">
                                 <div class="receipt-get__col">
                                     <label class="label">
                                         <span class="label__title">Итого от</span>
-                                        <input class="input" type="number" name="filterGEQ[ecashTotalSum]"
-                                            value="{{ Request::get('filterGEQ')['ecashTotalSum'] ?? null }}">
+                                        <input class="input" type="number" name="filterGEQ[totalSum]" step="0.01"
+                                            @if (isset(Request::get('filterGEQ')['totalSum'])) value="{{ Request::get('filterGEQ')['totalSum'] / 100 }}" @endif>
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Итого по</span>
-                                        <input class="input" type="number" name="filterLEQ[ecashTotalSum]"
-                                            value="{{ Request::get('filterLEQ')['ecashTotalSum'] ?? null }}">
+                                        <input class="input" type="number" name="filterLEQ[totalSum]"
+                                            step="0.01"
+                                            @if (isset(Request::get('filterLEQ')['totalSum'])) value="{{ Request::get('filterLEQ')['totalSum'] / 100 }}" @endif>
                                     </label>
                                 </div>
                                 <div class="receipt-get__col">
                                     <label class="label">
                                         <span class="label__title">Наличные от</span>
                                         <input class="input" type="number" name="filterGEQ[cashTotalSum]"
-                                            value="{{ Request::get('filterGEQ')['cashTotalSum'] ?? null }}">
+                                            step="0.01"
+                                            @if (isset(Request::get('filterGEQ')['cashTotalSum'])) value="{{ Request::get('filterGEQ')['cashTotalSum'] / 100 }}" @endif>
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Наличные по</span>
                                         <input class="input" type="number" name="filterLEQ[cashTotalSum]"
-                                            value="{{ Request::get('filterLEQ')['cashTotalSum'] ?? null }}">
+                                            step="0.01"
+                                            @if (isset(Request::get('filterLEQ')['cashTotalSum'])) value="{{ Request::get('filterLEQ')['cashTotalSum'] / 100 }}" @endif>
                                     </label>
                                 </div>
                                 <div class="receipt-get__col">
                                     <label class="label">
                                         <span class="label__title">Карта от</span>
-                                        <input class="input" type="number" name="filterGEQ[creditSum]"
-                                            value="{{ Request::get('filterGEQ')['creditSum'] ?? null }}">
+                                        <input class="input" type="number" name="filterGEQ[creditSum]" step="0.01"
+                                            @if (isset(Request::get('filterGEQ')['creditSum'])) value="{{ Request::get('filterGEQ')['creditSum'] / 100 }}" @endif>
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Карта по</span>
-                                        <input class="input" type="number" name="filterLEQ[creditSum]"
-                                            value="{{ Request::get('filterLEQ')['creditSum'] ?? null }}">
+                                        <input class="input" type="number" name="filterLEQ[creditSum]" step="0.01"
+                                            @if (isset(Request::get('filterLEQ')['creditSum'])) value="{{ Request::get('filterLEQ')['creditSum'] / 100 }}" @endif>
                                     </label>
                                 </div>
                             </div>

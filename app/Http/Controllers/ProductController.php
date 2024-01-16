@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Utils\AccessUtil;
+use App\Utils\PriceUtil;
 
 class ProductController extends Controller
 {
@@ -22,6 +23,10 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $request->merge([
+            'price' => PriceUtil::checkAndMultiplication($request->price),
+        ]);
+
         $product = Product::create([
             ...$request->validated(),
             'sum' => $request->price * $request->quantity
@@ -50,6 +55,10 @@ class ProductController extends Controller
         $data = Product::findOrFail($id);
 
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
+
+        $request->merge([
+            'price' => PriceUtil::checkAndMultiplication($request->price),
+        ]);
 
         $data->update([
             ...$request->validated(),

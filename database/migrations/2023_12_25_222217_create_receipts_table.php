@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('user');
             $table->string('userInn');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('okved_id')->references('id')->on('okveds')->onDelete('cascade');
+            $table->integer('okved_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

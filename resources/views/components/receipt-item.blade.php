@@ -2,7 +2,8 @@
 
 <div class="receipt-item">
     <div class="receipt-item__top">
-        <a class="receipt-item__id text-blue" href="{{ route('receipt.show', ['receipt' => $receipt->id]) }}">Чек № {{ $receipt->id }}</a>
+        <a class="receipt-item__id text-blue" href="{{ route('receipt.show', ['receipt' => $receipt->id]) }}">Чек №
+            {{ $receipt->id }}</a>
         <div class="receipt-item__action">
             {{ $action ?? '' }}
             <button class="link receipt-item__more">
@@ -115,10 +116,12 @@
                 <div>ФПД:&ensp;</div>
                 <div>{{ $receipt->fiscalSign }}</div>
             </div>
-            <div class="d-flex">
-                <div>ОКВЭД:&ensp;</div>
-                <div>{{ $receipt->okved->name }}</div>
-            </div>
+            @if (isset($receipt?->okved?->name))
+                <div class="d-flex">
+                    <div>ОКВЭД:&ensp;</div>
+                    <div>{{ $receipt?->okved->name }}</div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

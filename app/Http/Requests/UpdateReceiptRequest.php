@@ -29,9 +29,9 @@ class UpdateReceiptRequest extends FormRequest
             'ecashTotalSum' => 'nullable|numeric',
             'code' => 'nullable|max:255',
             'fiscalDocumentFormatVer' => 'nullable|max:255',
-            'fiscalDocumentNumber' => 'required|numeric|max:255',
-            'fiscalDriveNumber' => 'required|numeric|max:255',
-            'fiscalSign' => 'required|numeric|max:255',
+            'fiscalDocumentNumber' => 'required|numeric',
+            'fiscalDriveNumber' => 'required|numeric',
+            'fiscalSign' => 'required|numeric',
             'kktRegId' => 'required|max:255',
             'nds0' => 'nullable|numeric',
             'ndsNo' => 'nullable|numeric',
@@ -47,7 +47,7 @@ class UpdateReceiptRequest extends FormRequest
             'taxationType' => 'required|' . Rule::exists('taxation_types', 'id'),
             'user' => 'required|max:255',
             'userInn' => 'required|max:255',
-            'okved_id' => 'required|' . Rule::exists('okveds', 'id'),
+            'okved_id' => 'nullable|' . Rule::exists('okveds', 'id'),
         ];
     }
 }

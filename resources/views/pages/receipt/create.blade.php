@@ -17,8 +17,8 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">cashTotalSum</span>
-                                <input class="input" type="number" name="cashTotalSum" pattern="0.01"
-                                    value="{{ old('cashTotalSum') }}">
+                                <input class="input" type="number" name="cashTotalSum" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('cashTotalSum')) }}">
                                 @error('cashTotalSum')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -27,16 +27,16 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">creditSum</span>
-                                <input class="input" type="number" name="creditSum" pattern="0.01"
-                                    value="{{ old('creditSum') }}">
+                                <input class="input" type="number" name="creditSum" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('creditSum')) }}">
                                 @error('creditSum')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
                             <label class="label">
                                 <span class="label__title">ecashTotalSum</span>
-                                <input class="input" type="number" name="ecashTotalSum" pattern="0.01"
-                                    value="{{ old('ecashTotalSum') }}">
+                                <input class="input" type="number" name="ecashTotalSum" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('ecashTotalSum')) }}">
                                 @error('ecashTotalSum')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -149,8 +149,8 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">Сумма предоплаты</span>
-                                <input class="input" type="number" name="prepaidSum" maxlength="8"
-                                    value="{{ old('prepaidSum') }}">
+                                <input class="input" type="number" name="prepaidSum" maxlength="8" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('prepaidSum')) }}">
                                 @error('prepaidSum')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -159,8 +159,8 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">Сумма резерва</span>
-                                <input class="input" type="number" name="provisionSum" maxlength="8"
-                                    value="{{ old('provisionSum') }}">
+                                <input class="input" type="number" name="provisionSum" maxlength="8" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('provisionSum')) }}">
                                 @error('provisionSum')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -234,7 +234,7 @@
                                 @enderror
                             </label>
                         </div>
-                        <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" />
+                        <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" name="okved" />
                     </div>
                     <button class="btn">Создать</button>
                 </form>
