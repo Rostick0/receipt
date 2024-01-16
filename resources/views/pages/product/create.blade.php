@@ -46,7 +46,7 @@
                     </div>
                     <button class="btn">Создать</button>
                 </form>
-                <a class="link" href="{{ route('receipt.edit', ['receipt' => $product->receipt]) }}">Вернуться к чеку</a>
+                <a class="link" href="{{ route('receipt.edit', ['receipt' => Request::get('receipt_id')]) }}">Вернуться к чеку</a>
             </div>
         </div>
     </div>
