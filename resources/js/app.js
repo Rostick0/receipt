@@ -185,9 +185,7 @@ export const throttle = (func, ms) => {
         const checkboxSummary = item.querySelector('.checkbox__summary');
 
         receiptGetDetailsSwitch.onclick = () => {
-            checkboxSummary.checked = !checkboxSummary.checked;
-            console.log(checkboxSummary.checked);
+            if (checkboxSummary) checkboxSummary.checked = !checkboxSummary.checked;
         };
-        // console.log(item);
     })
 })();
