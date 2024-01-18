@@ -125,9 +125,9 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">НДС 20</span>
-                                <input class="input" type="text" name="nds20" maxlength="8"
-                                    value="{{ old('nds20') }}">
-                                @error('nds20')
+                                <input class="input" type="text" name="nds18" maxlength="8"
+                                    value="{{ old('nds18') }}">
+                                @error('nds18')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('nds0')->nullable();
             $table->integer('ndsNo')->nullable();
             $table->integer('nds10')->nullable();
-            $table->integer('nds20')->nullable();
+            $table->integer('nds18')->nullable();
             $table->integer('operationType')->unsigned();
             $table->integer('prepaidSum')->nullable();
             $table->integer('provisionSum')->nullable();

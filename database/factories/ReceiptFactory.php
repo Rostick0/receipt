@@ -36,7 +36,7 @@ class ReceiptFactory extends Factory
             'nds0' => fake()->numberBetween(10, 300),
             'ndsNo' => fake()->numberBetween(10, 300),
             'nds10' => fake()->numberBetween(10, 300),
-            'nds20' => fake()->numberBetween(10, 300),
+            'nds18' => fake()->numberBetween(10, 300),
             'operationType' => random_int(1, 4),
             'prepaidSum' => fake()->numberBetween(5000, 8000),
             'provisionSum' => 0,

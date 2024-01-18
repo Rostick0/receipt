@@ -36,7 +36,7 @@ class UpdateReceiptRequest extends FormRequest
             'nds0' => 'nullable|numeric',
             'ndsNo' => 'nullable|numeric',
             'nds10' => 'nullable|numeric',
-            'nds20' => 'nullable|numeric',
+            'nds18' => 'nullable|numeric',
             'operationType' => 'required|' . Rule::exists('operation_types', 'id'),
             'prepaidSum' => 'nullable|numeric',
             'provisionSum' => 'nullable|numeric',

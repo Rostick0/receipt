@@ -84,10 +84,10 @@
                     <div>{{ $receipt->nds10 }}</div>
                 </div>
             @endif
-            @if ($receipt->nds20)
+            @if ($receipt->nds18)
                 <div class="d-flex justify-content-between">
                     <div>НДС 18%:</div>
-                    <div>{{ $receipt->nds20 }}</div>
+                    <div>{{ $receipt->nds18 }}</div>
                 </div>
             @endif
             @if ($receipt->ndsNo)
