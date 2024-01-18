@@ -6,14 +6,9 @@
             <div class="receipt-get__container">
                 <form class="receipt-get__filter" action="{{ url()->current() }}">
                     <div>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterLIKE')['products.name']) ||
-                                isset(Request::get('filterGEQ')['products.price']) ||
-                                isset(Request::get('filterLEQ')['products.price']) ||
-                                isset(Request::get('filterGEQ')['products.quantity']) ||
-                                isset(Request::get('filterLEQ')['products.quantity']) ||
-                                isset(Request::get('filterGEQ')['products.sum']) ||
-                                isset(Request::get('filterLEQ')['products.sum'])) open @endif>
+                        <details class="details receipt-get-details" @empty (Request::get('receipt-position')) open @endempty>
                             <summary class="receipt-get-details__switch">Позиция чека</summary>
+                            <input class="checkbox__summary" type="checkbox" name="receipt-position" @if (!empty(Request::get('receipt-position'))) checked @endif hidden>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Название товара/услуги</span>
@@ -58,8 +53,11 @@
                                 </div>
                             </div>
                         </details>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterGEQ')['dateTime']) || isset(Request::get('filterLEQ')['dateTime'])) open @endif>
-                            <summary class="receipt-get-details__switch">Дата</summary>
+                        <details class="details receipt-get-details" @empty (Request::get('receipt-data')) open @endempty>
+                            <summary class="receipt-get-details__switch">
+                                Дата
+                            </summary>
+                            <input class="checkbox__summary" type="checkbox" name="receipt-data" @if (!empty(Request::get('receipt-data'))) checked @endif hidden>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Покупки от</span>
@@ -73,10 +71,9 @@
                                 </label>
                             </div>
                         </details>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterLIKE')['user']) ||
-                                isset(Request::get('filterLIKE')['userInn']) ||
-                                isset(Request::get('filterLIKE')['retailPlaceAddress'])) open @endif>
+                        <details class="details receipt-get-details" @empty (Request::get('receipt-organization')) open @endempty>
                             <summary class="receipt-get-details__switch">Организация</summary>
+                            <input class="checkbox__summary" type="checkbox" name="receipt-organization" @if (!empty(Request::get('receipt-organization'))) checked @endif hidden>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Название</span>
@@ -95,13 +92,9 @@
                                 </label>
                             </div>
                         </details>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterGEQ')['totalSum']) ||
-                                isset(Request::get('filterLEQ')['totalSum']) ||
-                                isset(Request::get('filterGEQ')['cashTotalSum']) ||
-                                isset(Request::get('filterLEQ')['cashTotalSum']) ||
-                                isset(Request::get('filterGEQ')['creditSum']) ||
-                                isset(Request::get('filterLEQ')['creditSum'])) open @endif>
+                        <details class="details receipt-get-details" @empty (Request::get('receipt-total')) open @endempty>
                             <summary class="receipt-get-details__switch">Сумма по чеку</summary>
+                            <input class="checkbox__summary" type="checkbox" name="receipt-total" @if (!empty(Request::get('receipt-total'))) checked @endif hidden>
                             <div class="receipt-get-details__content">
                                 <div class="receipt-get__col">
                                     <label class="label">
@@ -111,8 +104,7 @@
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Итого по</span>
-                                        <input class="input" type="number" name="filterLEQ[totalSum]"
-                                            step="0.01"
+                                        <input class="input" type="number" name="filterLEQ[totalSum]" step="0.01"
                                             @if (isset(Request::get('filterLEQ')['totalSum'])) value="{{ Request::get('filterLEQ')['totalSum'] / 100 }}" @endif>
                                     </label>
                                 </div>
@@ -144,11 +136,9 @@
                                 </div>
                             </div>
                         </details>
-                        <details class="details receipt-get-details" @if (isset(Request::get('filterLIKE')['fiscalDriveNumber']) ||
-                                isset(Request::get('filterLIKE')['fiscalDocumentNumber']) ||
-                                isset(Request::get('filterLIKE')['fiscalDocumentFormatVer']) ||
-                                isset(Request::get('filterEQ')['operationType'])) open @endif>
+                        <details class="details receipt-get-details" @empty (Request::get('receipt-fiscal')) open @endempty>
                             <summary class="receipt-get-details__switch">Фискальные данные</summary>
+                            <input class="checkbox__summary" type="checkbox" name="receipt-fiscal" @if (!empty(Request::get('receipt-fiscal'))) checked @endif hidden>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Номер фиксального накопителя</span>

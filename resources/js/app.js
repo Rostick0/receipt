@@ -176,3 +176,18 @@ export const throttle = (func, ms) => {
     }
 
 })();
+
+(function () {
+    const receiptGetDetails = document.querySelectorAll('.receipt-get-details');
+
+    receiptGetDetails?.forEach(item => {
+        const receiptGetDetailsSwitch = item.querySelector('.receipt-get-details__switch');
+        const checkboxSummary = item.querySelector('.checkbox__summary');
+
+        receiptGetDetailsSwitch.onclick = () => {
+            checkboxSummary.checked = !checkboxSummary.checked;
+            console.log(checkboxSummary.checked);
+        };
+        // console.log(item);
+    })
+})();
