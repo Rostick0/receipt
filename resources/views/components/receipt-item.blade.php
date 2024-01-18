@@ -14,6 +14,7 @@
     </div>
     <div class="receipt-item__short-info">
         <div class="receipt-item__center">{{ $receipt->user }}</div>
+        <div class="receipt-item__center">{{ $receipt->userInn }}</div>
         <div class="receipt-item__bottom">
             <div class="receipt-item__date">
                 {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
@@ -122,6 +123,15 @@
                     <div>{{ $receipt?->okved->name }}</div>
                 </div>
             @endif
+            <br>
+            <div class="d-flex align-items-center">
+                @can('update', $receipt)
+                    <a class="btn" href="{{ route('receipt.edit', ['receipt' => $receipt->id]) }}">Изменить</a>
+                @endcan
+                &ensp;
+                <a class="link" href="{{ route('receipt-upload.show', ['receipt_upload' => $receipt->id]) }}"
+                    download="{{ $receipt->user . '-' . $receipt->totalSum }}.json">Скачать</a>
+            </div>
         </div>
     </div>
 </div>

@@ -76,7 +76,7 @@
                         <details class="details receipt-get-details" @if (isset(Request::get('filterLIKE')['user']) ||
                                 isset(Request::get('filterLIKE')['userInn']) ||
                                 isset(Request::get('filterLIKE')['retailPlaceAddress'])) open @endif>
-                            <summary class="receipt-get-details__switch">Оргазация</summary>
+                            <summary class="receipt-get-details__switch">Организация</summary>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Название</span>
@@ -148,7 +148,7 @@
                                 isset(Request::get('filterLIKE')['fiscalDocumentNumber']) ||
                                 isset(Request::get('filterLIKE')['fiscalDocumentFormatVer']) ||
                                 isset(Request::get('filterEQ')['operationType'])) open @endif>
-                            <summary class="receipt-get-details__switch">Фиксальные данные</summary>
+                            <summary class="receipt-get-details__switch">Фискальные данные</summary>
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Номер фиксального накопителя</span>

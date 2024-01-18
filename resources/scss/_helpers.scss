@@ -4,6 +4,12 @@
 }
 
 .align {
+    &-items {
+        &-center {
+            align-items: center;
+        }
+    }
+
     &-self-start {
         align-self: start;
     }
