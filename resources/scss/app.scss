@@ -69,6 +69,34 @@
     }
 }
 
+.checbox {
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        border: 1px solid var(--grey);
+        border-radius: 3px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-right: 10px;
+        width: 12px;
+        height: 12px;
+    }
+
+    &__input:checked + &__icon {
+        background-color: var(--blue);
+        border-color: var(--blue);
+
+        &::before {
+            content: "✔";
+            color: #fff;
+            font-size: 8px;
+        }
+    }
+}
+
 .container {
     margin: 0 auto;
     width: 100%;

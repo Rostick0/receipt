@@ -189,3 +189,15 @@ export const throttle = (func, ms) => {
         };
     })
 })();
+
+(function() {
+    const inputProductDisable = document.querySelector('.input-product__disable');
+    const checkboxProdictDisable = document.querySelector('.checkbox-prodict__disable');
+
+    if (!inputProductDisable || !checkboxProdictDisable) return;
+
+    checkboxProdictDisable.onchange = e => {
+        // console.log(e.target?.checked);
+        inputProductDisable.disabled = e.target?.checked;
+    }    
+})();

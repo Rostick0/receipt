@@ -12,8 +12,13 @@
                             <div class="receipt-get-details__content">
                                 <label class="label">
                                     <span class="label__title">Название товара/услуги</span>
-                                    <input class="input" type="text" name="filterLIKE[products.name]"
+                                    <input class="input input-product__disable" type="text" name="filterLIKE[products.name]"
                                         value="{{ Request::get('filterLIKE')['products.name'] ?? null }}">
+                                </label>
+                                <label class="checbox">
+                                    <input class="checbox__input checkbox-prodict__disable" type="checkbox">
+                                    <span class="checbox__icon"></span>
+                                    <span class="label__title">Название товара или услуги пустое</span>
                                 </label>
                                 <div class="receipt-get__col">
                                     <label class="label">
