@@ -21,15 +21,19 @@ class ReceiptUploaderUtil
         $data = $get_content[0] ?? false ? $get_content : [$get_content];
 
         collect($data)->lazy()->each(function ($item, $index) use (&$access, &$for_load, &$errors) {
+            if (!isset($item['ticket']['document']['receipt'])) return;
+
             $validator = Validator::make(
-                $item,
+                $item['ticket']['document']['receipt'],
                 (new StoreReceiptRequest)->rules()
             );
 
+            // dd($item['ticket']['document']['receipt']);
+
             $products = [];
 
-            if (!empty($item['products'] ?? null)) {
-                foreach ($item['products'] as $item_product) {
+            if (!empty($item['ticket']['document']['receipt']['items'] ?? null)) {
+                foreach ($item['ticket']['document']['receipt']['items'] as $item_product) {
                     $valid = Validator::make($item_product, (new UpdateProductRequest)->rules());
     
                     if ($valid->passes()) {
@@ -41,7 +45,6 @@ class ReceiptUploaderUtil
                 }
             }
 
-          
             if ($validator->passes()) {
                 $access += 1;
                 $for_load[] = [

@@ -14,9 +14,21 @@ class ReceiptUploaderController extends Controller
 {
     public function show(ShowReceiptUploaderRequest $request, int $id)
     {
-        $data = Receipt::with('products')->findOrFail($id);
+        $data = Receipt::findOrFail($id);
+        // with('products')
 
-        return new JsonResponse($data);
+        return new JsonResponse([
+            '_id' => $data['id'],
+            'createdAt' => $data->created_at,
+            'ticket' => [
+                'document' => [
+                    'receipt' => [
+                        ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at'])->toArray(),
+                        'items' => $data->products
+                    ],
+                ],
+            ]
+        ]);
     }
 
     public function store(StoreReceiptUploaderRequest $request)

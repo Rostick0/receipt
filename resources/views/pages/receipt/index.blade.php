@@ -139,6 +139,15 @@
                                             @if (isset(Request::get('filterLEQ')['creditSum'])) value="{{ Request::get('filterLEQ')['creditSum'] / 100 }}" @endif>
                                     </label>
                                 </div>
+                                <label class="checbox">
+                                    <input class="checbox__input" type="checkbox">
+                                    <span class="checbox__icon"></span>
+                                    <span class="label__title">Только с НДС</span>
+                                    <input type="hidden" name="filterGEQ[nds0]" value="1">
+                                    <input type="hidden" name="filterGEQ[ndsNo]" value="1">
+                                    <input type="hidden" name="filterGEQ[nds10]" value="1">
+                                    <input type="hidden" name="filterGEQ[nds18]" value="1">
+                                </label>
                             </div>
                         </details>
                         <details class="details receipt-get-details" @empty (Request::get('receipt-fiscal')) open @endempty>

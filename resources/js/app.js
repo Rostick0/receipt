@@ -115,6 +115,8 @@ export const throttle = (func, ms) => {
     receiptItems?.forEach(item => {
         const more = item.querySelector('.receipt-item__more');
 
+        if (!more) return;
+
         more.onclick = () => item.classList.toggle('_active');
     })
 })();
