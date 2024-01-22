@@ -43,7 +43,15 @@ class ReceiptController extends Controller
         $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
         $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
 
-        $receipts = Filter::all($request, new Receipt, [], $this::getWhere());
+        $receipts = Filter::query($request, new Receipt, ['nds_only'], $this::getWhere());
+
+        if ($request->has('nds_only')) {
+            $receipts = $receipts->where('nds18', '>=', 1)->union(
+                Filter::query($request, new Receipt, ['nds_only'], $this::getWhere())->where('nds10', '>=', 1)
+            );
+        }
+
+        $receipts = $receipts->paginate(20);
 
         return view('pages.receipt.index', compact(['operation_types', 'receipts']));
     }
