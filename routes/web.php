@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\OkvedController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceiptController;
@@ -34,10 +35,17 @@ Route::group(['prefix' => 'receipt'], function () {
     Route::patch('/restore/{id}', [ReceiptController::class, 'restore'])->name('receipt.restore');
     Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete'])->name('receipt.forceDelete');
 });
-Route::resource('receipt', ReceiptController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+// Route::resource('receipt', ReceiptController::class);
 Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 
-Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+// Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);
+
+Route::resources([
+    'receipt' => ReceiptController::class,
+    'okved' => OkvedController::class,
+    'folder' => FolderController::class,
+]);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {

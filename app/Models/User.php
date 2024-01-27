@@ -61,6 +61,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Receipt::class);
     }
 
+    public function folders() {
+        return $this->hasMany(Folder::class);
+    }
+
     public function hasRole(string $role) {
         return $this->role === $role;
     }

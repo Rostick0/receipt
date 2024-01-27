@@ -85,7 +85,7 @@
         height: 12px;
     }
 
-    &__input:checked + &__icon {
+    &__input:checked+&__icon {
         background-color: var(--blue);
         border-color: var(--blue);
 
@@ -107,6 +107,16 @@
     border: 1px solid var(--grey);
     border-radius: .75rem;
     padding: 20px;
+
+    &-get {
+        display: flex;
+        column-gap: 10px;
+        margin-bottom: 30px;
+
+        .input {
+            flex-grow: 1;
+        }
+    }
 
     &__col-2 {
         display: grid;
@@ -297,12 +307,57 @@
     margin-bottom: 40px;
 
     &__container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         font-size: 14px;
         padding-top: 20px;
         padding-bottom: 20px;
+
+        &_top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        &_bottom {
+            display: flex;
+            column-gap: 20px;
+        }
+    }
+
+    &-folder {
+        &__create {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            width: 16px;
+
+            &::before,
+            &::after {
+                background-color: var(--blue);
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 100%;
+                height: 3px;
+            }
+
+            &::before {
+                transform: rotate(90deg);
+            }
+        }
+
+        &__list {
+            display: flex;
+            column-gap: 10px;
+        }
+
+        &__item {
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            padding: 8px;
+        }
     }
 
     &__btn {
@@ -496,15 +551,29 @@
 
         &__top {
             display: flex;
-            justify-content: space-between;
+            column-gap: 10px;
             margin-bottom: 16px;
         }
 
+        &__star {
+            cursor: pointer;
+
+            path {
+                transition: .2s;
+            }
+
+            &._active {
+                path {
+                    fill: rgb(255, 160, 0);
+                }
+            }
+        }
 
         &__action {
             display: flex;
             column-gap: 8px;
-        
+            margin-left: auto;
+
             button {
                 font-size: 95%;
             }
@@ -573,18 +642,6 @@
 
 
 .okved {
-    &-get {
-        &__form {
-            display: flex;
-            column-gap: 10px;
-            margin-bottom: 30px;
-
-            .input {
-                flex-grow: 1;
-            }
-        }
-    }
-
     &-mutation {
         &__form {
             margin-bottom: 30px;

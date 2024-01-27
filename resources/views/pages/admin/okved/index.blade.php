@@ -4,7 +4,7 @@
     <section class="okved-get">
         <div class="container">
             <div class="okved-get__container">
-                <form class="okved-get__form" action="{{ url()->current() }}">
+                <form class="okved-get__form form-get" action="{{ url()->current() }}">
                     <input class="input" placeholder="Название ОКВЭД" type="search" name="filterLIKE[name]"
                         value="{{ Request::get('filterLIKE')['name'] ?? null }}">
                     <button class="btn">Найти</button>
