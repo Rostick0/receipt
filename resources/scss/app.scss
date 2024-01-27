@@ -336,6 +336,10 @@
             grid-gap: 30px 80px;
         }
 
+        &__left {
+            width: 100%;
+            max-width: 250px;
+        }
 
         &__action {
             display: flex;
@@ -344,12 +348,18 @@
             margin-bottom: 20px;
         }
 
+        &__count {
+            border: 1px solid var(--grey);
+            border-radius: 0.75rem;
+            font-size: 14px;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
         &__filter {
             display: flex;
             flex-direction: column;
             row-gap: 30px;
-            width: 100%;
-            max-width: 250px;
 
             &_bottom {
                 display: flex;
