@@ -36,7 +36,7 @@ return new class extends Migration
             $table->integer('shiftNumber')->nullable();
             $table->integer('taxationType')->unsigned();
             $table->integer('totalSum')->default(0);
-            $table->string('user');
+            $table->string('user')->nullable();
             $table->string('userInn');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('okved_id')->nullable();

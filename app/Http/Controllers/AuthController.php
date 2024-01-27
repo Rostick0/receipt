@@ -49,7 +49,7 @@ class AuthController extends Controller
         return redirect('/')->withCookie(Cookie::make('token', $token, 60 * 24 * 365));
 
         // return auth()->user()->is_admin ? redirect()->route('music.list') : redirect()->route('client.index', [
-        //     'user' => User::find(auth()->id())
+        //     ' => User::find(auth()->id())
         // ]);
     }
 }

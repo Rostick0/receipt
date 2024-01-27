@@ -221,9 +221,9 @@
                         </div>
                         <div class="form__col-2">
                             <label class="label">
-                                <span class="label__title">Компания*</span>
+                                <span class="label__title">Компания</span>
                                 <input class="input" type="text" name="user" maxlength="255"
-                                    value="{{ old('user') ?? $receipt->user }}" required>
+                                    value="{{ old('user') ?? $receipt->user }}">
                                 @error('user')
                                     <span class="error">{{ $message }}</span>
                                 @enderror

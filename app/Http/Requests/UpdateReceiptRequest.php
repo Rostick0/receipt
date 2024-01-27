@@ -45,7 +45,7 @@ class UpdateReceiptRequest extends FormRequest
             'retailPlaceAddress' => 'nullable|max:255',
             'shiftNumber' => 'nullable|numeric',
             'taxationType' => 'required|' . Rule::exists('taxation_types', 'id'),
-            'user' => 'required|max:255',
+            'user' => 'nullable|max:255',
             'userInn' => 'required|max:255',
             'okved_id' => 'nullable|' . Rule::exists('okveds', 'id'),
         ];
