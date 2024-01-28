@@ -109,16 +109,46 @@ export const throttle = (func, ms) => {
     });
 })();
 
+(function (){
+    const modals = document.querySelectorAll('.modal');
+
+    modals.forEach(item => {
+        item.onclick = function (e) {
+            if (e.target == this && item.classList.contains('_active')) {
+                item.classList.remove('_active')
+            }
+        }
+    });
+})();
+
 (function () {
     const receiptItems = document.querySelectorAll('.receipt-item');
+    const modalFolders = document.querySelector('.modal-folders');
 
     receiptItems?.forEach(item => {
         const more = item.querySelector('.receipt-item__more');
+        const folderStar = item.querySelector('.receipt-item__star');
 
-        if (!more) return;
+        if (more) more.onclick = () => item.classList.toggle('_active');
 
-        more.onclick = () => item.classList.toggle('_active');
+        if (folderStar && modalFolders) {
+            folderStar.onclick = function () {
+                if (!modalFolders?.classList?.contains('_active')) {
+                    modalFolders.classList.add('_active')
+                }
+            };
+        }
     })
+
+    if (modalFolders) {
+        const modalFolderBtn = modalFolders.querySelector('.modal-folders__btn');
+
+        modalFolderBtn.onclick = () => {
+            const modalFoldersInputs = document.querySelectorAll('.modal-folders__input');
+
+            console.log([...modalFoldersInputs]?.filter(item => item.checked).map(item => item?.value)?.join(','))
+        };
+    }
 })();
 
 (function () {
@@ -203,3 +233,4 @@ export const throttle = (func, ms) => {
         inputProductDisable.disabled = e.target?.checked;
     }    
 })();
+

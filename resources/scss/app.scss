@@ -76,10 +76,12 @@
     &__icon {
         border: 1px solid var(--grey);
         border-radius: 3px;
+        color: #fff;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        font-size: 8px;
         margin-right: 10px;
         width: 12px;
         height: 12px;
@@ -91,8 +93,7 @@
 
         &::before {
             content: "✔";
-            color: #fff;
-            font-size: 8px;
+
         }
     }
 }
@@ -285,6 +286,33 @@
     font-size: 18px;
     font-weight: 600;
     min-height: 300px;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    &._active {
+        display: flex;
+    }
+
+    &__inner {
+        background-color: #fff;
+        border-radius: .75rem;
+        padding: 20px;
+        overflow: auto;
+        max-height: calc(100vh - 20px);
+
+    }
 }
 
 
@@ -684,5 +712,44 @@
             align-items: center;
             column-gap: 8px;
         }
+    }
+}
+
+
+.modal-folders {
+    &__inner {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 16px;
+        margin-bottom: 24px;
+        overflow: auto;
+        max-height: 92px;
+    }
+
+    &__checkbox {
+        .checbox__icon {
+            width: 20px;
+            height: 20px;
+
+            &::before {
+                font-size: 13px;
+            }
+        }
+
+        .label__title {
+            font-size: 16px;
+            text-wrap: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
+
+    &__btn {
+        width: 100%;
     }
 }

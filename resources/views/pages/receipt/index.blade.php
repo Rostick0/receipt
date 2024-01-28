@@ -1,6 +1,7 @@
 @extends('layout.index')
 
 @section('html')
+    <x-modal-folders />
     <section class="receipt-get">
         <div class="container">
             <div class="receipt-get__container">
