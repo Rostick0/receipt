@@ -17,7 +17,7 @@ class FolderReceiptController extends Controller
         Folder::whereIn('id', QueryString::convertToArray($request->folders))
             ->lazy()
             ->each(function ($item) use ($request) {
-                $item->folder_receipt()->create([
+                $item->folder_receipts()->create([
                     'receipt_id' => $request->receipt_id,
                 ]);
             });

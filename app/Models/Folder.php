@@ -18,7 +18,7 @@ class Folder extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function folder_receipt() {
+    public function folder_receipts() {
         return $this->hasMany(FolderReceipt::class);
     }
 }

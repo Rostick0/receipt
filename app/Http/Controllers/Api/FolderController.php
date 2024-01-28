@@ -23,7 +23,7 @@ class FolderController extends Controller
     {
         $data = Filter::query($request, new Folder, $this::getWhere());     
     
-        if ($request->has('receipt_id')) $data->with(['folder_receipt' => function (Builder $query) use ($request) {
+        if ($request->has('receipt_id')) $data->with(['folder_receipts' => function (Builder $query) use ($request) {
             $query->where('receipt_id', $request->receipt_id);
         }]);
 

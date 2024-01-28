@@ -57,4 +57,8 @@ class Receipt extends Model
     public function taxationTypeCollection() {
         return $this->belongsTo(TaxationType::class, 'taxationType');
     }
+
+    public function folder_receipts() {
+        return $this->hasMany(FolderReceipt::class);
+    }
 }

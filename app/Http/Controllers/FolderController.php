@@ -43,9 +43,9 @@ class FolderController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $okved = Filter::all($request, new Folder, $this::getWhere());     
+        $folder = Filter::one($request, new Folder,$id, $this::getWhere());     
     
-        return view('pages.folder.show', compact('okved'));
+        return view('pages.folder.show', compact('folder'));
     }
 
     public function edit(int $id)
