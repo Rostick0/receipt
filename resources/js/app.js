@@ -1,6 +1,7 @@
+import axios from 'axios';
 import './bootstrap';
 
-export const throttle = (func, ms) => {
+const throttle = (func, ms) => {
     let locked = false
 
     return function () {
@@ -17,6 +18,29 @@ export const throttle = (func, ms) => {
         }, ms)
     }
 }
+
+const classOnce = {
+    remove: function (elem, className) {
+        if (elem?.classList?.toggle(className)) {
+            elem.classList.remove(className)
+        }
+    },
+    add: function (elem, className) {
+        if (!elem?.classList?.toggle(className)) {
+            elem.classList.add(className)
+        }
+    }
+}
+
+const useState = (defaultValue = null) => {
+    let value = defaultValue;
+    const getValue = () => value;
+    const setValue = newValue => value = newValue;
+    return [getValue, setValue];
+}
+
+const [receiptActiveId, setReceiptActiveId] = useState();
+const [selectedFolderStar, setSelectedFolderStar] = useState();
 
 (function () {
     const selectAsyncSearch = document.querySelectorAll('.select-async-search');
@@ -109,13 +133,13 @@ export const throttle = (func, ms) => {
     });
 })();
 
-(function (){
+(function () {
     const modals = document.querySelectorAll('.modal');
 
     modals.forEach(item => {
         item.onclick = function (e) {
-            if (e.target == this && item.classList.contains('_active')) {
-                item.classList.remove('_active')
+            if (e.target == this) {
+                classOnce.remove(item, '_active')
             }
         }
     });
@@ -124,6 +148,33 @@ export const throttle = (func, ms) => {
 (function () {
     const receiptItems = document.querySelectorAll('.receipt-item');
     const modalFolders = document.querySelector('.modal-folders');
+    const modalFoldersList = document.querySelector('.modal-folders__list');
+
+    const getFolder = async (params = {}, hasEmptyFolders = false) => {
+        const res = await axios.get('/api/folder', {
+            params: {
+                ...params,
+                limit: 5
+            },
+        });
+
+        const data = res?.data?.data?.data;
+
+        if (hasEmptyFolders && !res?.data?.data.total) {
+            modalFoldersList.innerHTML = `<span>Отсутствуют папки, вы можете <a class="link" href="/folder/create">создать</a></span>`;
+        } else {
+            data?.forEach(item => {
+                modalFoldersList.insertAdjacentHTML('beforeend',
+                    `<label class="checbox modal-folders__checkbox">
+                    <input class="checbox__input modal-folders__input" ${item?.folder_receipts?.length ? 'checked' : ''} type="checkbox" value="${item?.id}">
+                    <span class="checbox__icon"></span>
+                    <span class="label__title">${item?.name}</span>
+                </label>`);
+            })
+        }
+
+        return res;
+    }
 
     receiptItems?.forEach(item => {
         const more = item.querySelector('.receipt-item__more');
@@ -132,10 +183,41 @@ export const throttle = (func, ms) => {
         if (more) more.onclick = () => item.classList.toggle('_active');
 
         if (folderStar && modalFolders) {
-            folderStar.onclick = function () {
-                if (!modalFolders?.classList?.contains('_active')) {
-                    modalFolders.classList.add('_active')
-                }
+
+            const [isTotalPage, setIsTotalPage] = useState(false);
+            const [page, setPage] = useState(1);
+
+            folderStar.onclick = async function () {
+                classOnce.add(modalFolders, '_active');
+
+                setSelectedFolderStar(folderStar);
+
+                const id = folderStar.getAttribute('data-id');
+                setReceiptActiveId(id);
+
+                modalFoldersList.innerHTML = "";
+
+                getFolder({
+                    receipt_id: id
+                }, true);
+
+                modalFoldersList.onscroll = throttle(async function (e) {
+                    if (isTotalPage()) {
+                        modalFoldersList.onscroll = null;
+                    }
+
+                    setPage(page() + 1);
+                    if (this.scrollTop > (this.scrollHeight - this.clientHeight) - this.lastElementChild.getBoundingClientRect().height * 3) {
+                        const res = await getFolder({
+                            receipt_id: id,
+                            page: page(),
+                        })
+
+                        if (res?.data?.data?.current_page >= res?.data?.data?.last_page) {
+                            setIsTotalPage(true);
+                        }
+                    }
+                }, 200);
             };
         }
     })
@@ -143,10 +225,25 @@ export const throttle = (func, ms) => {
     if (modalFolders) {
         const modalFolderBtn = modalFolders.querySelector('.modal-folders__btn');
 
-        modalFolderBtn.onclick = () => {
+        modalFolderBtn.onclick = async () => {
             const modalFoldersInputs = document.querySelectorAll('.modal-folders__input');
 
-            console.log([...modalFoldersInputs]?.filter(item => item.checked).map(item => item?.value)?.join(','))
+            const folderStar = selectedFolderStar();
+
+            const folders = [...modalFoldersInputs]?.filter(item => item.checked).map(item => item?.value)?.join(',');
+
+            const res = await axios.post('/api/folder-receipt', {
+                folders,
+                receipt_id: receiptActiveId(),
+            });
+
+            if (folders) {
+                classOnce.add(folderStar, '_active')
+            } else {
+                classOnce.remove(folderStar, '_active')
+            }
+
+            classOnce.remove(modalFolders, '_active');
         };
     }
 })();
@@ -178,7 +275,7 @@ export const throttle = (func, ms) => {
             const formResultCount = formResult.querySelector('.form-result__count');
             const formResultErrors = formResult.querySelector('.form-result__errors');
 
-            if (!formResult.classList.contains('_active')) formResult.classList.add('_active');
+            classOnce.add(formResult, '_active');
 
             formResultCount.textContent = data?.count;
             console.log(data?.errors);
@@ -194,12 +291,11 @@ export const throttle = (func, ms) => {
                         }
                     }
 
-                    formResultErrors.insertAdjacentHTML('beforeend', `
-                        <div>Элемент под индексом: ${item?.index}</div>
+                    formResultErrors.insertAdjacentHTML('beforeend',
+                        `<div>Элемент под индексом: ${item?.index}</div>
                         <div>${divErrors}</div>
                         <br />
-                        <br />
-                `);
+                        <br />`);
                 });
             }
         } catch (e) {
@@ -222,7 +318,7 @@ export const throttle = (func, ms) => {
     })
 })();
 
-(function() {
+(function () {
     const inputProductDisable = document.querySelector('.input-product__disable');
     const checkboxProdictDisable = document.querySelector('.checkbox-prodict__disable');
 
@@ -231,6 +327,6 @@ export const throttle = (func, ms) => {
     checkboxProdictDisable.onchange = e => {
         // console.log(e.target?.checked);
         inputProductDisable.disabled = e.target?.checked;
-    }    
+    }
 })();
 
