@@ -50,7 +50,7 @@ Route::group([
         Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['store']);
         
         Route::apiResource('folder', FolderController::class)->only(['index']);
-        Route::apiResource('folder-receipt', FolderReceiptController::class)->only(['store']);
+        Route::apiResource('folder-receipt', FolderReceiptController::class)->only(['store', 'destroy']);
         
     });
 

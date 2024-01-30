@@ -47,6 +47,8 @@ Route::resources([
     'folder' => FolderController::class,
 ]);
 
+Route::delete('/folder-clear/{id}', [FolderController::class, 'clear'])->name('folder.clear');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
         // Route::resource('okved', OkvedController::class)->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']);

@@ -220,6 +220,15 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
                 }, 200);
             };
         }
+
+        if (folderStar?.classList?.contains('_remove')) {
+            folderStar.onclick = async () => {
+                const folderReceiptId = folderStar.getAttribute('data-folder-receipt-id');
+                const res = await axios.delete(`/api/folder-receipt/${folderReceiptId}`);
+
+                item?.remove()
+            }
+        }
     })
 
     if (modalFolders) {

@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 
 class FolderController extends Controller
 {
-    private static function getWhere() {
+    private static function getWhere()
+    {
         $where = [
             ['user_id', '=', auth()->id()],
         ];
@@ -21,8 +22,8 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $folders = Filter::all($request, new Folder, $this::getWhere());     
-    
+        $folders = Filter::all($request, new Folder, $this::getWhere());
+
         return view('pages.folder.index', compact('folders'));
     }
 
@@ -43,8 +44,9 @@ class FolderController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $folder = Filter::one($request, new Folder,$id, $this::getWhere());     
-    
+        // dd(Folder::find($id)->folder_receipts()->withSum('receipt', 'totalSum')->get());
+        $folder = Filter::one($request, new Folder, $id, $this::getWhere());
+
         return view('pages.folder.show', compact('folder'));
     }
 
@@ -77,5 +79,15 @@ class FolderController extends Controller
         Folder::destroy($id);
 
         return redirect()->route('folder.index');
+    }
+
+    public function clear(int $id) {
+        $data = Folder::findOrFail($id);
+
+        if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
+
+        $data->folder_receipts()->delete();
+
+        return redirect()->back();
     }
 }
