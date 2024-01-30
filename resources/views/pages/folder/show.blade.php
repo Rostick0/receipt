@@ -15,9 +15,12 @@
                         {{-- {{dd($sum_query[0]->sum)}} --}}
                         <div @isset($sum_query[0]?->sum) $sum_query @endisset class="folder-get__count">Сумма:
                             {{ number_format($sum_query[0]?->sum / 100, 2, '.', ' ') }} руб </div>
+                        {{-- <a class="ml-auto link" href="{{ route('receipt-upload.index', [
+                            'folder_id' => $folder->id
+                        ]) }}" download="{{$folder->name}}-{{$sum_query[0]?->sum ?? 0}}">Скачать все</a> --}}
                         <a class="ml-auto link" href="{{ route('receipt-upload.index', [
                             'folder_id' => $folder->id
-                        ]) }}" download="{{$folder->name}}-{{$sum_query[0]?->sum ?? 0}}">Скачать все</a>
+                        ]) }}" >Скачать все</a>
                         <form action="{{ route('folder.clear', ['id' => $folder->id]) }}" method="post">
                             @csrf
                             {{ method_field('DELETE') }}

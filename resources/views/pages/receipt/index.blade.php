@@ -8,30 +8,42 @@
                 <div class="receipt-get__left">
                     <div class="receipt-get__count">Найдено чеков: {{ $receipts->total() }}</div>
                     <form class="receipt-get__filter" action="{{ url()->current() }}">
+                        <select class="input" name="sort">
+                            <option value="" hidden>Сортировка</option>
+                            <option value="">-</option>
+                            @foreach ($sort as $item)
+                                <option value="{{ $item['value'] }}">{{ $item['name'] }}</option>
+                            @endforeach
+                        </select>
                         <div>
-                            <details class="details receipt-get-details" @empty (Request::get('receipt-position')) open @endempty>
+                            <details class="details receipt-get-details" @empty(Request::get('receipt-position')) open @endempty>
                                 <summary class="receipt-get-details__switch">Позиция чека</summary>
-                                <input class="checkbox__summary" type="checkbox" name="receipt-position" @if (!empty(Request::get('receipt-position'))) checked @endif hidden>
+                                <input class="checkbox__summary" type="checkbox" name="receipt-position"
+                                    @if (!empty(Request::get('receipt-position'))) checked @endif hidden>
                                 <div class="receipt-get-details__content">
                                     <label class="label">
                                         <span class="label__title">Название товара/услуги</span>
-                                        <input class="input input-product__disable" type="text" name="filterLIKE[products.name]"
+                                        <input class="input input-product__disable" type="text"
+                                            name="filterLIKE[products.name]"
                                             value="{{ Request::get('filterLIKE')['products.name'] ?? null }}">
                                     </label>
                                     <label class="checbox">
-                                        <input class="checbox__input checkbox-prodict__disable" name="null_title" @checked(Request::get('null_title')) type="checkbox">
+                                        <input class="checbox__input checkbox-prodict__disable" name="null_title"
+                                            @checked(Request::get('null_title')) type="checkbox">
                                         <span class="checbox__icon"></span>
                                         <span class="label__title">Название товара или услуги пустое</span>
                                     </label>
                                     <div class="receipt-get__col">
                                         <label class="label">
                                             <span class="label__title">Цена от</span>
-                                            <input class="input" type="number" name="filterGEQ[products.price]" step="0.01"
+                                            <input class="input" type="number" name="filterGEQ[products.price]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterGEQ')['products.price'])) value="{{ Request::get('filterGEQ')['products.price'] / 100 }}" @endif>
                                         </label>
                                         <label class="label">
                                             <span class="label__title">Цена до</span>
-                                            <input class="input" type="number" name="filterLEQ[products.price]" step="0.01"
+                                            <input class="input" type="number" name="filterLEQ[products.price]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterLEQ')['products.price'])) value="{{ Request::get('filterLEQ')['products.price'] / 100 }}" @endif>
                                         </label>
                                     </div>
@@ -50,22 +62,25 @@
                                     <div class="receipt-get__col">
                                         <label class="label">
                                             <span class="label__title">Сумма от</span>
-                                            <input class="input" type="number" name="filterGEQ[products.sum]" step="0.01"
+                                            <input class="input" type="number" name="filterGEQ[products.sum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterGEQ')['products.sum'])) value="{{ Request::get('filterGEQ')['products.sum'] / 100 }}" @endif>
                                         </label>
                                         <label class="label">
                                             <span class="label__title">Сумма до</span>
-                                            <input class="input" type="number" name="filterLEQ[products.sum]" step="0.01"
+                                            <input class="input" type="number" name="filterLEQ[products.sum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterLEQ')['products.sum'])) value="{{ Request::get('filterLEQ')['products.sum'] / 100 }}" @endif>
                                         </label>
                                     </div>
                                 </div>
                             </details>
-                            <details class="details receipt-get-details" @empty (Request::get('receipt-data')) open @endempty>
+                            <details class="details receipt-get-details" @empty(Request::get('receipt-data')) open @endempty>
                                 <summary class="receipt-get-details__switch">
                                     Дата
                                 </summary>
-                                <input class="checkbox__summary" type="checkbox" name="receipt-data" @if (!empty(Request::get('receipt-data'))) checked @endif hidden>
+                                <input class="checkbox__summary" type="checkbox" name="receipt-data"
+                                    @if (!empty(Request::get('receipt-data'))) checked @endif hidden>
                                 <div class="receipt-get-details__content">
                                     <label class="label">
                                         <span class="label__title">Покупки от</span>
@@ -79,9 +94,10 @@
                                     </label>
                                 </div>
                             </details>
-                            <details class="details receipt-get-details" @empty (Request::get('receipt-organization')) open @endempty>
+                            <details class="details receipt-get-details" @empty(Request::get('receipt-organization')) open @endempty>
                                 <summary class="receipt-get-details__switch">Организация</summary>
-                                <input class="checkbox__summary" type="checkbox" name="receipt-organization" @if (!empty(Request::get('receipt-organization'))) checked @endif hidden>
+                                <input class="checkbox__summary" type="checkbox" name="receipt-organization"
+                                    @if (!empty(Request::get('receipt-organization'))) checked @endif hidden>
                                 <div class="receipt-get-details__content">
                                     <label class="label">
                                         <span class="label__title">Название</span>
@@ -100,19 +116,23 @@
                                     </label>
                                 </div>
                             </details>
-                            <details class="details receipt-get-details" @empty (Request::get('receipt-total')) open @endempty>
+                            <details class="details receipt-get-details"
+                                @empty(Request::get('receipt-total')) open @endempty>
                                 <summary class="receipt-get-details__switch">Сумма по чеку</summary>
-                                <input class="checkbox__summary" type="checkbox" name="receipt-total" @if (!empty(Request::get('receipt-total'))) checked @endif hidden>
+                                <input class="checkbox__summary" type="checkbox" name="receipt-total"
+                                    @if (!empty(Request::get('receipt-total'))) checked @endif hidden>
                                 <div class="receipt-get-details__content">
                                     <div class="receipt-get__col">
                                         <label class="label">
                                             <span class="label__title">Итого от</span>
-                                            <input class="input" type="number" name="filterGEQ[totalSum]" step="0.01"
+                                            <input class="input" type="number" name="filterGEQ[totalSum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterGEQ')['totalSum'])) value="{{ Request::get('filterGEQ')['totalSum'] / 100 }}" @endif>
                                         </label>
                                         <label class="label">
                                             <span class="label__title">Итого по</span>
-                                            <input class="input" type="number" name="filterLEQ[totalSum]" step="0.01"
+                                            <input class="input" type="number" name="filterLEQ[totalSum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterLEQ')['totalSum'])) value="{{ Request::get('filterLEQ')['totalSum'] / 100 }}" @endif>
                                         </label>
                                     </div>
@@ -133,25 +153,30 @@
                                     <div class="receipt-get__col">
                                         <label class="label">
                                             <span class="label__title">Карта от</span>
-                                            <input class="input" type="number" name="filterGEQ[creditSum]" step="0.01"
+                                            <input class="input" type="number" name="filterGEQ[creditSum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterGEQ')['creditSum'])) value="{{ Request::get('filterGEQ')['creditSum'] / 100 }}" @endif>
                                         </label>
                                         <label class="label">
                                             <span class="label__title">Карта по</span>
-                                            <input class="input" type="number" name="filterLEQ[creditSum]" step="0.01"
+                                            <input class="input" type="number" name="filterLEQ[creditSum]"
+                                                step="0.01"
                                                 @if (isset(Request::get('filterLEQ')['creditSum'])) value="{{ Request::get('filterLEQ')['creditSum'] / 100 }}" @endif>
                                         </label>
                                     </div>
                                     <label class="checbox">
-                                        <input class="checbox__input" name="nds_only" @checked(Request::get('nds_only')) type="checkbox">
+                                        <input class="checbox__input" name="nds_only" @checked(Request::get('nds_only'))
+                                            type="checkbox">
                                         <span class="checbox__icon"></span>
                                         <span class="label__title">Только с НДС</span>
                                     </label>
                                 </div>
                             </details>
-                            <details class="details receipt-get-details" @empty (Request::get('receipt-fiscal')) open @endempty>
+                            <details class="details receipt-get-details"
+                                @empty(Request::get('receipt-fiscal')) open @endempty>
                                 <summary class="receipt-get-details__switch">Фискальные данные</summary>
-                                <input class="checkbox__summary" type="checkbox" name="receipt-fiscal" @if (!empty(Request::get('receipt-fiscal'))) checked @endif hidden>
+                                <input class="checkbox__summary" type="checkbox" name="receipt-fiscal"
+                                    @if (!empty(Request::get('receipt-fiscal'))) checked @endif hidden>
                                 <div class="receipt-get-details__content">
                                     <label class="label">
                                         <span class="label__title">Номер фиксального накопителя</span>

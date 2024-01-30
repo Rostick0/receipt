@@ -45,8 +45,35 @@ class ReceiptController extends Controller
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
 
+        $sort = [
+            [
+                'name' => 'По дате сканирования (возрастание)',
+                'value' => '-id'
+            ],
+            [
+                'name' => 'По дате сканирования (убывание)',
+                'value' => 'id'
+            ],
+            [
+                'name' => 'По дате покупки (возрастание)',
+                'value' => '-dateTime'
+            ],
+            [
+                'name' => 'По дате покупки (убывание)',
+                'value' => 'dateTime'
+            ],
+            [
+                'name' => 'По сумме итого (возрастание)',
+                'value' => '-totalSum'
+            ],
+            [
+                'name' => 'По сумме итого (убывание)',
+                'value' => 'totalSum'
+            ],
+        ];
+
         $receipts = Filter::query($request, new Receipt, ['nds_only'], $this::getWhere());
-        
+
         if ($request->has('nds_only')) {
             $receipts = $receipts->where('nds18', '>=', 1)->union(
                 Filter::query($request, new Receipt, ['nds_only'], $this::getWhere())->where('nds10', '>=', 1)
@@ -55,7 +82,7 @@ class ReceiptController extends Controller
 
         $receipts = $receipts->paginate(20);
 
-        return view('pages.receipt.index', compact(['operation_types', 'receipts']));
+        return view('pages.receipt.index', compact(['operation_types', 'receipts', 'sort']));
     }
 
     /**

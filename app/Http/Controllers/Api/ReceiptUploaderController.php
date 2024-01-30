@@ -9,8 +9,13 @@ use App\Http\Requests\StoreReceiptUploaderRequest;
 use App\Models\Folder;
 use App\Models\Receipt;
 use App\Utils\ReceiptUploaderUtil;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
+use Symfony\Component\String\UnicodeString;
+use ZipArchive;
 
 class ReceiptUploaderController extends Controller
 {
@@ -39,7 +44,23 @@ class ReceiptUploaderController extends Controller
             sleep(0.05);
         });
 
-        return new JsonResponse($data->lazy());
+        $zip = new ZipArchive();
+        $zip_name = random_int(10, 99) . Carbon::now()->valueOf() . '.zip';
+
+        if ($zip->open($zip_name, ZipArchive::CREATE) === TRUE) {
+            foreach ($data as $fileContent) {
+                $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
+                $name = public_path('receipts/' . $user) . '-' . $fileContent['ticket']['document']['receipt']['totalSum'] . '.json';
+                file_put_contents($name, Json::encode($fileContent));
+
+                $zip->addFile($name, basename($name));
+            }
+
+            $zip->close();
+        }
+
+        return response()->download($zip_name)->deleteFileAfterSend();
+        // return new JsonResponse($data->lazy());
     }
 
     public function show(ShowReceiptUploaderRequest $request, int $id)
@@ -47,7 +68,7 @@ class ReceiptUploaderController extends Controller
         $data = Receipt::findOrFail($id);
         // with('products')
 
-        return new JsonResponse([
+        return response(json_encode([
             '_id' => $data['id'],
             'createdAt' => $data->created_at,
             'ticket' => [
@@ -58,7 +79,7 @@ class ReceiptUploaderController extends Controller
                     ],
                 ],
             ]
-        ]);
+        ], JSON_UNESCAPED_UNICODE));
     }
 
     public function store(StoreReceiptUploaderRequest $request)

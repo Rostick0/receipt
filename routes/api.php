@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FolderController;
 use App\Http\Controllers\Api\FolderReceiptController;
 use App\Http\Controllers\Api\OkvedController;
+use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\ReceiptUploaderController;
 use App\Http\Controllers\Telegram\ReceiptUploaderController as TelegramReceiptUploaderController;
 use App\Http\Controllers\Telegram\UserTelegramController;
@@ -48,12 +49,12 @@ Route::group([
         'middleware' => 'auth:api'
     ], function () {
         Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['store']);
-        
+
         Route::apiResource('folder', FolderController::class)->only(['index']);
         Route::apiResource('folder-receipt', FolderReceiptController::class)->only(['store', 'destroy']);
-        
     });
 
+    Route::apiResource('receipt', ReceiptController::class)->only(['index']);
     Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['index', 'show']);
 
     Route::get('okved', [OkvedController::class, 'index']);
