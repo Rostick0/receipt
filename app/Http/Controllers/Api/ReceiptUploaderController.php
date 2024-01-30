@@ -50,7 +50,7 @@ class ReceiptUploaderController extends Controller
         if ($zip->open($zip_name, ZipArchive::CREATE) === TRUE) {
             foreach ($data as $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
-                $name = public_path('receipts/' . $user) . '-' . $fileContent['ticket']['document']['receipt']['totalSum'] . '.json';
+                $name = 'receipts/' . $user . '-' . $fileContent['ticket']['document']['receipt']['totalSum'] . '.json';
                 file_put_contents($name, Json::encode($fileContent));
 
                 $zip->addFile($name, basename($name));
