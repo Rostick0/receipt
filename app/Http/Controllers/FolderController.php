@@ -8,6 +8,7 @@ use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\UpdateFolderRequest;
 use App\Utils\AccessUtil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FolderController extends Controller
 {
@@ -44,10 +45,10 @@ class FolderController extends Controller
 
     public function show(Request $request, int $id)
     {
-        // dd(Folder::find($id)->folder_receipts()->withSum('receipt', 'totalSum')->get());
         $folder = Filter::one($request, new Folder, $id, $this::getWhere());
+        $sum_query = DB::select('select sum(`receipt_sum_sum`) as `sum` from (select `folder_receipts`.*, (select sum(`receipts`.`totalSum`) from `receipts` where `folder_receipts`.`receipt_id` = `receipts`.`id` and `receipts`.`deleted_at` is null) as `receipt_sum_sum` from `folder_receipts` where `folder_receipts`.`folder_id` = ' . $id . ' and `folder_receipts`.`folder_id` is not null) as `helper`;');
 
-        return view('pages.folder.show', compact('folder'));
+        return view('pages.folder.show', compact('folder', 'sum_query'));
     }
 
     public function edit(int $id)
@@ -81,7 +82,8 @@ class FolderController extends Controller
         return redirect()->route('folder.index');
     }
 
-    public function clear(int $id) {
+    public function clear(int $id)
+    {
         $data = Folder::findOrFail($id);
 
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();

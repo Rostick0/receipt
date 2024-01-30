@@ -10,21 +10,11 @@
             <div class="folder-get__container">
                 <div class="folder-get__top">
                     <div class="folder-get__info">
-                        {{-- @dd($folder->with('folder_receipts', function ($query) {
-                            $query->withSum('receipt', '');
-                        })->get()) --}}
-                        {{-- <pre>{{$folder->folder_receipts()->withSum('receipt', 'totalSum')->get()}}</pre> --}}
-                        {{-- @dd(
-                            // $folder->folder_receipts()->withSum('receipt', 'totalSum')->sum('receipt_sum_total_sum')
-                            // $folder->folder_receipts()->receipt()->sum('totalSum')
-                            // $folder->folder_receipts->receipt()->sum('totalSum')
-                        ); --}}
-
-                        {{-- @dd($folder->folder_receipts->receipt) --}}
-                        {{-- ()->sum('totalSum') --}}
                         <strong>{{ $folder->name }}</strong>
                         <div class="folder-get__count">Количество чеков: {{ $folder_receipts->total() }}</div>
-                        {{-- <div class="folder-get__amount">Общая сумма: {{ $folder_receipts->sum('totalSum') }}</div> --}}
+                        {{-- {{dd($sum_query[0]->sum)}} --}}
+                        <div @isset($sum_query[0]?->sum) $sum_query @endisset class="folder-get__count">Сумма:
+                            {{ number_format($sum_query[0]?->sum / 100, 2, '.', ' ') }} руб </div>
                         <a class="ml-auto link" href="">Скачать все</a>
                         <form action="{{ route('folder.clear', ['id' => $folder->id]) }}" method="post">
                             @csrf
@@ -40,7 +30,6 @@
                     @if ($folder_receipts->count())
                         <div class="receipt-list">
                             @foreach ($folder_receipts as $item)
-                            {{-- @dd($item) --}}
                                 <x-receipt-item :receipt="$item->receipt" classStar="_remove" :folderReceiptId="$item->id" />
                             @endforeach
                         </div>
