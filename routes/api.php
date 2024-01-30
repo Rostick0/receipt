@@ -54,7 +54,7 @@ Route::group([
         
     });
 
-    Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['show']);
+    Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['index', 'show']);
 
     Route::get('okved', [OkvedController::class, 'index']);
 
