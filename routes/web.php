@@ -34,6 +34,7 @@ Route::group(['prefix' => 'receipt'], function () {
     Route::get('/trash', [ReceiptController::class, 'trash'])->name('receipt.trash');
     Route::patch('/restore/{id}', [ReceiptController::class, 'restore'])->name('receipt.restore');
     Route::delete('/trash/{id}', [ReceiptController::class, 'forceDelete'])->name('receipt.forceDelete');
+    Route::delete('/trash-duplicate', [ReceiptController::class, 'removeDuplicate'])->name('receipt.removeDuplicate');
 });
 
 // Route::resource('receipt', ReceiptController::class);

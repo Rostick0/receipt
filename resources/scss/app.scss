@@ -397,6 +397,10 @@
     &__nav {
         display: flex;
         column-gap: 12px;
+
+        &_item {
+            font-size: 14px;
+        }
     }
 }
 

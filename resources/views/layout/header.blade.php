@@ -10,6 +10,11 @@
                         <a class="header__nav_item" href="{{ route('receipt.trash') }}">Корзина чеков</a>
                         <a class="header__nav_item" href="{{ route('okved.index') }}">Список ОКВЭД</a>
                         <a class="header__nav_item" href="{{ route('okved.create') }}">Добавить ОКВЭД</a>
+                        <form action="{{ route('receipt.removeDuplicate') }}" method="post">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <button class="header__nav_item link-red">Очистка дубликатов</button>
+                        </form>
                     @endif
                 @endauth
             </nav>
@@ -39,5 +44,9 @@
                 @endif
             </div>
         @endauth
+        @if (Session::has('remove_duplicate_count'))
+            <br>
+            Удалено чеков: {{ Session::get('remove_duplicate_count') }}
+        @endif
     </div>
 </header>

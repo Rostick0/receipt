@@ -13,6 +13,7 @@ use App\Utils\AccessUtil;
 use App\Utils\PriceUtil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReceiptController extends Controller
 {
@@ -205,5 +206,42 @@ class ReceiptController extends Controller
         $data->forceDelete();
 
         return redirect()->back();
+    }
+
+    public function removeDuplicate()
+    {
+        $fields = ['fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign'];
+        $limit = 1000;
+        $counter = 0;
+
+        foreach ($fields as $field) {
+            Receipt::select($field, 'id', DB::raw('COUNT(*) as count'))
+                ->groupBy($field)
+                ->chunk(500, function ($receipts) use ($field, $limit, &$counter) {
+                    foreach ($receipts as $receipt) {
+                        $count = Receipt::where('id', '!=', $receipt->id)
+                            ->where($field, $receipt[$field])
+                            ->count();
+
+                        $counter += $count;
+
+                        for ($i = 0; $i < ceil($count / $limit); $i++) {
+                            Receipt::where('id', '!=', $receipt->id)
+                                ->where($field, $receipt[$field])
+                                ->limit($limit)
+                                ->delete();
+                            sleep(0.01);
+                        }
+                    }
+
+                    sleep(0.05);
+                });
+
+            sleep(0.05);
+        }
+
+        return redirect()->back()->with([
+            'remove_duplicate_count' => $counter,
+        ]);
     }
 }
