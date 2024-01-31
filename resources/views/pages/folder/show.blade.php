@@ -1,7 +1,12 @@
 @extends('layout.index')
 
 @php
-    $folder_receipts = $folder->folder_receipts()->paginate(20);
+    $folder_receipts = $folder
+        ->folder_receipts()
+        ->whereHas('receipt', function ($query) {
+            $query->whereNull('deleted_at');
+        })
+        ->paginate(20);
 @endphp
 
 @section('html')
@@ -18,14 +23,18 @@
                         {{-- <a class="ml-auto link" href="{{ route('receipt-upload.index', [
                             'folder_id' => $folder->id
                         ]) }}" download="{{$folder->name}}-{{$sum_query[0]?->sum ?? 0}}">Скачать все</a> --}}
-                        <a class="ml-auto link" href="{{ route('receipt-upload.index', [
-                            'folder_id' => $folder->id
-                        ]) }}" >Скачать все</a>
-                        <form action="{{ route('folder.clear', ['id' => $folder->id]) }}" method="post">
-                            @csrf
-                            {{ method_field('DELETE') }}
-                            <button class="link-red" href="">Очистить все</button>
-                        </form>
+                        @if ($folder_receipts->total() > 0)
+                            <a class="ml-auto link"
+                                href="{{ route('receipt-upload.index', [
+                                    'folder_id' => $folder->id,
+                                ]) }}">Скачать
+                                все</a>
+                            <form action="{{ route('folder.clear', ['id' => $folder->id]) }}" method="post">
+                                @csrf
+                                {{ method_field('DELETE') }}
+                                <button class="link-red" href="">Очистить все</button>
+                            </form>
+                        @endif
                     </div>
                     <div class="folder-get__action">
                         <a class="btn" href="{{ route('folder.edit', ['folder' => $folder->id]) }}">Изменить</a>

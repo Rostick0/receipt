@@ -23,7 +23,9 @@ class ReceiptUploaderController extends Controller
     {
         $data = collect();
 
-        Folder::find($request->folder_id)?->folder_receipts()->chunk(200, function ($item) use (&$data) {
+        Folder::find($request->folder_id)?->folder_receipts()->whereHas('receipt', function ($query) {
+            $query->whereNull('deleted_at');
+        })->chunk(200, function ($item) use (&$data) {
             foreach ($item as $elem) {
                 $receipt = $elem->receipt;
 
@@ -44,6 +46,10 @@ class ReceiptUploaderController extends Controller
             sleep(0.05);
         });
 
+        if (!$data->count()) return new JsonResponse([
+            'message' => 'Not found'
+        ], 404);
+
         $zip = new ZipArchive();
         $zip_name = random_int(10, 99) . Carbon::now()->valueOf() . '.zip';
 
@@ -60,13 +66,11 @@ class ReceiptUploaderController extends Controller
         }
 
         return response()->download($zip_name)->deleteFileAfterSend();
-        // return new JsonResponse($data->lazy());
     }
 
     public function show(ShowReceiptUploaderRequest $request, int $id)
     {
         $data = Receipt::findOrFail($id);
-        // with('products')
 
         return response(json_encode([
             '_id' => $data['id'],
