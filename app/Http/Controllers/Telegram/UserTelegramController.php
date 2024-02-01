@@ -18,6 +18,8 @@ class UserTelegramController extends Controller
             ]);
         }
 
+        UserTelegram::where('telegram_user_id',  $request->telegram_user_id)->delete();
+
         UserTelegram::firstOrCreate([
             'telegram_user_id' => $request->telegram_user_id,
             'user_id' => auth()->id()
