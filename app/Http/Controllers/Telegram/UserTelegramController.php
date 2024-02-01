@@ -15,9 +15,7 @@ class UserTelegramController extends Controller
         UserTelegram::where('telegram_user_id',  $request->telegram_user_id)->delete();
        
         if (!auth()->attempt($request->only(['email', 'password']))) {
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed')
-            ]);
+            return new JsonResponse(['message' => 'No access'], 401);
         }
 
         UserTelegram::firstOrCreate([
