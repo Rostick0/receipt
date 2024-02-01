@@ -12,13 +12,13 @@ class UserTelegramController extends Controller
 {
     public function store(StoreUserTelegramRequest $request)
     {
+        UserTelegram::where('telegram_user_id',  $request->telegram_user_id)->delete();
+       
         if (!auth()->attempt($request->only(['email', 'password']))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed')
             ]);
         }
-
-        UserTelegram::where('telegram_user_id',  $request->telegram_user_id)->delete();
 
         UserTelegram::firstOrCreate([
             'telegram_user_id' => $request->telegram_user_id,
