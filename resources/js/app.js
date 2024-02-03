@@ -330,12 +330,25 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
 (function () {
     const inputProductDisable = document.querySelector('.input-product__disable');
     const checkboxProdictDisable = document.querySelector('.checkbox-prodict__disable');
+    const exactTitle = document.querySelector('#exact_title');
 
-    if (!inputProductDisable || !checkboxProdictDisable) return;
+    if (!inputProductDisable) return;
 
-    checkboxProdictDisable.onchange = e => {
-        // console.log(e.target?.checked);
-        inputProductDisable.disabled = e.target?.checked;
+    if (checkboxProdictDisable) {
+        checkboxProdictDisable.onchange = e => {
+            inputProductDisable.disabled = e.target?.checked;
+        }
     }
+
+    const setExactTitle = () => {
+        inputProductDisable.name = exactTitle?.checked ? 'filterEQ[products.name]' : 'filterLIKE[products.name]';
+    };
+
+    if (exactTitle) {
+        exactTitle.onchange = setExactTitle;
+   
+        setExactTitle();
+    }
+
 })();
 

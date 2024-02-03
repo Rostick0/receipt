@@ -6,6 +6,11 @@
             <div class="receipt-get__container">
                 <div class="receipt-get__content">
                     @if ($receipts->count())
+                        <form class="receipt__force-clear" action="{{ route('receipt.clearRemoved') }}" method="POST">
+                            @csrf
+                            {{ method_field('DELETE') }}
+                            <button class="link-red">Очистка корзины</button>
+                        </form>
                         <div class="receipt-list">
                             @foreach ($receipts as $item)
                                 <x-receipt-item :receipt="$item">
@@ -15,7 +20,8 @@
                                             {{ method_field('PATCH') }}
                                             <button class="link-green">Восстановить</button>
                                         </form>
-                                        <form action="{{ route('receipt.forceDelete', ['id' => $item->id]) }}" method="POST">
+                                        <form action="{{ route('receipt.forceDelete', ['id' => $item->id]) }}"
+                                            method="POST">
                                             @csrf
                                             {{ method_field('DELETE') }}
                                             <button class="link-red">Удалить</button>

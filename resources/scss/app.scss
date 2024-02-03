@@ -71,7 +71,7 @@
 
 .checbox {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     &__icon {
         border: 1px solid var(--grey);
@@ -82,6 +82,7 @@
         justify-content: center;
         flex-shrink: 0;
         font-size: 8px;
+        margin-top: 2px;
         margin-right: 10px;
         width: 12px;
         height: 12px;
@@ -671,6 +672,12 @@
                 height: 1px;
             }
         }
+    }
+
+    &__force-clear {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 30px;
     }
 }
 

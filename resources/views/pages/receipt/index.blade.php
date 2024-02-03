@@ -28,6 +28,12 @@
                                             value="{{ Request::get('filterLIKE')['products.name'] ?? null }}">
                                     </label>
                                     <label class="checbox">
+                                        <input class="checbox__input" name="exact_title" id="exact_title"
+                                            @checked(Request::get('exact_title')) type="checkbox">
+                                        <span class="checbox__icon"></span>
+                                        <span class="label__title">Точное название</span>
+                                    </label>
+                                    <label class="checbox">
                                         <input class="checbox__input checkbox-prodict__disable" name="null_title"
                                             @checked(Request::get('null_title')) type="checkbox">
                                         <span class="checbox__icon"></span>
@@ -169,6 +175,12 @@
                                             type="checkbox">
                                         <span class="checbox__icon"></span>
                                         <span class="label__title">Только с НДС</span>
+                                    </label>
+                                    <label class="checbox">
+                                        <input class="checbox__input" name="no_nds_only" @checked(Request::get('no_nds_only'))
+                                            type="checkbox">
+                                        <span class="checbox__icon"></span>
+                                        <span class="label__title">Без НДС</span>
                                     </label>
                                 </div>
                             </details>

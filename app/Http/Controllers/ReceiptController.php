@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\DB;
 
 class ReceiptController extends Controller
 {
+    private $fillable_block = [
+        'nds_only',
+        'no_nds_only',
+    ];
+
     private static function getWhere()
     {
         return [];
@@ -73,11 +78,17 @@ class ReceiptController extends Controller
             ],
         ];
 
-        $receipts = Filter::query($request, new Receipt, ['nds_only'], $this::getWhere());
+        $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
 
         if ($request->has('nds_only')) {
             $receipts = $receipts->where('nds18', '>=', 1)->union(
-                Filter::query($request, new Receipt, ['nds_only'], $this::getWhere())->where('nds10', '>=', 1)
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds10', '>=', 1)
+            );
+        }
+
+        if ($request->has('no_nds_only')) {
+            $receipts = $receipts->where('nds0', '>=', 1)->union(
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('ndsNo', '>=', 1)
             );
         }
 
@@ -165,9 +176,6 @@ class ReceiptController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(int $id)
     {
         $data = Receipt::findOrFail($id);
@@ -204,6 +212,21 @@ class ReceiptController extends Controller
         if (AccessUtil::cannot('forceDelete', $data)) return AccessUtil::errorMessage();
 
         $data->forceDelete();
+
+        return redirect()->back();
+    }
+
+    public function clearRemoved()
+    {
+        $count = Receipt::onlyTrashed()->count();
+        $limit = 1;
+
+        for ($i = 0; $i < ceil($count / $limit); $i++) {
+            Receipt::onlyTrashed()
+                ->limit($limit)
+                ->forceDelete();
+            sleep(0.01);
+        }
 
         return redirect()->back();
     }
