@@ -29,10 +29,11 @@ class FilterRequestUtil
             if (FilterTypeUtil::check($key)) return;
 
             if (!empty($fillable_block) && array_search($key, $fillable_block) !== false) return;
+
             $where = [];
 
-
             if (!isset($value)) {
+                return $builder;
             } else if ($type_where === 'NULL') {
                 $where[] = [$key, $type, NULL];
             } else if ($type_where === 'LIKE') {
@@ -47,11 +48,16 @@ class FilterRequestUtil
         return $builder;
     }
 
-    public static function in($request, Builder $builder, array $fillable = [], bool $is_not = false): Builder
+    public static function in($request, Builder $builder, array $fillable_block = [], bool $is_not = false): Builder
     {
-        collect($request)->each(function ($value, $key) use ($builder, $fillable, $is_not) {
-            if (!empty($fillable) && array_search($key, $fillable) !== false) return;
+        collect($request)->each(function ($value, $key) use ($builder, $fillable_block, $is_not) {
+            if (!empty($fillable_block) && array_search($key, $fillable_block) !== false) return;
+
             $where = QueryString::convertToArray($value);
+
+            if (!isset($value)) {
+                return $builder;
+            }
 
             if ($is_not) {
                 $builder->whereNotIn($key, $where);
