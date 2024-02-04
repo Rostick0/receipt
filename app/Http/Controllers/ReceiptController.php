@@ -204,9 +204,41 @@ class ReceiptController extends Controller
 
     public function trash(Request $request)
     {
-        $receipts = Receipt::onlyTrashed()->paginate(20);
+        $operation_types = OperationType::get();
+        $taxation_types = TaxationType::get();
 
-        return view('pages.receipt.trash', compact(['receipts']));
+        $this->requestMergePrice($request, 'filterLEQ', 'products.price');
+        $this->requestMergePrice($request, 'filterGEQ', 'products.price');
+        $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
+        $this->requestMergePrice($request, 'filterGEQ', 'products.sum');
+        $this->requestMergePrice($request, 'filterLEQ', 'totalSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'totalSum');
+        $this->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
+        $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
+        $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
+
+        if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
+
+        $sort = $this->sort;
+
+        $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
+
+        if ($request->has('nds_only')) {
+            $receipts = $receipts->where('nds18', '>=', 1)->union(
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds10', '>=', 1)
+            );
+        }
+
+        if ($request->has('no_nds_only')) {
+            $receipts = $receipts->where('nds0', '>=', 1)->union(
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('ndsNo', '>=', 1)
+            );
+        }
+
+        $receipts = $receipts->onlyTrashed()->paginate(20);
+
+        return view('pages.receipt.trash', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
     }
 
     public function forceDelete(int $id)
