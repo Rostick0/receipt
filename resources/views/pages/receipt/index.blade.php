@@ -120,6 +120,22 @@
                                         <input class="input" type="text" name="filterLIKE[retailPlaceAddress]"
                                             value="{{ Request::get('filterLIKE')['retailPlaceAddress'] ?? null }}">
                                     </label>
+                                    <div class="label">
+                                        <div class="label__title">Вид налогооблажени</div>
+                                        <div class="checkbox-multi">
+                                            <input class="checkbox-multi__hidden" name="filterIN[taxationType]"
+                                                type="hidden">
+                                            @foreach ($taxation_types as $item)
+                                                <label class="checbox">
+                                                    {{-- @dd(explode(',', Request::get('filterIN')['taxationType'] ?? '')) --}}
+                                                    <input class="checbox__input" value="{{ $item->id }}"
+                                                        @checked(array_search($item->id, explode(',', Request::get('filterIN')['taxationType'] ?? '')) !== false) type="checkbox">
+                                                    <span class="checbox__icon"></span>
+                                                    <span class="label__title">{{ $item->name }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </details>
                             <details class="details receipt-get-details"

@@ -6,12 +6,16 @@ use App\Filters\Filter;
 use App\Models\Folder;
 use App\Http\Requests\StoreFolderRequest;
 use App\Http\Requests\UpdateFolderRequest;
+use App\Models\OperationType;
+use App\Models\Receipt;
+use App\Models\TaxationType;
 use App\Utils\AccessUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class FolderController extends Controller
 {
+
     private static function getWhere()
     {
         $where = [
@@ -48,7 +52,45 @@ class FolderController extends Controller
         $folder = Filter::one($request, new Folder, $id, $this::getWhere());
         $sum_query = DB::select('select sum(`receipt_sum_sum`) as `sum` from (select `folder_receipts`.*, (select sum(`receipts`.`totalSum`) from `receipts` where `folder_receipts`.`receipt_id` = `receipts`.`id` and `receipts`.`deleted_at` is null) as `receipt_sum_sum` from `folder_receipts` where `folder_receipts`.`folder_id` = ' . $id . ' and `folder_receipts`.`folder_id` is not null) as `helper`;');
 
-        return view('pages.folder.show', compact('folder', 'sum_query'));
+        $operation_types = OperationType::get();
+        $taxation_types = TaxationType::get();
+
+        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'products.price');
+        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'products.price');
+        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'products.sum');
+        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'products.sum');
+        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'totalSum');
+        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'totalSum');
+        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
+        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
+        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'creditSum');
+        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'creditSum');
+
+        if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
+
+        $sort = (new ReceiptController)->sort;
+
+        $receipts = Filter::query($request, new Receipt, (new ReceiptController)->fillable_block);
+
+        if ($request->has('nds_only')) {
+            $receipts = $receipts->where('nds18', '>=', 1)->union(
+                Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('nds10', '>=', 1)
+            );
+        }
+
+        if ($request->has('no_nds_only')) {
+            $receipts = $receipts->where('nds0', '>=', 1)->union(
+                Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('ndsNo', '>=', 1)
+            );
+        }
+
+        $receipts = $receipts
+            ->whereHas('folder_receipts', function ($query) use ($folder) {
+                $query->where('folder_id', $folder->id);
+            })
+            ->paginate(20);
+
+        return view('pages.folder.show', compact(['folder', 'sum_query', 'operation_types', 'taxation_types', 'receipts', 'sort']));
     }
 
     public function edit(int $id)

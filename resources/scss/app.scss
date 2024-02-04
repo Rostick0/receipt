@@ -706,6 +706,10 @@
 
 .folder {
     &-get {
+        &__container {
+            flex-grow: 1;
+        }
+
         &__top {
             margin-bottom: 28px;
         }

@@ -346,9 +346,31 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
 
     if (exactTitle) {
         exactTitle.onchange = setExactTitle;
-   
+
         setExactTitle();
     }
 
 })();
 
+(function () {
+    document.querySelectorAll('form')?.forEach(elem => {
+        elem.onsubmit = e => {
+
+            document.querySelectorAll('.checkbox-multi')?.forEach(item => {
+                const checkboxValues = [];
+                const checkboxMultiHidden = item.querySelector('.checkbox-multi__hidden');
+
+                item.querySelectorAll('.checbox__input')
+                    ?.forEach(checkboxItem => {
+                        if (checkboxItem?.checked) checkboxValues.push(checkboxItem.value);
+                    });
+
+                // console.log(checkboxMultiHidden);
+
+                checkboxMultiHidden.value = checkboxValues?.join(',')
+            });
+
+            return true;
+        }
+    });
+})();

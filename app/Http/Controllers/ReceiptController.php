@@ -17,9 +17,36 @@ use Illuminate\Support\Facades\DB;
 
 class ReceiptController extends Controller
 {
-    private $fillable_block = [
+    public $fillable_block = [
         'nds_only',
         'no_nds_only',
+    ];
+
+    public $sort = [
+        [
+            'name' => 'По дате сканирования (возрастание)',
+            'value' => '-id'
+        ],
+        [
+            'name' => 'По дате сканирования (убывание)',
+            'value' => 'id'
+        ],
+        [
+            'name' => 'По дате покупки (возрастание)',
+            'value' => '-dateTime'
+        ],
+        [
+            'name' => 'По дате покупки (убывание)',
+            'value' => 'dateTime'
+        ],
+        [
+            'name' => 'По сумме итого (возрастание)',
+            'value' => '-totalSum'
+        ],
+        [
+            'name' => 'По сумме итого (убывание)',
+            'value' => 'totalSum'
+        ],
     ];
 
     private static function getWhere()
@@ -27,7 +54,7 @@ class ReceiptController extends Controller
         return [];
     }
 
-    private function requestMergePrice(&$request, $filter, $name)
+    public function requestMergePrice(&$request, $filter, $name)
     {
         if (isset($request[$filter][$name])) $request->merge([$filter => [
             ...$request->input($filter),
@@ -38,6 +65,8 @@ class ReceiptController extends Controller
     public function index(Request $request)
     {
         $operation_types = OperationType::get();
+        $taxation_types = TaxationType::get();
+
         $this->requestMergePrice($request, 'filterLEQ', 'products.price');
         $this->requestMergePrice($request, 'filterGEQ', 'products.price');
         $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
@@ -51,32 +80,7 @@ class ReceiptController extends Controller
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
 
-        $sort = [
-            [
-                'name' => 'По дате сканирования (возрастание)',
-                'value' => '-id'
-            ],
-            [
-                'name' => 'По дате сканирования (убывание)',
-                'value' => 'id'
-            ],
-            [
-                'name' => 'По дате покупки (возрастание)',
-                'value' => '-dateTime'
-            ],
-            [
-                'name' => 'По дате покупки (убывание)',
-                'value' => 'dateTime'
-            ],
-            [
-                'name' => 'По сумме итого (возрастание)',
-                'value' => '-totalSum'
-            ],
-            [
-                'name' => 'По сумме итого (убывание)',
-                'value' => 'totalSum'
-            ],
-        ];
+        $sort = $this->sort;
 
         $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
 
@@ -94,7 +98,7 @@ class ReceiptController extends Controller
 
         $receipts = $receipts->paginate(20);
 
-        return view('pages.receipt.index', compact(['operation_types', 'receipts', 'sort']));
+        return view('pages.receipt.index', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
     }
 
     /**
