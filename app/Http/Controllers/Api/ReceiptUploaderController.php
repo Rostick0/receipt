@@ -10,7 +10,6 @@ use App\Models\Folder;
 use App\Models\Receipt;
 use App\Utils\ReceiptUploaderUtil;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
@@ -57,7 +56,7 @@ class ReceiptUploaderController extends Controller
             foreach ($data as $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
                 $name = 'receipts/' . $user . '-' . $fileContent['ticket']['document']['receipt']['totalSum'] . '.json';
-                file_put_contents($name, Json::encode($fileContent));
+                file_put_contents($name, json_encode($fileContent, JSON_UNESCAPED_UNICODE));
 
                 $zip->addFile($name, basename($name));
             }
