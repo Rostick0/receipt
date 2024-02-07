@@ -125,7 +125,6 @@
                                         <div class="checkbox-multi">
                                             <input class="checkbox-multi__hidden" name="filterIN[taxationType]"
                                                 type="hidden">
-                                                {{-- @dd(Request::get('filterIN')['taxationType']) --}}
                                             @foreach ($taxation_types as $item)
                                                 <label class="checbox">
                                                     <input class="checbox__input" value="{{ $item->id }}"

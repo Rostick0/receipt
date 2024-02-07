@@ -1,4 +1,4 @@
-@props(['receipt', 'classStar', 'folderReceiptId'])
+@props(['receipt', 'classStar', 'folderReceiptId', 'index'])
 
 <div class="receipt-item">
     <div class="receipt-item__top">
@@ -56,9 +56,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($receipt->products as $product)
+                @foreach ($receipt->products as $index => $product)
                     <tr class="receipt-item-info__tr">
-                        <td>{{ $product->id }}</td>
+                        <td>{{ $index + 1 }}</td>
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->price / 100 }}</td>
                         <td>{{ $product->quantity }}</td>
