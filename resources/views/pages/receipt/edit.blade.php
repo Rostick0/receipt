@@ -48,7 +48,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">code</span>
-                                <input class="input" type="text" name="code" maxlength="255"
+                                <input class="input" type="number" name="code" maxlength="20"
                                     value="{{ old('code') ?? $receipt->code }}">
                                 @error('code')
                                     <span class="error">{{ $message }}</span>
@@ -56,7 +56,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">fiscalDocumentFormatVer</span>
-                                <input class="input" type="text" name="fiscalDocumentFormatVer" maxlength="255"
+                                <input class="input" type="number" name="fiscalDocumentFormatVer" maxlength="20"
                                     value="{{ old('fiscalDocumentFormatVer') ?? $receipt->fiscalDocumentFormatVer }}">
                                 @error('fiscalDocumentFormatVer')
                                     <span class="error">{{ $message }}</span>
@@ -66,7 +66,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">ФД*</span>
-                                <input class="input" type="text" name="fiscalDocumentNumber" maxlength="255"
+                                <input class="input" type="number" name="fiscalDocumentNumber" maxlength="20"
                                     value="{{ old('fiscalDocumentNumber') ?? $receipt->fiscalDocumentNumber }}" required>
                                 @error('fiscalDocumentNumber')
                                     <span class="error">{{ $message }}</span>
@@ -74,7 +74,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">ФН*</span>
-                                <input class="input" type="text" name="fiscalDriveNumber" maxlength="255"
+                                <input class="input" type="number" name="fiscalDriveNumber" maxlength="20"
                                     value="{{ old('fiscalDriveNumber') ?? $receipt->fiscalDriveNumber }}" required>
                                 @error('fiscalDriveNumber')
                                     <span class="error">{{ $message }}</span>
@@ -84,7 +84,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">ФПД*</span>
-                                <input class="input" type="text" name="fiscalSign" maxlength="255"
+                                <input class="input" type="number" name="fiscalSign" maxlength="20"
                                     value="{{ old('fiscalSign') ?? $receipt->fiscalSign }}" required>
                                 @error('fiscalSign')
                                     <span class="error">{{ $message }}</span>
@@ -237,15 +237,26 @@
                                 @enderror
                             </label>
                         </div>
-                        <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" name="okved"
-                            date_item_id="{{ old('okved_id') ?? $receipt->okved_id }}"
-                            date_item_name="{{ old('okved_name') ?? ($receipt->okved?->name ?? '') }}"
-                            name="okved_name" />
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">Оператор</span>
+                                <input class="input" type="text" name="operator" maxlength="255"
+                                    value="{{ old('operator') }}">
+                                @error('operator')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД"
+                                name="okved" date_item_id="{{ old('okved_id') ?? $receipt->okved_id }}"
+                                date_item_name="{{ old('okved_name') ?? ($receipt->okved?->name ?? '') }}"
+                                name="okved_name" />
+                        </div>
                     </div>
                     <button class="btn">Изменить</button>
                 </form>
             </div>
-            <form class="form-delete" action="{{ route('receipt.destroy', ['receipt' => $receipt->id]) }}" method="POST">
+            <form class="form-delete" action="{{ route('receipt.destroy', ['receipt' => $receipt->id]) }}"
+                method="POST">
                 @csrf
                 {{ method_field('DELETE') }}
                 <button class="link-red">Удалить</button>

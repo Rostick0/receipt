@@ -45,7 +45,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">code</span>
-                                <input class="input" type="text" name="code" maxlength="255"
+                                <input class="input" type="number" name="code" maxlength="20"
                                     value="{{ old('code') }}">
                                 @error('code')
                                     <span class="error">{{ $message }}</span>
@@ -53,7 +53,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">fiscalDocumentFormatVer</span>
-                                <input class="input" type="text" name="fiscalDocumentFormatVer" maxlength="255"
+                                <input class="input" type="number" name="fiscalDocumentFormatVer" maxlength="20"
                                     value="{{ old('fiscalDocumentFormatVer') }}">
                                 @error('fiscalDocumentFormatVer')
                                     <span class="error">{{ $message }}</span>
@@ -63,7 +63,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">ФД*</span>
-                                <input class="input" type="text" name="fiscalDocumentNumber" maxlength="255"
+                                <input class="input" type="number" name="fiscalDocumentNumber" maxlength="20"
                                     value="{{ old('fiscalDocumentNumber') }}" required>
                                 @error('fiscalDocumentNumber')
                                     <span class="error">{{ $message }}</span>
@@ -71,7 +71,7 @@
                             </label>
                             <label class="label">
                                 <span class="label__title">ФН*</span>
-                                <input class="input" type="text" name="fiscalDriveNumber" maxlength="255"
+                                <input class="input" type="number" name="fiscalDriveNumber" maxlength="20"
                                     value="{{ old('fiscalDriveNumber') }}" required>
                                 @error('fiscalDriveNumber')
                                     <span class="error">{{ $message }}</span>
@@ -81,7 +81,7 @@
                         <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">ФПД*</span>
-                                <input class="input" type="text" name="fiscalSign" maxlength="255"
+                                <input class="input" type="number" name="fiscalSign" maxlength="20"
                                     value="{{ old('fiscalSign') }}" required>
                                 @error('fiscalSign')
                                     <span class="error">{{ $message }}</span>
@@ -234,8 +234,19 @@
                                 @enderror
                             </label>
                         </div>
-                        <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" name="okved" />
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">Оператор</span>
+                                <input class="input" type="text" name="operator" maxlength="255"
+                                    value="{{ old('operator') }}">
+                                @error('operator')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" name="okved" />
+                        </div>
                     </div>
+                   
                     <button class="btn">Создать</button>
                 </form>
                 <h3>Вы также можете загрузить файлом JSON</h3>

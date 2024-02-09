@@ -35,7 +35,7 @@ class ReceiptUploaderUtil
             if (!empty($item['ticket']['document']['receipt']['items'] ?? null)) {
                 foreach ($item['ticket']['document']['receipt']['items'] as $item_product) {
                     $valid = Validator::make($item_product, (new UpdateProductRequest)->rules());
-    
+
                     if ($valid->passes()) {
                         $products[] = [
                             ...$valid->validated(),
@@ -76,5 +76,12 @@ class ReceiptUploaderUtil
             'count' => $access,
             'errors' => $errors,
         ]);
+    }
+
+    public static function getPrice($receipt)
+    {
+        $type = $receipt['cashTotalSum'] > 0 ? 'Наличные' : 'Безналичные';
+
+        return ($receipt['user'] ?? 'no-name') . '-' . substr($receipt['totalSum'], 0, -2) . '.' . substr($receipt['totalSum'], -2) . "($type)" . '.json';
     }
 }

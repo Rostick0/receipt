@@ -22,7 +22,9 @@ class ReceiptUploaderController extends Controller
     {
         $data = collect();
 
-        Folder::find($request->folder_id)?->folder_receipts()->whereHas('receipt', function ($query) {
+        $folder = Folder::find($request->folder_id);
+
+        $folder?->folder_receipts()->whereHas('receipt', function ($query) {
             $query->whereNull('deleted_at');
         })->chunk(200, function ($item) use (&$data) {
             foreach ($item as $elem) {
@@ -55,7 +57,7 @@ class ReceiptUploaderController extends Controller
         if ($zip->open($zip_name, ZipArchive::CREATE) === TRUE) {
             foreach ($data as $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
-                $name = 'receipts/' . $user . '-' . $fileContent['ticket']['document']['receipt']['totalSum'] . '.json';
+                $name = 'receipts/' . ReceiptUploaderUtil::getPrice($fileContent['ticket']['document']['receipt']);
                 file_put_contents($name, json_encode($fileContent, JSON_UNESCAPED_UNICODE));
 
                 $zip->addFile($name, basename($name));
@@ -64,7 +66,7 @@ class ReceiptUploaderController extends Controller
             $zip->close();
         }
 
-        return response()->download($zip_name)->deleteFileAfterSend();
+        return response()->download($zip_name, $folder->name . '.zip')->deleteFileAfterSend();
     }
 
     public function show(ShowReceiptUploaderRequest $request, int $id)

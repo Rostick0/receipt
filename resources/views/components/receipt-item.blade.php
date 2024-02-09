@@ -142,7 +142,7 @@
                 @endcan
                 &ensp;
                 <a class="link" href="{{ route('receipt-upload.show', ['receipt_upload' => $receipt->id]) }}"
-                    download="{{ $receipt->user . '-' . $receipt->totalSum }}.json">Скачать</a>
+                    download="{{ App\Utils\ReceiptUploaderUtil::getPrice($receipt) }}">Скачать</a>
             </div>
         </div>
     </div>

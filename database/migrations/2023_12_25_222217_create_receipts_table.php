@@ -17,11 +17,11 @@ return new class extends Migration
             $table->integer('cashTotalSum')->nullable();
             $table->integer('creditSum')->nullable();
             $table->integer('ecashTotalSum')->nullable();
-            $table->string('code')->nullable();
-            $table->string('fiscalDocumentFormatVer')->nullable();
-            $table->string('fiscalDocumentNumber');
-            $table->string('fiscalDriveNumber');
-            $table->string('fiscalSign');
+            $table->bigInteger('code')->nullable();
+            $table->bigInteger('fiscalDocumentFormatVer')->nullable();
+            $table->bigInteger('fiscalDocumentNumber');
+            $table->bigInteger('fiscalDriveNumber');
+            $table->bigInteger('fiscalSign');
             $table->string('kktRegId');
             $table->integer('nds0')->nullable();
             $table->integer('ndsNo')->nullable();
@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('retailPlace')->nullable();
             $table->string('retailPlaceAddress')->nullable();
             $table->integer('shiftNumber')->nullable();
+            $table->string('operator')->nullable();
             $table->integer('taxationType')->unsigned();
             $table->integer('totalSum')->default(0);
             $table->string('user')->nullable();

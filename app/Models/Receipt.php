@@ -32,6 +32,7 @@ class Receipt extends Model
         'retailPlace',
         'retailPlaceAddress',
         'shiftNumber',
+        'operator',
         'taxationType',
         'totalSum',
         'user',
