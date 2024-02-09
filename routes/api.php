@@ -48,7 +48,7 @@ Route::group([
     Route::group([
         'middleware' => 'auth:api'
     ], function () {
-        Route::apiResource('receipt-upload', ReceiptUploaderController::class)->only(['store']);
+        Route::post('receipt-upload', [ReceiptUploaderController::class, 'store'])->name('receipt-upload.site.store');
 
         Route::apiResource('folder', FolderController::class)->only(['index']);
         Route::apiResource('folder-receipt', FolderReceiptController::class)->only(['store', 'destroy']);

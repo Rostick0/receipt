@@ -255,7 +255,7 @@ class ReceiptController extends Controller
     public function clearRemoved()
     {
         $count = Receipt::onlyTrashed()->count();
-        $limit = 1;
+        $limit = 1000;
 
         for ($i = 0; $i < ceil($count / $limit); $i++) {
             Receipt::onlyTrashed()
@@ -269,43 +269,45 @@ class ReceiptController extends Controller
 
     public function removeDuplicate()
     {
-        // $fields = ['fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign'];
         $limit = 1000;
         $counter = 0;
 
-
-        dd(Receipt::select('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign', 'id', DB::raw('COUNT(*) as count'))
-            ->groupBy('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign')
+        DB::table('')
             ->where('count', '>', '1')
-            ->toSql())
-            // ->chunk(500, function ($receipts) use ($limit, &$counter) {
-            //     foreach ($receipts as $receipt) {
-            //         $count = Receipt::where('id', '!=', $receipt->id)
-            //             ->where([
-            //                 [
-            //                     'fiscalDocumentNumber', '=', $receipt->fiscalDocumentNumber,
-            //                 ], [
-            //                     'fiscalDriveNumber', '=', $receipt->fiscalDriveNumber,
-            //                 ], [
-            //                     'fiscalSign', '=', $receipt->fiscalSign,
-            //                 ]
-            //             ])
-            //             ->count();
+            ->from(
+                Receipt::select('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign', 'id', DB::raw('COUNT(*) as count'))
+                    ->groupBy('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign')
+            )
+            ->orderBy('id')
+            ->chunk(500, function ($receipts) use ($limit, &$counter) {
+                foreach ($receipts as $receipt) {
+                    $where_receipt = [
+                        [
+                            'fiscalDocumentNumber', '=', $receipt->fiscalDocumentNumber,
+                        ], [
+                            'fiscalDriveNumber', '=', $receipt->fiscalDriveNumber,
+                        ], [
+                            'fiscalSign', '=', $receipt->fiscalSign,
+                        ]
+                        ];
 
-            //         dd($count);
-            //         // $counter += $count;
+                    $count = Receipt::where('id', '!=', $receipt->id)
+                        ->where($where_receipt)
+                        ->count();
 
-            //         // for ($i = 0; $i < ceil($count / $limit); $i++) {
-            //         //     Receipt::where('id', '!=', $receipt->id)
-            //         //         ->limit($limit)
-            //         //         ->delete();
-            //         //     sleep(0.01);
-            //         // }
-            //     }
+                    $counter += $count;
 
-            //     sleep(0.05);
-            // })
-            ;
+                    for ($i = 0; $i < ceil($count / $limit); $i++) {
+                        Receipt::where('id', '!=', $receipt->id)
+                            ->where($where_receipt)
+                            ->limit($limit)
+                            ->delete();
+                        sleep(0.01);
+                    }
+                }
+
+                sleep(0.05);
+            });
 
         return redirect()->back()->with([
             'remove_duplicate_count' => $counter,
