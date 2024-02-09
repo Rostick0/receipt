@@ -4,7 +4,7 @@
     $folder_receipts_count = $folder
         ->folder_receipts()
         ->whereHas('receipt', function ($query) {
-            $query->whereNull('deleted_at');
+            // $query->whereNull('deleted_at');
         })
         ->count();
 @endphp
@@ -136,7 +136,6 @@
                                                 type="hidden">
                                             @foreach ($taxation_types as $item)
                                                 <label class="checbox">
-                                                    {{-- @dd(explode(',', Request::get('filterIN')['taxationType'] ?? '')) --}}
                                                     <input class="checbox__input" value="{{ $item->id }}"
                                                         @checked(array_search($item->id, explode(',', Request::get('filterIN')['taxationType'] ?? '')) !== false) type="checkbox">
                                                     <span class="checbox__icon"></span>
@@ -260,7 +259,6 @@
                         <div class="folder-get__info">
                             <strong>{{ $folder->name }}</strong>
                             <div class="folder-get__count">Количество чеков: {{ $folder_receipts_count }}</div>
-                            {{-- {{dd($sum_query[0]->sum)}} --}}
                             <div @isset($sum_query[0]?->sum) $sum_query @endisset class="folder-get__count">
                                 Сумма:
                                 {{ number_format($sum_query[0]?->sum / 100, 2, '.', ' ') }} руб </div>

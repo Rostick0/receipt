@@ -28,8 +28,6 @@ class ReceiptUploaderUtil
                 (new StoreReceiptRequest)->rules()
             );
 
-            // dd($item['ticket']['document']['receipt']);
-
             $products = [];
 
             if (!empty($item['ticket']['document']['receipt']['items'] ?? null)) {

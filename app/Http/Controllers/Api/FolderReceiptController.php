@@ -16,10 +16,21 @@ class FolderReceiptController extends Controller
 {
     public function store(StoreFolderReceiptRequest $request)
     {
+        Folder::whereNotIn('id', QueryString::convertToArray($request->folders))
+            ->where('user_id', auth()->id())
+            ->lazy()
+            ->each(function ($item) use ($request) {
+                $item->folder_receipts()
+                    ->where([
+                        'receipt_id' => $request->receipt_id,
+                    ])
+                    ->delete();
+            });
+
         Folder::whereIn('id', QueryString::convertToArray($request->folders))
             ->lazy()
             ->each(function ($item) use ($request) {
-                $item->folder_receipts()->create([
+                $item->folder_receipts()->firstOrCreate([
                     'receipt_id' => $request->receipt_id,
                 ]);
             });

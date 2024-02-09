@@ -308,8 +308,6 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
                         if (checkboxItem?.checked) checkboxValues.push(checkboxItem.value);
                     });
 
-                // console.log(checkboxMultiHidden);
-
                 checkboxMultiHidden.value = checkboxValues?.join(',')
             });
 
@@ -322,7 +320,6 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
 (function () {
     const formUploadJson = document.querySelector('#form-upload-json');
 
-    console.log(formUploadJson)
     if (!formUploadJson) return;
 
     formUploadJson.onsubmit = async (e) => {
@@ -330,7 +327,6 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
 
         const formData = new FormData(e.target);
         const formProps = Object.fromEntries(formData);
-        console.log(formProps);
 
         try {
             const res = await axios.post('/api/receipt-upload', formProps, {
@@ -350,16 +346,13 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
             classOnce.add(formResult, '_active');
 
             formResultCount.textContent = data?.count;
-            console.log(data?.errors);
 
             if (data?.errors?.length) {
                 data?.errors?.forEach(item => {
                     let divErrors = '';
-                    console.log(item);
                     if (item?.errors) {
                         for (const [key, value] of Object.entries(item?.errors)) {
                             divErrors += `${key}:&ensp;${value}<br />`;
-                            console.log(key, value);
                         }
                     }
 
