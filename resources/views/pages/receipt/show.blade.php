@@ -4,7 +4,6 @@
     <section class="receipt-get">
         <div class="container">
             <x-modal-folders />
-            {{-- @dd($receipt->folder_receipts->where('receipt_id', $receipt->id)->count()) --}}
             <div class="receipt-get__container">
                 <div class="receipt-get__content">
                     <div class="receipt-get__action">
@@ -14,7 +13,6 @@
                         <a class="link" href="{{ route('receipt-upload.show', ['receipt_upload' => $receipt->id]) }}"
                             download="{{ App\Utils\ReceiptUploaderUtil::getPrice($receipt) }}">Скачать</a>
                     </div>
-                    @props(['receipt'])
 
                     <div class="receipt-item _active">
                         <div class="receipt-item__top">
@@ -35,6 +33,9 @@
                             <br>
                             <div class="text-center">
                                 {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}</div>
+                            <div class="text-center">Чек № {{ $receipt->requestNumber ?? '-' }}</div>
+                            <div class="text-center">Смена № {{ $receipt->shiftNumber ?? '-' }}</div>
+                            <div class="text-center">Кассир {{ $receipt->operator ?? '-' }}</div>
                             <div class="text-center">{{ $receipt->operationTypeCollection?->name ?? '-' }}</div>
                             <table class="table receipt-item-info__table">
                                 <thead>
