@@ -58,7 +58,7 @@ class ReceiptUploaderController extends Controller
             foreach ($data as $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
                 $name = 'receipts/' . ReceiptUploaderUtil::getPrice($fileContent['ticket']['document']['receipt']);
-                file_put_contents($name, json_encode($fileContent, JSON_UNESCAPED_UNICODE));
+                file_put_contents($name, json_encode([$fileContent], JSON_UNESCAPED_UNICODE));
 
                 $zip->addFile($name, basename($name));
             }
@@ -74,15 +74,17 @@ class ReceiptUploaderController extends Controller
         $data = Receipt::findOrFail($id);
 
         return response(json_encode([
-            '_id' => $data['id'],
-            'createdAt' => $data->created_at,
-            'ticket' => [
-                'document' => [
-                    'receipt' => [
-                        ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at'])->toArray(),
-                        'items' => $data->products
+            [
+                '_id' => $data['id'],
+                'createdAt' => $data->created_at,
+                'ticket' => [
+                    'document' => [
+                        'receipt' => [
+                            ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at'])->toArray(),
+                            'items' => $data->products
+                        ],
                     ],
-                ],
+                ]
             ]
         ], JSON_UNESCAPED_UNICODE));
     }

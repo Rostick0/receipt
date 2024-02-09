@@ -269,35 +269,43 @@ class ReceiptController extends Controller
 
     public function removeDuplicate()
     {
-        $fields = ['fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign'];
+        // $fields = ['fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign'];
         $limit = 1000;
         $counter = 0;
 
-        foreach ($fields as $field) {
-            Receipt::select($field, 'id', DB::raw('COUNT(*) as count'))
-                ->groupBy($field)
-                ->chunk(500, function ($receipts) use ($field, $limit, &$counter) {
-                    foreach ($receipts as $receipt) {
-                        $count = Receipt::where('id', '!=', $receipt->id)
-                            ->where($field, $receipt[$field])
-                            ->count();
 
-                        $counter += $count;
+        dd(Receipt::select('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign', 'id', DB::raw('COUNT(*) as count'))
+            ->groupBy('fiscalDocumentNumber', 'fiscalDriveNumber', 'fiscalSign')
+            ->where('count', '>', '1')
+            ->toSql())
+            // ->chunk(500, function ($receipts) use ($limit, &$counter) {
+            //     foreach ($receipts as $receipt) {
+            //         $count = Receipt::where('id', '!=', $receipt->id)
+            //             ->where([
+            //                 [
+            //                     'fiscalDocumentNumber', '=', $receipt->fiscalDocumentNumber,
+            //                 ], [
+            //                     'fiscalDriveNumber', '=', $receipt->fiscalDriveNumber,
+            //                 ], [
+            //                     'fiscalSign', '=', $receipt->fiscalSign,
+            //                 ]
+            //             ])
+            //             ->count();
 
-                        for ($i = 0; $i < ceil($count / $limit); $i++) {
-                            Receipt::where('id', '!=', $receipt->id)
-                                ->where($field, $receipt[$field])
-                                ->limit($limit)
-                                ->delete();
-                            sleep(0.01);
-                        }
-                    }
+            //         dd($count);
+            //         // $counter += $count;
 
-                    sleep(0.05);
-                });
+            //         // for ($i = 0; $i < ceil($count / $limit); $i++) {
+            //         //     Receipt::where('id', '!=', $receipt->id)
+            //         //         ->limit($limit)
+            //         //         ->delete();
+            //         //     sleep(0.01);
+            //         // }
+            //     }
 
-            sleep(0.05);
-        }
+            //     sleep(0.05);
+            // })
+            ;
 
         return redirect()->back()->with([
             'remove_duplicate_count' => $counter,
