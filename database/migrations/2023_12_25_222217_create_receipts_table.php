@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('code')->nullable();
             $table->bigInteger('fiscalDocumentFormatVer')->nullable();
             $table->bigInteger('fiscalDocumentNumber');
-            $table->bigInteger('fiscalDriveNumber');
+            $table->string('fiscalDriveNumber');
             $table->bigInteger('fiscalSign');
             $table->string('kktRegId');
             $table->integer('nds0')->nullable();

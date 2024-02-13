@@ -76,10 +76,10 @@ class ReceiptUploaderUtil
         ]);
     }
 
-    public static function getPrice($receipt)
+    public static function getNameFile($receipt)
     {
         $type = $receipt['cashTotalSum'] > 0 ? 'Наличные' : 'Безналичные';
 
-        return ($receipt['user'] ?? 'no-name') . '-' . substr($receipt['totalSum'], 0, -2) . '.' . substr($receipt['totalSum'], -2) . "($type)" . '.json';
+        return (str_replace('"', '_', $receipt['user']) ?? 'no-name') . '-' . substr($receipt['totalSum'], 0, -2) . '.' . substr($receipt['totalSum'], -2) . "($type)" . '.json';
     }
 }

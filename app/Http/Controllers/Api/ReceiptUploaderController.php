@@ -57,7 +57,7 @@ class ReceiptUploaderController extends Controller
         if ($zip->open($zip_name, ZipArchive::CREATE) === TRUE) {
             foreach ($data as $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
-                $name = 'receipts/' . ReceiptUploaderUtil::getPrice($fileContent['ticket']['document']['receipt']);
+                $name = 'receipts/' . ReceiptUploaderUtil::getNameFile($fileContent['ticket']['document']['receipt']);
                 file_put_contents($name, json_encode([$fileContent], JSON_UNESCAPED_UNICODE));
 
                 $zip->addFile($name, basename($name));
@@ -81,6 +81,7 @@ class ReceiptUploaderController extends Controller
                     'document' => [
                         'receipt' => [
                             ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at'])->toArray(),
+                            // 'dateTime' => json_encode($data->dateTime),
                             'items' => $data->products
                         ],
                     ],

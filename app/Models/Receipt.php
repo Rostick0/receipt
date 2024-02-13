@@ -41,6 +41,11 @@ class Receipt extends Model
         'okved_id',
     ];
 
+    protected $casts = [
+        'dateTime' => 'datetime',
+        'fiscalDriveNumber' => 'string',
+    ];
+
     public function products()
     {
         return $this->hasMany(Product::class);
