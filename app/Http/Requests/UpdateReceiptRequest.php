@@ -23,6 +23,7 @@ class UpdateReceiptRequest extends FormRequest
     public function rules(): array
     {
         return [
+            '_id' => 'nullable|max:255',
             'dateTime' => 'nullable|date',
             'cashTotalSum' => 'nullable|numeric',
             'creditSum' => 'nullable|numeric',

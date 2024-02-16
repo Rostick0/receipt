@@ -11,6 +11,7 @@ class Receipt extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        '_id',
         'dateTime',
         'cashTotalSum',
         'creditSum',
@@ -56,15 +57,18 @@ class Receipt extends Model
         return $this->belongsTo(Okved::class);
     }
 
-    public function operationTypeCollection() {
+    public function operationTypeCollection()
+    {
         return $this->belongsTo(OperationType::class, 'operationType');
     }
 
-    public function taxationTypeCollection() {
+    public function taxationTypeCollection()
+    {
         return $this->belongsTo(TaxationType::class, 'taxationType');
     }
 
-    public function folder_receipts() {
+    public function folder_receipts()
+    {
         return $this->hasMany(FolderReceipt::class);
     }
 }
