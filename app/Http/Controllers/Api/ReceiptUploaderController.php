@@ -37,7 +37,7 @@ class ReceiptUploaderController extends Controller
                         'document' => [
                             'receipt' => [
                                 ...$receipt->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime'])->toArray(),
-                                'dateTime' => Carbon::make($data->dateTime)->format('Y-m-d\TH:i:s'),
+                                'dateTime' => Carbon::make($receipt->dateTime)->format('Y-m-d\TH:i:s'),
                                 'items' => $receipt->products
                             ],
                         ],
