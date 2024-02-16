@@ -23,7 +23,7 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
+            'name' => 'nullable|max:255',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'receipt_id' => 'required|' . Rule::exists('receipts', 'id'),
