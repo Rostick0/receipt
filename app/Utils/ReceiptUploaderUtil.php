@@ -80,6 +80,6 @@ class ReceiptUploaderUtil
     {
         $type = $receipt['cashTotalSum'] > 0 ? 'Наличные' : 'Безналичные';
 
-        return (str_replace('"', '_', $receipt['user']) ?? 'no-name') . '-' . substr($receipt['totalSum'], 0, -2) . '.' . substr($receipt['totalSum'], -2) . "($type)" . '.json';
+        return $receipt['id'] . '-' . (str_replace('"', '_', $receipt['user']) ?? 'no-name') . '-' . substr($receipt['totalSum'], 0, -2) . '.' . substr($receipt['totalSum'], -2) . "($type)" . '.json';
     }
 }
