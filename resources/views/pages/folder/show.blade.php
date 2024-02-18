@@ -18,8 +18,8 @@
                     <div class="receipt-get__count">Найдено чеков: {{ $receipts->total() }}</div>
                     <form class="receipt-get__filter" action="{{ url()->current() }}">
                         <select class="input" name="sort">
-                            <option value="" hidden>Сортировка</option>
-                            <option value="">-</option>
+                            <option value="id" hidden>Сортировка</option>
+                            <option value="id">-</option>
                             @foreach ($sort as $item)
                                 <option value="{{ $item['value'] }}">{{ $item['name'] }}</option>
                             @endforeach

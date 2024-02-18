@@ -175,7 +175,7 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
         const res = await axios.get("/api/folder", {
             params: {
                 ...params,
-                limit: 20,
+                limit: 30,
             },
         });
 

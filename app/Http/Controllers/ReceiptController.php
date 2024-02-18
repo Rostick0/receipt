@@ -92,7 +92,6 @@ class ReceiptController extends Controller
         $this->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
-
         $sort = $this->sort;
 
         $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
