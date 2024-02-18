@@ -90,12 +90,12 @@
                                 <div class="receipt-get-details__content">
                                     <label class="label">
                                         <span class="label__title">Покупки от</span>
-                                        <input class="input" type="datetime-local" name="filterGEQ[dateTime]"
+                                        <input class="input" type="date" name="filterGEQ[dateTime]"
                                             value="{{ Request::get('filterGEQ')['dateTime'] ?? null }}">
                                     </label>
                                     <label class="label">
                                         <span class="label__title">Покупки до</span>
-                                        <input class="input" type="datetime-local" name="filterLEQ[dateTime]"
+                                        <input class="input" type="date" name="filterLEQ[dateTime]"
                                             value="{{ Request::get('filterLEQ')['dateTime'] ?? null }}">
                                     </label>
                                 </div>
