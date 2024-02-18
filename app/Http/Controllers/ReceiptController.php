@@ -11,6 +11,7 @@ use App\Models\OperationType;
 use App\Models\TaxationType;
 use App\Utils\AccessUtil;
 use App\Utils\PriceUtil;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,11 +63,7 @@ class ReceiptController extends Controller
         ]]);
     }
 
-    public function index(Request $request)
-    {
-        $operation_types = OperationType::get();
-        $taxation_types = TaxationType::get();
-
+    public function mergePriceAll(&$request) {
         $this->requestMergePrice($request, 'filterLEQ', 'products.price');
         $this->requestMergePrice($request, 'filterGEQ', 'products.price');
         $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
@@ -77,6 +74,22 @@ class ReceiptController extends Controller
         $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
         $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
         $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
+    }
+
+    public function dateTimeAddDay(&$request) {
+        if (isset($request['filterLEQ']['dateTime'])) $request->merge(['filterLEQ' => [
+            ...$request->input('filterLEQ'),
+            'dateTime' => Carbon::make($request['filterLEQ']['dateTime'])->addDay()->format('Y-m-d')
+        ]]);
+    }
+
+    public function index(Request $request)
+    {
+        $operation_types = OperationType::get();
+        $taxation_types = TaxationType::get();
+
+        $this->mergePriceAll($request);
+        $this->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
 
@@ -207,16 +220,8 @@ class ReceiptController extends Controller
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();
 
-        $this->requestMergePrice($request, 'filterLEQ', 'products.price');
-        $this->requestMergePrice($request, 'filterGEQ', 'products.price');
-        $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
-        $this->requestMergePrice($request, 'filterGEQ', 'products.sum');
-        $this->requestMergePrice($request, 'filterLEQ', 'totalSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'totalSum');
-        $this->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
-        $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
+        $this->mergePriceAll($request);
+        $this->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
 

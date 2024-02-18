@@ -55,16 +55,8 @@ class FolderController extends Controller
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();
 
-        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'products.price');
-        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'products.price');
-        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'products.sum');
-        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'products.sum');
-        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'totalSum');
-        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'totalSum');
-        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
-        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
-        (new ReceiptController)->requestMergePrice($request, 'filterLEQ', 'creditSum');
-        (new ReceiptController)->requestMergePrice($request, 'filterGEQ', 'creditSum');
+        (new ReceiptController)->mergePriceAll($request);
+        (new ReceiptController)->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
 
