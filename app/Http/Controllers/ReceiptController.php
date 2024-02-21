@@ -55,28 +55,37 @@ class ReceiptController extends Controller
         return [];
     }
 
-    public function requestMergePrice(&$request, $filter, $name)
+    public function applicationPrice($param, $operator)
+    {
+        if ($operator == '/') return $param / 100;
+
+        return $param * 100;
+    }
+
+    public function requestMergePrice(&$request, $filter, $name, $operator)
     {
         if (isset($request[$filter][$name])) $request->merge([$filter => [
             ...$request->input($filter),
-            $name => $request[$filter][$name] * 100
+            $name => $this->applicationPrice($request[$filter][$name], $operator)
         ]]);
     }
 
-    public function mergePriceAll(&$request) {
-        $this->requestMergePrice($request, 'filterLEQ', 'products.price');
-        $this->requestMergePrice($request, 'filterGEQ', 'products.price');
-        $this->requestMergePrice($request, 'filterLEQ', 'products.sum');
-        $this->requestMergePrice($request, 'filterGEQ', 'products.sum');
-        $this->requestMergePrice($request, 'filterLEQ', 'totalSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'totalSum');
-        $this->requestMergePrice($request, 'filterLEQ', 'cashTotalSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum');
-        $this->requestMergePrice($request, 'filterLEQ', 'creditSum');
-        $this->requestMergePrice($request, 'filterGEQ', 'creditSum');
+    public function mergePriceAll(&$request, $operator = '*')
+    {
+        $this->requestMergePrice($request, 'filterLEQ', 'products.price', $operator);
+        $this->requestMergePrice($request, 'filterGEQ', 'products.price', $operator);
+        $this->requestMergePrice($request, 'filterLEQ', 'products.sum', $operator);
+        $this->requestMergePrice($request, 'filterGEQ', 'products.sum', $operator);
+        $this->requestMergePrice($request, 'filterLEQ', 'totalSum', $operator);
+        $this->requestMergePrice($request, 'filterGEQ', 'totalSum', $operator);
+        $this->requestMergePrice($request, 'filterLEQ', 'cashTotalSum', $operator);
+        $this->requestMergePrice($request, 'filterGEQ', 'cashTotalSum', $operator);
+        $this->requestMergePrice($request, 'filterLEQ', 'creditSum', $operator);
+        $this->requestMergePrice($request, 'filterGEQ', 'creditSum', $operator);
     }
 
-    public function dateTimeAddDay(&$request) {
+    public function dateTimeAddDay(&$request)
+    {
         if (isset($request['filterLEQ']['dateTime'])) $request->merge(['filterLEQ' => [
             ...$request->input('filterLEQ'),
             'dateTime' => Carbon::make($request['filterLEQ']['dateTime'])->addDay()->format('Y-m-d')
@@ -109,6 +118,8 @@ class ReceiptController extends Controller
         }
 
         $receipts = $receipts->paginate(20);
+
+        $this->mergePriceAll($request, '/');
 
         return view('pages.receipt.index', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
     }
@@ -242,6 +253,8 @@ class ReceiptController extends Controller
 
         $receipts = $receipts->onlyTrashed()->paginate(20);
 
+        $this->mergePriceAll($request, '/');
+
         return view('pages.receipt.trash', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
     }
 
@@ -293,7 +306,7 @@ class ReceiptController extends Controller
                         ], [
                             'fiscalSign', '=', $receipt->fiscalSign,
                         ]
-                        ];
+                    ];
 
                     $count = Receipt::where('id', '!=', $receipt->id)
                         ->where($where_receipt)

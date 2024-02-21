@@ -82,6 +82,8 @@ class FolderController extends Controller
             })
             ->paginate(20);
 
+        (new ReceiptController)->mergePriceAll($request, '/');
+
         return view('pages.folder.show', compact(['folder', 'sum_query', 'operation_types', 'taxation_types', 'receipts', 'sort']));
     }
 
