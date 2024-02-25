@@ -51,17 +51,11 @@ class FolderController extends Controller
     {
         $folder = Filter::one($request, new Folder, $id, $this::getWhere(), true);
         $sum_query = DB::select('select sum(`receipt_sum_sum`) as `sum` from (select `folder_receipts`.*, (select sum(`receipts`.`totalSum`) from `receipts` where `folder_receipts`.`receipt_id` = `receipts`.`id` and `receipts`.`deleted_at` is null) as `receipt_sum_sum` from `folder_receipts` where `folder_receipts`.`folder_id` = ' . $id . ' and `folder_receipts`.`folder_id` is not null) as `helper`;');
-        
-
-        $operation_types = OperationType::get();
-        $taxation_types = TaxationType::get();
 
         (new ReceiptController)->mergePriceAll($request);
         (new ReceiptController)->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
-
-        $sort = (new ReceiptController)->sort;
 
         $receipts = Filter::query($request, new Receipt, (new ReceiptController)->fillable_block);
 
@@ -85,12 +79,12 @@ class FolderController extends Controller
 
         (new ReceiptController)->mergePriceAll($request, '/');
 
-        return view('pages.folder.show', compact(['folder', 'sum_query', 'operation_types', 'taxation_types', 'receipts', 'sort']));
+        return view('pages.folder.show', compact(['folder', 'sum_query', 'receipts']));
     }
 
     public function edit(int $id)
     {
-        $folder = Folder::findOrFail($id);
+        $folder = Folder::withTrashed()->findOrFail($id);
 
         return view('pages.folder.edit', compact('folder'));
     }

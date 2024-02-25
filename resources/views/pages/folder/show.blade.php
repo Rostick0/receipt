@@ -13,8 +13,7 @@ $folder_receipts_count = $folder
 <section class="folder-get">
     <div class="container">
         <div class="receipt-get__container">
-            <x-receipt-filter :total="$receipts->total()" :sort="$sort" :taxation_types="$taxation_types"
-                :operation_types="$operation_types" />
+            <x-receipt-filter :total="$receipts->total()" />
             <div class="folder-get__container">
                 <div class="folder-get__top">
                     <div class="folder-get__info">
@@ -39,16 +38,16 @@ $folder_receipts_count = $folder
                     <div class="folder-get__action">
                         <a class="btn" href="{{ route('folder.edit', ['folder' => $folder->id]) }}">Изменить</a>
                         @if ($folder->trashed())
+                        <form action="{{route('folder.restore', ['id' => $folder->id])}}" method="POST">
+                            @csrf
+                            {{ method_field('PATCH') }}
+                            <button class="link">Вернуть сделку в работу</button>
+                        </form>
+                        @else
                         <form action="{{route('folder.destroy', ['folder' => $folder->id])}}" method="POST">
                             @csrf
                             {{ method_field('DELETE') }}
                             <button class="link">Закрыть сделку</button>
-                        </form>
-                        @else
-                        <form action="{{route('folder.restore', ['folder' => $folder->id])}}" method="POST">
-                            @csrf
-                            {{ method_field('PATCH') }}
-                            <button class="link">Вернуть сделку в работу</button>
                         </form>
                         @endif
                     </div>

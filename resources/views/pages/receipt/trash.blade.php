@@ -4,8 +4,7 @@
 <section class="receipt-get">
     <div class="container">
         <div class="receipt-get__container">
-            <x-receipt-filter :total="$receipts->total()" :sort="$sort" :taxation_types="$taxation_types"
-                :operation_types="$operation_types" />
+            <x-receipt-filter :total="$receipts->total()" />
             <div class="receipt-get__content">
                 @if ($receipts->count())
                 <form class="receipt__force-clear" action="{{ route('receipt.clearRemoved') }}" method="POST">

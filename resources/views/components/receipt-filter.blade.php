@@ -1,5 +1,12 @@
 @props(['total', 'sort', 'taxation_types', 'operation_types'])
 
+@php
+$sort = (new App\Http\Controllers\ReceiptController)->sort;
+$taxation_types = App\Models\TaxationType::get();
+$operation_types = App\Models\OperationType::get();
+$users = App\Models\User::get();
+@endphp
+
 <div class="receipt-get__left">
     <div class="receipt-get__count">Найдено чеков: {{ $total }}</div>
     <form class="receipt-get__filter" action="{{ url()->current() }}">
@@ -228,6 +235,28 @@
                             @endif
                         </select>
                     </label>
+                </div>
+            </details>
+            <details class="details receipt-get-details" @empty(Request::get('receipt-user')) open @endempty>
+                <summary class="receipt-get-details__switch">Пользователь</summary>
+                <input class="checkbox__summary" type="checkbox" name="receipt-user"
+                    @checked(!empty(Request::get('receipt-user'))) hidden>
+                <div class="receipt-get-details__content">
+                    <div class="label">
+                        <div class="label__title">Пользователь</div>
+                        <div class="checkbox-multi">
+                            <input class="checkbox-multi__hidden" name="filterIN[user_id]" type="hidden">
+                            @foreach ($users as $item)
+                            <label class="checbox">
+                                <input class="checbox__input" value="{{ $item->id }}" @checked(array_search($item->id,
+                                explode(',',
+                                Request::get('filterIN')['user_id'] ?? '')) !== false) type="checkbox">
+                                <span class="checbox__icon"></span>
+                                <span class="label__title">{{ $item->name }}</span>
+                            </label>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </details>
         </div>

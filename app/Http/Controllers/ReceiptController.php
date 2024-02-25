@@ -94,14 +94,10 @@ class ReceiptController extends Controller
 
     public function index(Request $request)
     {
-        $operation_types = OperationType::get();
-        $taxation_types = TaxationType::get();
-
         $this->mergePriceAll($request);
         $this->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
-        $sort = $this->sort;
 
         $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
 
@@ -121,7 +117,7 @@ class ReceiptController extends Controller
 
         $this->mergePriceAll($request, '/');
 
-        return view('pages.receipt.index', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
+        return view('pages.receipt.index', compact(['receipts']));
     }
 
     /**
@@ -227,15 +223,10 @@ class ReceiptController extends Controller
 
     public function trash(Request $request)
     {
-        $operation_types = OperationType::get();
-        $taxation_types = TaxationType::get();
-
         $this->mergePriceAll($request);
         $this->dateTimeAddDay($request);
 
         if (!isset($request['sort'])) $request->merge(['sort' => 'id']);
-
-        $sort = $this->sort;
 
         $receipts = Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere());
 
@@ -255,7 +246,7 @@ class ReceiptController extends Controller
 
         $this->mergePriceAll($request, '/');
 
-        return view('pages.receipt.trash', compact(['operation_types', 'taxation_types', 'receipts', 'sort']));
+        return view('pages.receipt.trash', compact(['receipts']));
     }
 
     public function forceDelete(int $id)
