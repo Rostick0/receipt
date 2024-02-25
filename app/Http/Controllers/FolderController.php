@@ -84,7 +84,7 @@ class FolderController extends Controller
 
     public function edit(int $id)
     {
-        $folder = Folder::withTrashed()->findOrFail($id);
+        $folder = Folder::findOrFail($id);
 
         return view('pages.folder.edit', compact('folder'));
     }
@@ -117,14 +117,14 @@ class FolderController extends Controller
     {
         $folders = Filter::query($request, new Folder, $this::getWhere());
 
-        $folders = $folders->onlyTrashed()->paginate(20);
+        $folders = $folders->orderBy('client_name')->orderBy('client_id')->onlyTrashed()->paginate(20);
 
         return view('pages.folder.trash', compact('folders'));
     }
 
     public function restore(int $id)
     {
-        $data = Receipt::withTrashed()->findOrFail($id);
+        $data = Folder::withTrashed()->findOrFail($id);
 
         if (AccessUtil::cannot('restore', $data)) return AccessUtil::errorMessage();
 

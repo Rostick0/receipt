@@ -13,6 +13,8 @@ class Folder extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'client_id',
+        'client_name',
     ];
 
     public function user() {

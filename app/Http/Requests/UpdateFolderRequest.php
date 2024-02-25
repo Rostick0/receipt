@@ -22,7 +22,9 @@ class UpdateFolderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'client_id' => 'nullable|numeric|max:16',
+            'client_name' => 'nullable|max:255',
         ];
     }
 }
