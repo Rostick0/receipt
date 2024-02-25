@@ -48,6 +48,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/trash-clear', [ReceiptController::class, 'clearRemoved'])->name('receipt.clearRemoved');
         // clearTrash
     });
+    Route::group(['prefix' => 'folder'], function () {
+        Route::get('/trash', [FolderController::class, 'trash'])->name('folder.trash');
+        Route::patch('/restore/{id}', [FolderController::class, 'restore'])->name('folder.restore');
+    });
 
     Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
 

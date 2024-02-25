@@ -25,6 +25,7 @@ class StoreFolderReceiptRequest extends FormRequest
         return [
             'folders' => 'required',
             'receipt_id' => 'required|' . Rule::exists('receipts', 'id'),
+            'comment' => 'nullable|max:65366',
         ];
     }
 }

@@ -37,12 +37,15 @@ class Filter
         return $data;
     }
 
-    public static function one($request, Model $model, int $id, array $where = [])
+    public static function one($request, Model $model, int $id, array $where = [], $with_trashed = false)
     {
         $data = $model->with(QueryString::convertToArray($request->extends))
-            ->where($where)
-            ->findOrFail($id);
+            ->where($where);
 
-        return $data;
+        if ($with_trashed) {
+            $data->withTrashed();
+        }
+
+        return $data->findOrFail($id);
     }
 }

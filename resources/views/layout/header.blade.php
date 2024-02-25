@@ -8,6 +8,7 @@
 
                     @if (auth()->user()->hasRole('admin'))
                         <a class="header__nav_item" href="{{ route('receipt.trash') }}">Корзина чеков</a>
+                        <a class="header__nav_item" href="{{ route('folder.trash') }}">Закрытие сделки</a>
                         <a class="header__nav_item" href="{{ route('okved.index') }}">Список ОКВЭД</a>
                         <a class="header__nav_item" href="{{ route('okved.create') }}">Добавить ОКВЭД</a>
                         <form action="{{ route('receipt.removeDuplicate') }}" method="post">

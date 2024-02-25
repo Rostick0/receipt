@@ -12,13 +12,16 @@ class FolderReceipt extends Model
     protected $fillable = [
         'receipt_id',
         'folder_id',
+        'comment',
     ];
 
-    public function receipt() {
+    public function receipt()
+    {
         return $this->belongsTo(Receipt::class);
     }
 
-    public function folder() {
+    public function folder()
+    {
         return $this->belongsTo(Folder::class);
     }
 }

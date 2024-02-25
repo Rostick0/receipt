@@ -51,16 +51,16 @@ class FolderPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    // public function restore(User $user, Folder $folder): bool
-    // {
-    //     //
-    // }
+    public function restore(User $user, Folder $folder): bool
+    {
+        return $user->id === $folder->user_id;
+    }
 
     // /**
     //  * Determine whether the user can permanently delete the model.
     //  */
-    // public function forceDelete(User $user, Folder $folder): bool
-    // {
-    //     //
-    // }
+    public function forceDelete(User $user, Folder $folder): bool
+    {
+        return $user->id === $folder->user_id;
+    }
 }

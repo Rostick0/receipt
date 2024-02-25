@@ -1,5 +1,5 @@
-@import './reset';
-@import './helpers';
+@import "./reset";
+@import "./helpers";
 
 :root {
     --blue: rgb(100, 145, 255);
@@ -43,7 +43,7 @@
 .btn {
     background-color: var(--blue);
     color: #fff;
-    border-radius: .75rem;
+    border-radius: 0.75rem;
     padding: 10px 16px;
 
     &:hover {
@@ -88,13 +88,12 @@
         height: 12px;
     }
 
-    &__input:checked+&__icon {
+    &__input:checked + &__icon {
         background-color: var(--blue);
         border-color: var(--blue);
 
         &::before {
             content: "✔";
-
         }
     }
 }
@@ -107,7 +106,7 @@
 
 .form {
     border: 1px solid var(--grey);
-    border-radius: .75rem;
+    border-radius: 0.75rem;
     padding: 20px;
 
     &-get {
@@ -170,7 +169,7 @@
 
 .input {
     border: 1px solid var(--grey);
-    border-radius: .75rem;
+    border-radius: 0.75rem;
     padding: 10px 16px;
 
     &:hover,
@@ -253,6 +252,7 @@
 
 .table {
     border-collapse: collapse;
+    white-space: nowrap;
     width: 100%;
 
     th {
@@ -290,7 +290,7 @@
 }
 
 .modal {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: none;
     align-items: center;
     justify-content: center;
@@ -308,16 +308,12 @@
 
     &__inner {
         background-color: #fff;
-        border-radius: .75rem;
+        border-radius: 0.75rem;
         padding: 20px;
         overflow: auto;
         max-height: calc(100vh - 20px);
-
     }
 }
-
-
-
 
 .wrapper {
     display: flex;
@@ -329,8 +325,6 @@
     flex-grow: 1;
     padding-bottom: 40px;
 }
-
-
 
 .header {
     margin-bottom: 40px;
@@ -405,7 +399,6 @@
     }
 }
 
-
 .auth {
     margin: 20vh auto 0;
     max-width: 325px;
@@ -416,10 +409,8 @@
     }
 }
 
-
 .receipt {
     &-get {
-
         &__container {
             display: flex;
             align-items: flex-start;
@@ -478,14 +469,14 @@
             }
 
             &:first-child &__switch {
-                border-top-left-radius: .5rem;
-                border-top-right-radius: .5rem;
+                border-top-left-radius: 0.5rem;
+                border-top-right-radius: 0.5rem;
             }
 
             &:last-child {
                 .receipt-get-details__switch {
-                    border-bottom-left-radius: .5rem;
-                    border-bottom-right-radius: .5rem;
+                    border-bottom-left-radius: 0.5rem;
+                    border-bottom-right-radius: 0.5rem;
                 }
 
                 &[open] {
@@ -494,8 +485,8 @@
                     }
 
                     .receipt-get-details__content {
-                        border-bottom-left-radius: .5rem;
-                        border-bottom-right-radius: .5rem;
+                        border-bottom-left-radius: 0.5rem;
+                        border-bottom-right-radius: 0.5rem;
                     }
                 }
             }
@@ -534,7 +525,7 @@
             }
 
             .input {
-                border-radius: .5rem;
+                border-radius: 0.5rem;
                 padding: 6px 10px;
                 width: 100%;
             }
@@ -553,17 +544,14 @@
         grid-gap: 30px;
     }
 
-
-
     &-item {
         border: 1px solid var(--grey);
-        border-radius: .75rem;
+        border-radius: 0.75rem;
         padding: 12px;
         font-size: 14px;
 
         &._active {
             .receipt-item {
-
                 &__short-info {
                     display: none;
                 }
@@ -592,11 +580,11 @@
 
         &__star {
             cursor: pointer;
-            line-height: .75;
+            line-height: 0.75;
             transform: translateY(-1px);
 
             path {
-                transition: .2s;
+                transition: 0.2s;
             }
 
             &._active {
@@ -633,7 +621,7 @@
 
         &__date {
             font-size: 14px;
-            opacity: .75;
+            opacity: 0.75;
         }
 
         &__amount {
@@ -681,9 +669,6 @@
     }
 }
 
-
-
-
 .okved {
     &-mutation {
         &__form {
@@ -700,9 +685,6 @@
         }
     }
 }
-
-
-
 
 .folder {
     &-get {
@@ -724,14 +706,13 @@
             font-size: 14px;
         }
 
-        // &__action {
-        //     display: flex;
-        //     align-items: center;
-        //     column-gap: 8px;
-        // }
+        &__action {
+            display: flex;
+            align-items: center;
+            column-gap: 8px;
+        }
     }
 }
-
 
 .modal-folders {
     &__inner {

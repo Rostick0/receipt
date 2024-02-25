@@ -4,14 +4,31 @@ namespace App\Utils;
 
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
 
 class ReceiptUploaderUtil
 {
-    public static function upload($request, $user_id)
+    public static function upload($request, $user_id, $folder_id = null)
     {
+        $folder = null;
+
+        if ($folder_id) {
+            $folder = Folder::find($folder_id);
+
+            if (!$folder) return AccessUtil::errorMessage(
+                'Данного чека не существует',
+                400
+            );
+
+            if (AccessUtil::cannot('update', $folder)) return AccessUtil::errorMessage(
+                'Вы не имеете доступа к загрузке для этой папки',
+                400
+            );
+        }
+
         $errors = [];
         $access = 0;
 
@@ -60,11 +77,24 @@ class ReceiptUploaderUtil
             }
         });
 
-        collect($for_load)->lazy()->chunk(250)->each(function ($items) use ($user_id) {
+        collect($for_load)->lazy()->chunk(250)->each(function ($items) use ($user_id, $folder) {
             foreach ($items as $item) {
                 $receipt = User::find($user_id)->receipts()->create($item['receipt']);
 
                 $receipt->products()->createMany($item['products']);
+
+
+                if ($folder) {
+                    $folder->folder_receipts()->createMany(
+                        collect($item['receipt'])->map(
+                            function ($item) {
+                                return [
+                                    'receipt_id' => $item['receipt']
+                                ];
+                            }
+                        )
+                    );
+                }
             }
 
             sleep(0.05);

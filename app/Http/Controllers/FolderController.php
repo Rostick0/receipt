@@ -49,8 +49,9 @@ class FolderController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $folder = Filter::one($request, new Folder, $id, $this::getWhere());
+        $folder = Filter::one($request, new Folder, $id, $this::getWhere(), true);
         $sum_query = DB::select('select sum(`receipt_sum_sum`) as `sum` from (select `folder_receipts`.*, (select sum(`receipts`.`totalSum`) from `receipts` where `folder_receipts`.`receipt_id` = `receipts`.`id` and `receipts`.`deleted_at` is null) as `receipt_sum_sum` from `folder_receipts` where `folder_receipts`.`folder_id` = ' . $id . ' and `folder_receipts`.`folder_id` is not null) as `helper`;');
+        
 
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();
@@ -116,6 +117,26 @@ class FolderController extends Controller
         Folder::destroy($id);
 
         return redirect()->route('folder.index');
+    }
+
+    public function trash(Request $request)
+    {
+        $folders = Filter::query($request, new Folder, $this::getWhere());
+
+        $folders = $folders->onlyTrashed()->paginate(20);
+
+        return view('pages.folder.trash', compact('folders'));
+    }
+
+    public function restore(int $id)
+    {
+        $data = Receipt::withTrashed()->findOrFail($id);
+
+        if (AccessUtil::cannot('restore', $data)) return AccessUtil::errorMessage();
+
+        $data->restore();
+
+        return redirect()->back();
     }
 
     public function clear(int $id)

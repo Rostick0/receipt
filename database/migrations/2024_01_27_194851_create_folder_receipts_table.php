@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('folder_id')->references('id')->on('folders')->onDelete('cascade');
             $table->foreignId('receipt_id')->references('id')->on('receipts')->onDelete('cascade');
+            $table->text('comment')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
