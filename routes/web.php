@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FolderController;
+use App\Http\Controllers\FolderReceiptController;
 use App\Http\Controllers\OkvedController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceiptController;
@@ -54,6 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+
+    Route::resource('folder-receipt', FolderReceiptController::class)->only(['update']);
 
     Route::resources([
         'receipt' => ReceiptController::class,

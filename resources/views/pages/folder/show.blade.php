@@ -57,15 +57,18 @@
                         @if ($receipts->count())
                             <div class="receipt-list">
                                 @foreach ($receipts as $item)
-                                    <x-receipt-item :receipt="$item" classStar="_remove" :folderReceiptId="$item->folder_receipts->where('folder_id', $folder->id)->first()->id" />
+                                    @php
+                                        $folder_receipt = $item->folder_receipts->where('folder_id', $folder->id)->first();
+                                    @endphp
+                                    <x-receipt-item :receipt="$item" classStar="_remove" :folderReceiptId="$folder_receipt->id"
+                                        :comment="$folder_receipt->comment ?? ''" />
                                 @endforeach
                             </div>
                             <div class="pagination-margin">
                                 {{ $receipts->appends(Request::all())->links('vendor.pagination') }}
                             </div>
                         @else
-                            <div class=" not-found">Ничего не найдено
-                            </div>
+                            <div class="not-found">Ничего не найдено</div>
                         @endif
                     </div>
                 </div>

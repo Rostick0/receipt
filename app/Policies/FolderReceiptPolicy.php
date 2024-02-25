@@ -35,10 +35,10 @@ class FolderReceiptPolicy
     // /**
     //  * Determine whether the user can update the model.
     //  */
-    // public function update(User $user, FolderReceipt $folderReceipt): bool
-    // {
-    //     //
-    // }
+    public function update(User $user, FolderReceipt $folderReceipt): bool
+    {
+        return $user->id === $folderReceipt->folder->user_id;
+    }
 
     /**
      * Determine whether the user can delete the model.

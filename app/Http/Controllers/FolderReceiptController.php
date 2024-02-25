@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FolderReceipt;
 use App\Http\Requests\StoreFolderReceiptRequest;
 use App\Http\Requests\UpdateFolderReceiptRequest;
+use App\Utils\AccessUtil;
 
 class FolderReceiptController extends Controller
 {
@@ -30,6 +31,17 @@ class FolderReceiptController extends Controller
     public function store(StoreFolderReceiptRequest $request)
     {
         
+    }
+
+    public function update(UpdateFolderReceiptRequest $request, int $id)
+    {
+        $data = FolderReceipt::findOrFail($id);
+
+        if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
+
+        $data->update($request->validated());
+
+        return redirect()->back();
     }
 
     /**
