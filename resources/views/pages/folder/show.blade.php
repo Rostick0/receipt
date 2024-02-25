@@ -27,8 +27,9 @@
                                 <a class="ml-auto link"
                                     href="{{ route('receipt-upload.index', [
                                         'folder_id' => $folder->id,
-                                    ]) }}">Скачать
-                                    все</a>
+                                    ]) }}">
+                                    Скачать все
+                                </a>
                                 <form action="{{ route('folder.clear', ['id' => $folder->id]) }}" method="post">
                                     @csrf
                                     {{ method_field('DELETE') }}

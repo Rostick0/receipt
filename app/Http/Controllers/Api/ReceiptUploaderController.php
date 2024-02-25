@@ -21,12 +21,13 @@ class ReceiptUploaderController extends Controller
     public function index(Request $request)
     {
         $data = collect();
+        $data_comments = collect();
 
         $folder = Folder::find($request->folder_id);
 
         $folder?->folder_receipts()->whereHas('receipt', function ($query) {
             $query->whereNull('deleted_at');
-        })->chunk(200, function ($item) use (&$data) {
+        })->chunk(200, function ($item) use (&$data, &$data_comments) {
             foreach ($item as $elem) {
                 $receipt = $elem->receipt;
 
@@ -43,6 +44,8 @@ class ReceiptUploaderController extends Controller
                         ],
                     ]
                 ]);
+
+                $data_comments->push($elem->comment);
             }
 
             sleep(0.05);
@@ -56,12 +59,18 @@ class ReceiptUploaderController extends Controller
         $zip_name = random_int(10, 99) . Carbon::now()->valueOf() . '.zip';
 
         if ($zip->open($zip_name, ZipArchive::CREATE) === TRUE) {
-            foreach ($data as $fileContent) {
+            foreach ($data as $index => $fileContent) {
                 $user = str_replace('"', '_', $fileContent['ticket']['document']['receipt']['user']) ?? 'no-name';
                 $name = 'receipts/' . ReceiptUploaderUtil::getNameFile($fileContent['ticket']['document']['receipt']);
+                $name_txt = 'receipts/' . ReceiptUploaderUtil::getNameFile($fileContent['ticket']['document']['receipt'], 'txt');
                 file_put_contents($name, json_encode([$fileContent], JSON_UNESCAPED_UNICODE));
 
                 $zip->addFile($name, basename($name));
+
+                if ($data_comments[$index]) {
+                    file_put_contents($name_txt, $data_comments[$index]);
+                    $zip->addFile($name_txt, basename($name_txt));
+                }
             }
 
             $zip->close();
