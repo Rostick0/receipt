@@ -88,17 +88,9 @@ class ReceiptUploaderUtil
                 $receipt->products()->createMany($item['products']);
 
                 if ($folder) {
-                    dd($item['receipt']);
-                    $folder->folder_receipts()->createMany(
-                        collect($item['receipt'])->map(
-                            function ($item) {
-                                dd($item);
-                                return [
-                                    'receipt_id' => $item['receipt']
-                                ];
-                            }
-                        )
-                    );
+                    $folder->folder_receipts()->create([
+                        'receipt_id' => $receipt->id,
+                    ]);
                 }
             }
 
