@@ -18,7 +18,14 @@ class ReceiptUploaderUtil
         $folder = null;
 
         if ($folder_id) {
-            $folder = Folder::find($folder_id)->where('user_id', $user_id);
+            $folder = Folder::where([
+                [
+                    'user_id', '=', $user_id,
+                ],
+                [
+                    'id', '=', $folder_id,
+                ]
+            ])->first();
 
             if (!$folder) return AccessUtil::errorMessage(
                 'Данного чека не существует',
