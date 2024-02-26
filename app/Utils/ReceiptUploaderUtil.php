@@ -88,6 +88,7 @@ class ReceiptUploaderUtil
                 $receipt->products()->createMany($item['products']);
 
                 if ($folder) {
+                    dd($item['receipt']);
                     $folder->folder_receipts()->createMany(
                         collect($item['receipt'])->map(
                             function ($item) {
