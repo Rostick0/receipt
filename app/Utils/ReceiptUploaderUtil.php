@@ -13,18 +13,15 @@ class ReceiptUploaderUtil
 {
     public static function upload($request, $user_id, $folder_id = null)
     {
+
+
         $folder = null;
 
         if ($folder_id) {
-            $folder = Folder::find($folder_id);
+            $folder = Folder::find($folder_id)->where('user_id', $user_id);
 
             if (!$folder) return AccessUtil::errorMessage(
                 'Данного чека не существует',
-                400
-            );
-
-            if (AccessUtil::cannot('update', $folder)) return AccessUtil::errorMessage(
-                'Вы не имеете доступа к загрузке для этой папки',
                 400
             );
         }
