@@ -1,4 +1,4 @@
-@props(['receipt', 'classStar', 'folderReceiptId', 'index', 'comment'])
+@props(['receipt', 'classStar', 'folderReceiptId', 'index', 'comment', 'action'])
 
 <div class="receipt-item">
     <div class="receipt-item__top">
@@ -15,7 +15,7 @@
                 stroke-linejoin="round" />
         </svg>
         <div class="receipt-item__action">
-            {{ $action ?? '' }}
+            {!! $action ?? '' !!}
             <button class="link receipt-item__more">
                 <span class="receipt-item__more_active">Подробнее</span>
                 <span class="receipt-item__more_hidden">Скрыть</span>

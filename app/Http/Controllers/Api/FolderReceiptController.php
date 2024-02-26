@@ -16,24 +16,40 @@ class FolderReceiptController extends Controller
 {
     public function store(StoreFolderReceiptRequest $request)
     {
-        Folder::whereNotIn('id', QueryString::convertToArray($request->folders))
-            ->where('user_id', auth()->id())
-            ->lazy()
-            ->each(function ($item) use ($request) {
-                $item->folder_receipts()
-                    ->where([
-                        'receipt_id' => $request->receipt_id,
-                    ])
-                    ->delete();
-            });
+        $receipts = QueryString::convertToArray($request->receipt_id);
 
-        Folder::whereIn('id', QueryString::convertToArray($request->folders))
-            ->lazy()
-            ->each(function ($item) use ($request) {
-                $item->folder_receipts()->firstOrCreate([
-                    'receipt_id' => $request->receipt_id,
-                ]);
-            });
+        if (count($receipts) > 1) {
+            foreach ($receipts as $receipt_id) {
+                Folder::whereIn('id', QueryString::convertToArray($request->folders))
+                    ->lazy()
+                    ->each(function ($item) use ($receipt_id) {
+                        $item->folder_receipts()->firstOrCreate([
+                            'receipt_id' => $receipt_id,
+                        ]);
+                    });
+            }
+        } else {
+            $receipt_id = $receipts[0];
+
+            Folder::whereNotIn('id', QueryString::convertToArray($request->folders))
+                    ->where('user_id', auth()->id())
+                    ->lazy()
+                    ->each(function ($item) use ($receipt_id) {
+                        $item->folder_receipts()
+                            ->where([
+                                'receipt_id' => $receipt_id,
+                            ])
+                            ->delete();
+                    });
+
+                Folder::whereIn('id', QueryString::convertToArray($request->folders))
+                    ->lazy()
+                    ->each(function ($item) use ($receipt_id) {
+                        $item->folder_receipts()->firstOrCreate([
+                            'receipt_id' => $receipt_id,
+                        ]);
+                    });
+        }
 
         return new JsonResponse([
             'message' => 'Created'

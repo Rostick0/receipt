@@ -452,6 +452,19 @@
         &__content {
             align-self: stretch;
             flex-grow: 1;
+            position: relative;
+        }
+
+        &-many-add {
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: translateY(-125%);
+
+            &__btn {
+                display: flex;
+                column-gap: 4px;
+            }
         }
 
         &-details {
@@ -736,6 +749,7 @@
 
             &::before {
                 font-size: 13px;
+                line-height: 1;
             }
         }
 
