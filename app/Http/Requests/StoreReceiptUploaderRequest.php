@@ -25,6 +25,7 @@ class StoreReceiptUploaderRequest extends FormRequest
         return [
             'upload' => 'required|file|mimes:json',
             'chat_id' => 'nullable|numeric|' . Rule::exists('user_telegrams', 'telegram_user_id'),
+            'folder_id' => 'nullable|' . Rule::exists('folders', 'folder_id'),
         ];
     }
 }

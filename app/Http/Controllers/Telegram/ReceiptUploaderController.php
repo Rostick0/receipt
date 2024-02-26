@@ -22,6 +22,6 @@ class ReceiptUploaderController extends Controller
     {
         $user_telegram = UserTelegram::where('telegram_user_id', $request->chat_id)->firstOrFail();
 
-        return ReceiptUploaderUtil::upload($request, $user_telegram->user_id);
+        return ReceiptUploaderUtil::upload($request, $user_telegram->user_id, $request->folder_id);
     }
 }
