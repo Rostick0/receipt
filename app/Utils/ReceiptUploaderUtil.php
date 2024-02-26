@@ -18,7 +18,6 @@ class ReceiptUploaderUtil
         if ($folder_id) {
             $folder = Folder::find($folder_id);
 
-            dd(5);
             if (!$folder) return AccessUtil::errorMessage(
                 'Данного чека не существует',
                 400

@@ -14,7 +14,7 @@ class AccessUtil
 
     public static function errorMessage($message = null, $code = 403): JsonResponse
     {
-        if (!$message) {
+        if ($message) {
             return new JsonResponse([
                 'message' => $message
             ], $code);
