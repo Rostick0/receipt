@@ -18,6 +18,7 @@ class ReceiptUploaderUtil
         if ($folder_id) {
             $folder = Folder::find($folder_id);
 
+            dd(5);
             if (!$folder) return AccessUtil::errorMessage(
                 'Данного чека не существует',
                 400
@@ -84,7 +85,6 @@ class ReceiptUploaderUtil
                 $receipt->products()->createMany($item['products']);
 
                 if ($folder) {
-                    dd($folder->folder_receipts);
                     $folder->folder_receipts()->createMany(
                         collect($item['receipt'])->map(
                             function ($item) {
