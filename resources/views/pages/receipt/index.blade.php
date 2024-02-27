@@ -24,10 +24,9 @@
                         <div class="receipt-list">
                             @foreach ($receipts as $item)
                                 @php
-                                    $action = '<label class=""><input type="checkbox" value="' . $item->id . '" />✔</label>';
-                                    // action="$action"
+                                    $action = '<label class="receipt-item__checkbox"><input class="receipt-item__checkbox_input" type="checkbox" value="' . $item->id . '" /><span class="receipt-item__checkbox_icon">✔</span></label>';
                                 @endphp
-                                <x-receipt-item :receipt="$item" : />
+                                <x-receipt-item :receipt="$item" :action="$action" />
                             @endforeach
                         </div>
                         <div class="pagination-margin">

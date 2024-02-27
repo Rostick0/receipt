@@ -39,6 +39,39 @@ const useState = (defaultValue = null) => {
     return [getValue, setValue];
 };
 
+const modalFolders = document.querySelector(".modal-folders");
+const modalFoldersList = document.querySelector(".modal-folders__list");
+
+const getFolder = async (params = {}, hasEmptyFolders = false) => {
+    const res = await axios.get("/api/folder", {
+        params: {
+            ...params,
+            limit: 30,
+        },
+    });
+
+    const data = res?.data?.data?.data;
+
+    if (hasEmptyFolders && !res?.data?.data.total) {
+        modalFoldersList.innerHTML = `<span>Отсутствуют папки, вы можете <a class="link" href="/folder/create">создать</a></span>`;
+    } else {
+        data?.forEach((item) => {
+            modalFoldersList.insertAdjacentHTML(
+                "beforeend",
+                `<label class="checbox modal-folders__checkbox">
+                    <input class="checbox__input modal-folders__input" ${
+                        item?.folder_receipts?.length ? "checked" : ""
+                    } type="checkbox" value="${item?.id}">
+                    <span class="checbox__icon"></span>
+                    <span class="label__title">${item?.name}</span>
+                </label>`
+            );
+        });
+    }
+
+    return res;
+};
+
 const [receiptActiveId, setReceiptActiveId] = useState();
 const [selectedFolderStar, setSelectedFolderStar] = useState();
 
@@ -170,36 +203,6 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
     const receiptItems = document.querySelectorAll(".receipt-item");
     const modalFolders = document.querySelector(".modal-folders");
     const modalFoldersList = document.querySelector(".modal-folders__list");
-
-    const getFolder = async (params = {}, hasEmptyFolders = false) => {
-        const res = await axios.get("/api/folder", {
-            params: {
-                ...params,
-                limit: 30,
-            },
-        });
-
-        const data = res?.data?.data?.data;
-
-        if (hasEmptyFolders && !res?.data?.data.total) {
-            modalFoldersList.innerHTML = `<span>Отсутствуют папки, вы можете <a class="link" href="/folder/create">создать</a></span>`;
-        } else {
-            data?.forEach((item) => {
-                modalFoldersList.insertAdjacentHTML(
-                    "beforeend",
-                    `<label class="checbox modal-folders__checkbox">
-                    <input class="checbox__input modal-folders__input" ${
-                        item?.folder_receipts?.length ? "checked" : ""
-                    } type="checkbox" value="${item?.id}">
-                    <span class="checbox__icon"></span>
-                    <span class="label__title">${item?.name}</span>
-                </label>`
-                );
-            });
-        }
-
-        return res;
-    };
 
     receiptItems?.forEach((item) => {
         const more = item.querySelector(".receipt-item__more");
@@ -439,5 +442,98 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
         } catch (e) {
             alert("Некорректный файл");
         }
+    };
+})();
+
+(function () {
+    const receiptManyAddBtn = document.querySelector(
+        ".receipt-get-many-add__btn"
+    );
+    const receiptInputs = document.querySelectorAll(
+        ".receipt-item__checkbox_input"
+    );
+    const modalFolders = document.querySelector(".modal-folders");
+    const modalFoldersList = document.querySelector(".modal-folders__list");
+
+    if (!receiptManyAddBtn || !receiptInputs?.length || !modalFoldersList)
+        return;
+
+    const [selected, setSelected] = useState();
+
+    receiptManyAddBtn.onclick = async (e) => {
+        e.preventDefault();
+
+        setSelected(
+            [...receiptInputs]
+                ?.filter((item) => item?.checked)
+                ?.map((item) => item.value)
+                ?.join(",")
+        );
+
+        classOnce.add(modalFolders, "_active");
+
+        modalFoldersList.innerHTML = "";
+
+        const res = await getFolder({}, true);
+
+        if (res?.data?.data?.last_page == 1) return;
+
+        modalFoldersList.onscroll = throttle(async function (e) {
+            if (isTotalPage()) {
+                modalFoldersList.onscroll = null;
+                return;
+            }
+
+            if (
+                this.scrollTop >
+                this.scrollHeight -
+                    this.clientHeight -
+                    this.lastElementChild.getBoundingClientRect().height * 3
+            ) {
+                setPage(page() + 1);
+                const res = await getFolder({
+                    page: page(),
+                });
+
+                if (
+                    res?.data?.data?.current_page >= res?.data?.data?.last_page
+                ) {
+                    setIsTotalPage(true);
+                }
+            }
+        }, 200);
+    };
+
+    const modalFolderBtn = modalFolders.querySelector(".modal-folders__btn");
+
+    modalFolderBtn.onclick = async () => {
+        const modalFoldersInputs = document.querySelectorAll(
+            ".modal-folders__input"
+        );
+
+        const folders = [...modalFoldersInputs]
+            ?.filter((item) => item.checked)
+            .map((item) => item?.value)
+            ?.join(",");
+
+        const res = await axios.post("/api/folder-receipt", {
+            folders,
+            receipt_id: selected(),
+        });
+
+        if (folders) {
+            selected()
+                .split(",")
+                ?.forEach((item) => {
+                    const folderStar = document.querySelector(
+                        `.receipt-item__star[data-id="${item}"]`
+                    );
+                    classOnce.add(folderStar, "_active");
+                });
+        }
+
+        receiptInputs.forEach((elem) => (elem.checked = false));
+
+        classOnce.remove(modalFolders, "_active");
     };
 })();

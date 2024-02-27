@@ -617,6 +617,12 @@
             }
         }
 
+        &__checkbox {
+            &_input:checked + &_icon {
+                color: rgb(255, 160, 0);
+            }
+        }
+
         &__more {
             font-size: 95%;
 
