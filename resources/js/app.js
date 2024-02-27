@@ -74,6 +74,7 @@ const getFolder = async (params = {}, hasEmptyFolders = false) => {
 
 const [receiptActiveId, setReceiptActiveId] = useState();
 const [selectedFolderStar, setSelectedFolderStar] = useState();
+const [selected, setSelected] = useState();
 
 (function () {
     const selectAsyncSearch = document.querySelectorAll(".select-async-search");
@@ -199,6 +200,69 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
     });
 })();
 
+const modalFolderBtnOnclick = async () => {
+    if (selectedFolderStar()) {
+        const modalFoldersInputs = document.querySelectorAll(
+            ".modal-folders__input"
+        );
+
+        const folderStar = selectedFolderStar();
+
+        const folders = [...modalFoldersInputs]
+            ?.filter((item) => item.checked)
+            .map((item) => item?.value)
+            ?.join(",");
+
+        const res = await axios.post("/api/folder-receipt", {
+            folders,
+            receipt_id: receiptActiveId(),
+        });
+
+        if (folders) {
+            classOnce.add(folderStar, "_active");
+        } else {
+            classOnce.remove(folderStar, "_active");
+        }
+
+        classOnce.remove(modalFolders, "_active");
+
+        setSelectedFolderStar(null);
+        return;
+    }
+
+    const modalFoldersInputs = document.querySelectorAll(
+        ".modal-folders__input"
+    );
+
+    const folders = [...modalFoldersInputs]
+        ?.filter((item) => item.checked)
+        .map((item) => item?.value)
+        ?.join(",");
+
+    const res = await axios.post("/api/folder-receipt", {
+        folders,
+        receipt_id: selected(),
+    });
+
+    if (folders) {
+        selected()
+            .split(",")
+            ?.forEach((item) => {
+                const folderStar = document.querySelector(
+                    `.receipt-item__star[data-id="${item}"]`
+                );
+                classOnce.add(folderStar, "_active");
+            });
+    }
+
+    const receiptInputs = document.querySelectorAll(
+        ".receipt-item__checkbox_input"
+    );
+    receiptInputs.forEach((elem) => (elem.checked = false));
+
+    classOnce.remove(modalFolders, "_active");
+};
+
 (function () {
     const receiptItems = document.querySelectorAll(".receipt-item");
     const modalFolders = document.querySelector(".modal-folders");
@@ -287,31 +351,7 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
             ".modal-folders__btn"
         );
 
-        modalFolderBtn.onclick = async () => {
-            const modalFoldersInputs = document.querySelectorAll(
-                ".modal-folders__input"
-            );
-
-            const folderStar = selectedFolderStar();
-
-            const folders = [...modalFoldersInputs]
-                ?.filter((item) => item.checked)
-                .map((item) => item?.value)
-                ?.join(",");
-
-            const res = await axios.post("/api/folder-receipt", {
-                folders,
-                receipt_id: receiptActiveId(),
-            });
-
-            if (folders) {
-                classOnce.add(folderStar, "_active");
-            } else {
-                classOnce.remove(folderStar, "_active");
-            }
-
-            classOnce.remove(modalFolders, "_active");
-        };
+        modalFolderBtn.onclick = modalFolderBtnOnclick;
     }
 })();
 
@@ -458,8 +498,6 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
     if (!receiptManyAddBtn || !receiptInputs?.length || !modalFoldersList)
         return;
 
-    const [selected, setSelected] = useState();
-
     receiptManyAddBtn.onclick = async (e) => {
         const [isTotalPage, setIsTotalPage] = useState(false);
         const [page, setPage] = useState(1);
@@ -505,38 +543,5 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
                 }
             }
         }, 200);
-    };
-
-    const modalFolderBtn = modalFolders.querySelector(".modal-folders__btn");
-
-    modalFolderBtn.onclick = async () => {
-        const modalFoldersInputs = document.querySelectorAll(
-            ".modal-folders__input"
-        );
-
-        const folders = [...modalFoldersInputs]
-            ?.filter((item) => item.checked)
-            .map((item) => item?.value)
-            ?.join(",");
-
-        const res = await axios.post("/api/folder-receipt", {
-            folders,
-            receipt_id: selected(),
-        });
-
-        if (folders) {
-            selected()
-                .split(",")
-                ?.forEach((item) => {
-                    const folderStar = document.querySelector(
-                        `.receipt-item__star[data-id="${item}"]`
-                    );
-                    classOnce.add(folderStar, "_active");
-                });
-        }
-
-        receiptInputs.forEach((elem) => (elem.checked = false));
-
-        classOnce.remove(modalFolders, "_active");
     };
 })();
