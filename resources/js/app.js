@@ -461,6 +461,9 @@ const [selectedFolderStar, setSelectedFolderStar] = useState();
     const [selected, setSelected] = useState();
 
     receiptManyAddBtn.onclick = async (e) => {
+        const [isTotalPage, setIsTotalPage] = useState(false);
+        const [page, setPage] = useState(1);
+
         e.preventDefault();
 
         setSelected(
