@@ -69,7 +69,6 @@ class ReceiptUploaderUtil
                 $for_load[] = [
                     'receipt' => [
                         ...$validator->validated(),
-                        'totalSum' => 0
                     ],
                     'products' => $products
                 ];

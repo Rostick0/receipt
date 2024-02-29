@@ -28,6 +28,7 @@ class StoreReceiptRequest extends FormRequest
             'cashTotalSum' => 'nullable|numeric',
             'creditSum' => 'nullable|numeric',
             'ecashTotalSum' => 'nullable|numeric',
+            'totalSum' => 'nullable|numeric',
             'code' => 'nullable|numeric|digits_between:1,20',
             'fiscalDocumentFormatVer' => 'nullable|numeric|digits_between:1,20',
             'fiscalDocumentNumber' => 'required|numeric|digits_between:1,20',

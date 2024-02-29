@@ -243,16 +243,27 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
-                            <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД" name="okved" />
+                            <x-select-async-search data_url="/api/okved" title="ОКВЭД" placeholder="ОКВЭД"
+                                name="okved" />
+                        </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">totalSum</span>
+                                <input class="input" type="number" name="totalSum" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('totalSum')) }}">
+                                @error('totalSum')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
                         </div>
                     </div>
-                   
+
                     <button class="btn">Создать</button>
                 </form>
                 <h3>Вы также можете загрузить файлом JSON</h3>
                 <br>
-                <form class="form" id="form-upload-json" action="{{ route('receipt-upload.site.store') }}" method="POST"
-                    enctype="multipart/form-data">
+                <form class="form" id="form-upload-json" action="{{ route('receipt-upload.site.store') }}"
+                    method="POST" enctype="multipart/form-data">
                     <div class="form__inputs">
                         <label class="label">
                             <div class="span__label">Загрузка json</div>

@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'folder'], function () {
         Route::get('/trash', [FolderController::class, 'trash'])->name('folder.trash');
         Route::patch('/restore/{id}', [FolderController::class, 'restore'])->name('folder.restore');
+        Route::delete('/trash/{id}', [FolderController::class, 'forceDelete'])->name('folder.forceDelete');
     });
 
     Route::resource('product', ProductController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);

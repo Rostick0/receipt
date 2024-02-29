@@ -30,7 +30,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Okved::observe(OkvedObserver::class);
-        Product::observe(ProductObserver::class);
+        // Product::observe(ProductObserver::class);
     }
 
     /**

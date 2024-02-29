@@ -92,6 +92,14 @@ class ReceiptController extends Controller
         ]]);
     }
 
+    public function dateTimeRemoveDay(&$request)
+    {
+        if (isset($request['filterLEQ']['dateTime'])) $request->merge(['filterLEQ' => [
+            ...$request->input('filterLEQ'),
+            'dateTime' => Carbon::make($request['filterLEQ']['dateTime'])->addDays(-1)->format('Y-m-d')
+        ]]);
+    }
+
     public function index(Request $request)
     {
         $this->mergePriceAll($request);
@@ -116,6 +124,7 @@ class ReceiptController extends Controller
         $receipts = $receipts->paginate(20);
 
         $this->mergePriceAll($request, '/');
+        $this->dateTimeRemoveDay($request);
 
         return view('pages.receipt.index', compact(['receipts']));
     }
@@ -245,6 +254,7 @@ class ReceiptController extends Controller
         $receipts = $receipts->onlyTrashed()->paginate(20);
 
         $this->mergePriceAll($request, '/');
+        $this->dateTimeRemoveDay($request);
 
         return view('pages.receipt.trash', compact(['receipts']));
     }

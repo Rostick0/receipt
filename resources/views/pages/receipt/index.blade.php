@@ -24,7 +24,14 @@
                         <div class="receipt-list">
                             @foreach ($receipts as $item)
                                 @php
-                                    $action = '<label class="receipt-item__checkbox"><input class="receipt-item__checkbox_input" type="checkbox" value="' . $item->id . '" /><span class="receipt-item__checkbox_icon">✔</span></label>';
+                                    $action =
+                                        '<label class="checbox receipt-item__checkbox"><input class="checbox__input receipt-item__checkbox_input" value="' .
+                                        $item->id .
+                                        '" type="checkbox"><span class="checbox__icon"></span></label>';
+                                    // $action =
+                                    // '<label class="receipt-item__checkbox "><input class="receipt-item__checkbox_input" type="checkbox" value="' .
+                                    // $item->id .
+                                    // '" /><span class="receipt-item__checkbox_icon">✔</span></label>';
                                 @endphp
                                 <x-receipt-item :receipt="$item" :action="$action" />
                             @endforeach

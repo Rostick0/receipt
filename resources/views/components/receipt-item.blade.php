@@ -99,7 +99,7 @@
             @endif
             @if ($receipt->nds18)
                 <div class="d-flex justify-content-between">
-                    <div>НДС 18%:</div>
+                    <div>НДС 20%:</div>
                     <div>{{ $receipt->nds18 }}</div>
                 </div>
             @endif
@@ -142,7 +142,7 @@
                     @csrf
                     <label class="label mb-1">
                         <span class="label__title">Комментарий</span>
-                        <textarea name="comment" rows="5" class="input" maxlength="65536" required>{{ $comment }}</textarea>
+                        <textarea name="comment" rows="5" class="input" maxlength="65536">{{ $comment }}</textarea>
                     </label>
                     {{ method_field('PATCH') }}
                     <button class="btn">Сохранить</button>

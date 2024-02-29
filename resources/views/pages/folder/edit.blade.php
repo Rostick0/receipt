@@ -36,11 +36,18 @@
                     {{ method_field('PATCH') }}
                     <button class="btn">Изменить</button>
                 </form>
-                <form class="form-delete" action="{{ route('folder.destroy', ['folder' => $folder->id]) }}" method="POST">
-                    @csrf
-                    {{ method_field('DELETE') }}
-                    <button class="link-red">Закрыть сделку</button>
-                </form>
+                <div class="d-flex form-delete">
+                    <form action="{{ route('folder.destroy', ['folder' => $folder->id]) }}" method="POST">
+                        @csrf
+                        {{ method_field('DELETE') }}
+                        <button class="link-red">Закрыть сделку</button>
+                    </form>
+                    <form action="{{ route('folder.forceDelete', ['id' => $folder->id]) }}" method="POST">
+                        @csrf
+                        {{ method_field('DELETE') }}
+                        <button class="link-red">Удалить сделку</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

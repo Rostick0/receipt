@@ -27,7 +27,7 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $folders = Filter::all($request, new Folder, $this::getWhere());
+        $folders = Filter::query($request, new Folder, $this::getWhere())->get();
 
         return view('pages.folder.index', compact('folders'));
     }
@@ -77,6 +77,7 @@ class FolderController extends Controller
             })
             ->paginate(20);
 
+        (new ReceiptController)->dateTimeRemoveDay($request);
         (new ReceiptController)->mergePriceAll($request, '/');
 
         return view('pages.folder.show', compact(['folder', 'sum_query', 'receipts']));
@@ -131,6 +132,17 @@ class FolderController extends Controller
         $data->restore();
 
         return redirect()->back();
+    }
+
+    public function forceDelete($id)
+    {
+        $data = Folder::withTrashed()->findOrFail($id);
+
+        if (AccessUtil::cannot('forceDelete', $data)) return AccessUtil::errorMessage();
+
+        $data->forceDelete();
+
+        return redirect()->route('folder.index');
     }
 
     public function clear(int $id)

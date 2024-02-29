@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->default('');
             $table->integer('price');
-            $table->integer('quantity');
+            $table->float('quantity');
             $table->integer('sum');
             $table->foreignId('receipt_id')->references('id')->on('receipts')->onDelete('cascade');
             $table->timestamps();

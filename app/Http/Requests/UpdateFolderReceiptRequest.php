@@ -22,7 +22,7 @@ class UpdateFolderReceiptRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment' => 'required|max:65536'
+            'comment' => 'nullable|max:65536'
         ];
     }
 }

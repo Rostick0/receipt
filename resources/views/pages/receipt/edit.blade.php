@@ -251,6 +251,16 @@
                                 date_item_name="{{ old('okved_name') ?? ($receipt->okved?->name ?? '') }}"
                                 name="okved_name" />
                         </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">totalSum</span>
+                                <input class="input" type="number" name="totalSum" step="0.01"
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('totalSum') ?? $receipt->totalSum) }}">
+                                @error('totalSum')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
                     </div>
                     <button class="btn">Изменить</button>
                 </form>

@@ -19,7 +19,21 @@
                             <th>Действие</th>
                             <th>Дата закрытия</th>
                         </thead>
-                        @foreach ($folders as $folder)
+                        @foreach ($folders as $index => $folder)
+                            @if (
+                                $index > 0 &&
+                                    ($folders[$index - 1]['client_name'] !== $folder->client_name ||
+                                        $folders[$index - 1]['client_id'] !== $folder->client_id))
+                                <tr class="folder-get__client">
+                                    <td class="folder-get__client_name">
+                                        <div class="folder-get__client_name_text">
+                                            {{ $folder->client_name }}
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td class="folder-get__client_name_hidden">{{ $folder->client_name }}</td>
+                                </tr>
+                            @endif
                             <tr class="folder-item">
                                 <td>{{ $folder->id }}</td>
                                 <td style="width: 100%">

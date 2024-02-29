@@ -133,6 +133,7 @@
     }
 
     &-delete {
+        column-gap: 12px;
         margin-top: 20px;
     }
 
@@ -609,7 +610,6 @@
 
         &__action {
             display: flex;
-            column-gap: 8px;
             margin-left: auto;
 
             button {
@@ -729,6 +729,34 @@
             display: flex;
             align-items: center;
             column-gap: 8px;
+        }
+
+        &__client {
+            .folder-get__client {
+                &_name {
+                    padding: 18px 0;
+                }
+            }
+
+            &_name {
+                position: relative;
+
+                &_text {
+                    font-size: 20px;
+                    font-weight: 700;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                &_hidden {
+                    cursor: default;
+                    user-select: none;
+                    pointer-events: none;
+                    opacity: 0;
+                }
+            }
         }
     }
 }
