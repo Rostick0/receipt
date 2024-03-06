@@ -46,6 +46,7 @@ const getFolder = async (params = {}, hasEmptyFolders = false) => {
     const res = await axios.get("/api/folder", {
         params: {
             ...params,
+            sort: 'id',
             limit: 30,
         },
     });

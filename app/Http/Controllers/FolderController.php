@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateFolderRequest;
 use App\Models\OperationType;
 use App\Models\Receipt;
 use App\Models\TaxationType;
+use App\Models\User;
 use App\Utils\AccessUtil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,9 +28,17 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $folders = Filter::query($request, new Folder, $this::getWhere())->get();
+        $folders = Filter::query($request, new Folder, [], $this::getWhere())->get();
 
         return view('pages.folder.index', compact('folders'));
+    }
+
+    public function all(Request $request)
+    {
+        // $folders = Filter::query($request, new Folder)->get();
+        $folders = Filter::all($request, new Folder);
+
+        return view('pages.folder.all', compact('folders'));
     }
 
     public function create()
@@ -86,8 +95,9 @@ class FolderController extends Controller
     public function edit(int $id)
     {
         $folder = Folder::findOrFail($id);
+        $users = User::all();
 
-        return view('pages.folder.edit', compact('folder'));
+        return view('pages.folder.edit', compact(['folder', 'users']));
     }
 
     public function update(UpdateFolderRequest $request, int $id)

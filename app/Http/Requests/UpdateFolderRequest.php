@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateFolderRequest extends FormRequest
 {
@@ -25,6 +26,7 @@ class UpdateFolderRequest extends FormRequest
             'name' => 'required|max:255',
             'client_id' => 'nullable|numeric|max:16',
             'client_name' => 'nullable|max:255',
+            'user_id' => 'required|numeric|' . Rule::exists('users', 'id'),
         ];
     }
 }

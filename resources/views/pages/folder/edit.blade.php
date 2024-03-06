@@ -32,6 +32,18 @@
                                 <span class="error">{{ $message }}</span>
                             @enderror
                         </label>
+                        <div class="label">
+                            <span class="label__title">Пользователь*</span>
+                            @foreach ($users as $user)
+                                <label class="radio">
+                                    <input class="radio__input" name="user_id" type="radio" value="{{ $user->id }}"
+                                        @checked((old('user_id') ?? $folder->user_id) === $user->id)>
+                                    <span class="radio__icon"></span>
+                                    <span class="label__title">{{ $user->name }}</span>
+                                </label>
+                            @endforeach
+
+                        </div>
                     </div>
                     {{ method_field('PATCH') }}
                     <button class="btn">Изменить</button>

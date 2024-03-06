@@ -5,10 +5,11 @@
                 <a class="header__nav_item" href="/">Чеки</a>
                 @auth
                     <a class="header__nav_item" href="{{ route('receipt.create') }}">Добавить чек</a>
+                    <a class="header__nav_item" href="{{ route('folder.all') }}">Все сделки</a>
+                    <a class="header__nav_item" href="{{ route('folder.trash') }}">Закрытые сделки</a>
 
                     @if (auth()->user()->hasRole('admin'))
                         <a class="header__nav_item" href="{{ route('receipt.trash') }}">Корзина чеков</a>
-                        <a class="header__nav_item" href="{{ route('folder.trash') }}">Закрытие сделки</a>
                         <a class="header__nav_item" href="{{ route('okved.index') }}">Список ОКВЭД</a>
                         <a class="header__nav_item" href="{{ route('okved.create') }}">Добавить ОКВЭД</a>
                         <form action="{{ route('receipt.removeDuplicate') }}" method="post">
@@ -34,7 +35,7 @@
                 <a class="header-folder__create" href="{{ route('folder.create') }}"></a>
                 @if (auth()->user()->folders()->count())
                     <div class="header-folder__list">
-                        @foreach (auth()->user()->folders()->limit(10)->get() as $item)
+                        @foreach (auth()->user()->folders()->limit(10)->orderByDesc('id')->get() as $item)
                             <a class="header-folder__item"
                                 href="{{ route('folder.show', ['folder' => $item->id]) }}">{{ $item->name }}</a>
                         @endforeach

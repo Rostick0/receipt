@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
         // clearTrash
     });
     Route::group(['prefix' => 'folder'], function () {
+        Route::get('/all', [FolderController::class, 'all'])->name('folder.all');
         Route::get('/trash', [FolderController::class, 'trash'])->name('folder.trash');
         Route::patch('/restore/{id}', [FolderController::class, 'restore'])->name('folder.restore');
         Route::delete('/trash/{id}', [FolderController::class, 'forceDelete'])->name('folder.forceDelete');

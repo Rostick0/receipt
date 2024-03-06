@@ -21,7 +21,7 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $data = Filter::query($request, new Folder, $this::getWhere());     
+        $data = Filter::query($request, new Folder, [], $this::getWhere());     
     
         if ($request->has('receipt_id')) $data->with(['folder_receipts' => function (Builder $query) use ($request) {
             $query->where('receipt_id', $request->receipt_id);
