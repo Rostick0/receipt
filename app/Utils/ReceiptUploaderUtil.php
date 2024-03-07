@@ -5,6 +5,7 @@ namespace App\Utils;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Folder;
+use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Validator;
@@ -13,8 +14,6 @@ class ReceiptUploaderUtil
 {
     public static function upload($request, $user_id, $folder_id = null)
     {
-
-
         $folder = null;
 
         if ($folder_id) {
@@ -28,7 +27,7 @@ class ReceiptUploaderUtil
             ])->first();
 
             if (!$folder) return AccessUtil::errorMessage(
-                'Данного чека не существует',
+                'Данной сделки не существует',
                 400
             );
         }
@@ -50,6 +49,21 @@ class ReceiptUploaderUtil
             );
 
             $products = [];
+
+            if (Receipt::where([
+                ['fiscalDocumentNumber', '=', $item['ticket']['document']['receipt']['fiscalDocumentNumber']],
+                ['fiscalDriveNumber', '=', $item['ticket']['document']['receipt']['fiscalDriveNumber']],
+                ['fiscalSign', '=', $item['ticket']['document']['receipt']['fiscalSign']],
+            ])->count() > 0) {
+                $errors[] = [
+                    'index' => $index + 1,
+                    'errors' => [
+                        'copy' => 'Данный чек уже загружен'
+                    ],
+                ];
+
+                return;
+            }
 
             if (!empty($item['ticket']['document']['receipt']['items'] ?? null)) {
                 foreach ($item['ticket']['document']['receipt']['items'] as $item_product) {
