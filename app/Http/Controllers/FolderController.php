@@ -128,7 +128,7 @@ class FolderController extends Controller
     {
         $folders = Filter::query($request, new Folder, $this::getWhere());
 
-        $folders = $folders->orderBy('client_name')->orderBy('client_id')->onlyTrashed()->paginate(20);
+        $folders = $folders->orderBy('client_name')->orderBy('client_id')->onlyTrashed()->paginate(100);
 
         return view('pages.folder.trash', compact('folders'));
     }
