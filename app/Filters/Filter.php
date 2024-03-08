@@ -17,8 +17,6 @@ class Filter
     {
         $data = Filter::query($request, $model, $fillable_block, $where);
 
-        if ($where) $data->where($where);
-
         $data = $data->paginate($request->limit);
 
         return $data;

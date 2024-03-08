@@ -36,7 +36,7 @@ class FolderController extends Controller
     public function all(Request $request)
     {
         // $folders = Filter::query($request, new Folder)->get();
-        $folders = Filter::all($request, new Folder);
+        $folders = Filter::query($request, new Folder)->paginate(100);
 
         return view('pages.folder.all', compact('folders'));
     }

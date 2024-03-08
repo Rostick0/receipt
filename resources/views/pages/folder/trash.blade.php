@@ -14,8 +14,7 @@
                         <thead>
                             <th>ID</th>
                             <th>Имя папки</th>
-                            <th>Имя клиента</th>
-                            <th>ID клиента</th>
+                            <th>Пользователь</th>
                             <th>Действие</th>
                             <th>Дата закрытия</th>
                         </thead>
@@ -44,8 +43,7 @@
                                     <a class="link"
                                         href="{{ route('folder.show', ['folder' => $folder->id]) }}">{{ $folder->name }}</a>
                                 </td>
-                                <td>{{ $folder->client_name ?? '-' }}</td>
-                                <td>{{ $folder->client_id ?? '-' }}</td>
+                                <td>{{ $folder->user->name ?? '-' }}</td>
                                 <td>
                                     <form action="{{ route('folder.restore', ['id' => $folder->id]) }}" method="POST">
                                         @csrf
