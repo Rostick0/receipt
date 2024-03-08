@@ -38,20 +38,22 @@
                             @endif
                         </div>
                         <div class="folder-get__action">
-                            @if ($folder->trashed())
-                                <form action="{{ route('folder.restore', ['id' => $folder->id]) }}" method="POST">
-                                    @csrf
-                                    {{ method_field('PATCH') }}
-                                    <button class="link">Вернуть сделку в работу</button>
-                                </form>
-                            @else
-                                <a class="btn" href="{{ route('folder.edit', ['folder' => $folder->id]) }}">Изменить</a>
-                                <form action="{{ route('folder.destroy', ['folder' => $folder->id]) }}" method="POST">
-                                    @csrf
-                                    {{ method_field('DELETE') }}
-                                    <button class="link">Закрыть сделку</button>
-                                </form>
-                            @endif
+                            @can('update', $folder)
+                                @if ($folder->trashed())
+                                    <form action="{{ route('folder.restore', ['id' => $folder->id]) }}" method="POST">
+                                        @csrf
+                                        {{ method_field('PATCH') }}
+                                        <button class="link">Вернуть сделку в работу</button>
+                                    </form>
+                                @else
+                                    <a class="btn" href="{{ route('folder.edit', ['folder' => $folder->id]) }}">Изменить</a>
+                                    <form action="{{ route('folder.destroy', ['folder' => $folder->id]) }}" method="POST">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                        <button class="link">Закрыть сделку</button>
+                                    </form>
+                                @endif
+                            @endcan
                         </div>
                     </div>
                     <div class="folder-get__content">
@@ -59,7 +61,9 @@
                             <div class="receipt-list">
                                 @foreach ($receipts as $item)
                                     @php
-                                        $folder_receipt = $item->folder_receipts->where('folder_id', $folder->id)->first();
+                                        $folder_receipt = $item->folder_receipts
+                                            ->where('folder_id', $folder->id)
+                                            ->first();
                                     @endphp
                                     <x-receipt-item :receipt="$item" classStar="_remove" :folderReceiptId="$folder_receipt->id"
                                         :comment="$folder_receipt->comment ?? ''" />

@@ -58,7 +58,7 @@ class FolderController extends Controller
 
     public function show(Request $request, int $id)
     {
-        $folder = Filter::one($request, new Folder, $id, $this::getWhere(), true);
+        $folder = Filter::one($request, new Folder, $id, [], true);
         $sum_query = DB::select('select sum(`receipt_sum_sum`) as `sum` from (select `folder_receipts`.*, (select sum(`receipts`.`totalSum`) from `receipts` where `folder_receipts`.`receipt_id` = `receipts`.`id` and `receipts`.`deleted_at` is null) as `receipt_sum_sum` from `folder_receipts` where `folder_receipts`.`folder_id` = ' . $id . ' and `folder_receipts`.`folder_id` is not null) as `helper`;');
 
         (new ReceiptController)->mergePriceAll($request);
