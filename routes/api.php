@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\FolderReceiptController;
 use App\Http\Controllers\Api\OkvedController;
 use App\Http\Controllers\Api\ReceiptController;
 use App\Http\Controllers\Api\ReceiptUploaderController;
+use App\Http\Controllers\Telegram\FolderController as TelegramFolderController;
 use App\Http\Controllers\Telegram\ReceiptUploaderController as TelegramReceiptUploaderController;
 use App\Http\Controllers\Telegram\UserTelegramController;
 use Illuminate\Http\Request;
@@ -67,6 +68,7 @@ Route::group([
         Route::apiResource('user', UserTelegramController::class)->only(['store', 'destroy']);
 
         Route::apiResource('receipt-upload', TelegramReceiptUploaderController::class)->only(['store']);
+        Route::apiResource('folder', TelegramFolderController::class)->only(['store']);
 
         // Route::post('receipt-upload', [ReceiptUploaderController::class, 'store']);
     });
