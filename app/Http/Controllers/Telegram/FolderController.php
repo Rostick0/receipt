@@ -18,7 +18,10 @@ class FolderController extends Controller
 
         if (!$user) return AccessUtil::errorMessage('Пользователь не найден');
 
-        $data = Folder::create($request->validated());
+        $data = Folder::create([
+            ...$request->validated(),
+            'user_id' => $user->id
+        ]);
 
         return new JsonResponse([
             'data' => $data
