@@ -46,7 +46,7 @@ const getFolder = async (params = {}, hasEmptyFolders = false) => {
     const res = await axios.get("/api/folder", {
         params: {
             ...params,
-            sort: 'id',
+            sort: "id",
             limit: 30,
         },
     });
@@ -471,9 +471,14 @@ const modalFolderBtnOnclick = async () => {
                         }
                     }
 
+                    const linkHtml = item?.link
+                        ? `<div>Ссылка: <a class="link" href="${item?.link}" target="_blank">${item?.link}</a></div>`
+                        : "";
+
                     formResultErrors.insertAdjacentHTML(
                         "beforeend",
                         `<div>Элемент под индексом: ${item?.index}</div>
+                        ${linkHtml}
                         <div>${divErrors}</div>
                         <br />
                         <br />`

@@ -50,12 +50,13 @@ class ReceiptUploaderUtil
 
             $products = [];
 
-            if (Receipt::where([
+            if ($first_receipt = Receipt::where([
                 ['fiscalDocumentNumber', '=', $item['ticket']['document']['receipt']['fiscalDocumentNumber']],
                 ['fiscalDriveNumber', '=', $item['ticket']['document']['receipt']['fiscalDriveNumber']],
                 ['fiscalSign', '=', $item['ticket']['document']['receipt']['fiscalSign']],
-            ])->count() > 0) {
+            ])->first()) {
                 $errors[] = [
+                    'link' => route('receipt.show', ['receipt' => $first_receipt->id]),
                     'index' => $index + 1,
                     'errors' => [
                         'copy' => 'Данный чек уже загружен'
