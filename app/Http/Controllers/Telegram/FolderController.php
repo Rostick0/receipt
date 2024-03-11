@@ -14,7 +14,7 @@ class FolderController extends Controller
 {
     public function store(StoreTelegramFolderController $request)
     {
-        $user = User::firstWhere('name', $request->user_name);
+        $user = User::firstWhere('name', 'LIKE', '%' . $request->user_name . '%');
 
         if (!$user) return AccessUtil::errorMessage('Пользователь не найден');
 
