@@ -28,18 +28,17 @@ class FolderController extends Controller
 
     public function index(Request $request)
     {
-        $folders = Filter::query($request, new Folder, [], $this::getWhere())
-            ->orderBy('client_name')
-            ->orderBy('client_id')
-            ->get();
+        $folders = Filter::query($request, new Folder, [], $this::getWhere())->get();
 
         return view('pages.folder.index', compact('folders'));
     }
 
     public function all(Request $request)
     {
-        // $folders = Filter::query($request, new Folder)->get();
-        $folders = Filter::query($request, new Folder)->paginate(100);
+        $folders = Filter::query($request, new Folder)
+            ->orderBy('client_name')
+            ->orderBy('client_id')
+            ->paginate(100);
 
         return view('pages.folder.all', compact('folders'));
     }
