@@ -25,7 +25,7 @@ class StoreTelegramFolderController extends FormRequest
         return [
             'id' => 'required|numeric|unique:folders,id|max:18446744073709551615',
             'name' => 'required|max:255',
-            'client_id' => 'required|numeric|max:16',
+            'client_id' => 'required|numeric|max:18446744073709551615',
             'client_name' => 'required|max:255',
             'user_name' => 'required|max:255',
         ];
