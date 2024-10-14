@@ -1,14 +1,5 @@
 @extends('layout.index')
 
-@php
-    $folder_receipts_count = $folder
-        ->folder_receipts()
-        ->whereHas('receipt', function ($query) {
-            // $query->whereNull('deleted_at');
-        })
-        ->count();
-@endphp
-
 @section('html')
     <section class="folder-get">
         <div class="container">
@@ -18,10 +9,10 @@
                     <div class="folder-get__top">
                         <div class="folder-get__info">
                             <strong>{{ $folder->name }}</strong>
-                            <div class="folder-get__count">Количество чеков: {{ $folder_receipts_count }}</div>
-                            <div @isset($sum_query[0]?->sum) $sum_query @endisset class="folder-get__count">
+                            <div class="folder-get__count">Количество чеков: {{ $receipts->total() }}</div>
+                            <div @isset($sum_query) $sum_query @endisset class="folder-get__count">
                                 Сумма:
-                                {{ number_format($sum_query[0]?->sum / 100, 2, '.', ' ') }} руб
+                                {{ number_format($sum_query / 100, 2, '.', ' ') }} руб
                             </div>
                             @if ($receipts->total() > 0)
                                 <a class="ml-auto link"

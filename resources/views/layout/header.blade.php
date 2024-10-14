@@ -33,13 +33,13 @@
         @auth
             <div class="header__container_bottom header-folder">
                 <a class="header-folder__create" href="{{ route('folder.create') }}"></a>
-                @if (auth()->user()->folders()->count())
+                @if (auth()->user()->folders()?->count())
                     <div class="header-folder__list">
                         @foreach (auth()->user()->folders()->limit(10)->orderByDesc('id')->get() as $item)
                             <a class="header-folder__item"
                                 href="{{ route('folder.show', ['folder' => $item->id]) }}">{{ $item->name }}</a>
                         @endforeach
-                        @if (auth()->user()->folders()->count() > 10)
+                        @if (auth()->user()->folders()?->count() > 10)
                             <a class="link" href="{{ route('folder.index') }}">Весь список</a>
                         @endif
                     </div>

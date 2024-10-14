@@ -6,14 +6,7 @@
     $operation_types = App\Models\OperationType::get();
     $users = App\Models\User::get();
 
-    function filterProductName()
-    {
-        if (Request::has('exact_title')) {
-            return 'filterEQ';
-        }
-
-        return 'filterLIKE';
-    }
+    $filterProductName = Request::has('exact_title') ? 'filterEQ' : 'filterLIKE';
 @endphp
 
 <div class="receipt-get__left">
@@ -35,8 +28,8 @@
                     <label class="label">
                         <span class="label__title">Название товара/услуги</span>
                         <input class="input input-product__disable" type="text"
-                            name="{{ filterProductName() . '[products.name]' }}"
-                            value="{{ Request::get(filterProductName())['products.name'] ?? '' }}"
+                            name="{{ $filterProductName . '[products.name]' }}"
+                            value="{{ Request::get($filterProductName)['products.name'] ?? '' }}"
                             @disabled(isset(Request::get('filterEQN')['products.name']))>
                     </label>
                     <label class="checbox">

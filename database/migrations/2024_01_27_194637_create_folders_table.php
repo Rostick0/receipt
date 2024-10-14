@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('client_id')->nullable();
             $table->string('client_name')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
