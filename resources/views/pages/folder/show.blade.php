@@ -52,12 +52,16 @@
                             <div class="receipt-list">
                                 @foreach ($receipts as $item)
                                     @php
-                                        $folder_receipt = $item->folder_receipts
+                                        $folder_receipt = $item
+                                            ->folder_receipts()
                                             ->where('folder_id', $folder->id)
                                             ->first();
+                                        // dd($item->folder_receipts);
                                     @endphp
-                                    <x-receipt-item :receipt="$item" classStar="_remove" :folderReceiptId="$folder_receipt->id"
-                                        :comment="$folder_receipt->comment ?? ''" />
+                                    @if ($folder_receipt?->id)
+                                        <x-receipt-item :receipt="$item" classStar="_remove" :folderReceiptId="$folder_receipt?->id"
+                                            :comment="$folder_receipt?->comment ?? ''" />
+                                    @endif
                                 @endforeach
                             </div>
                             <div class="pagination-margin">

@@ -72,14 +72,22 @@ class FolderController extends Controller
         if ($request->has('nds_only')) {
             $receipts = $receipts->where('nds18', '>=', 1)->union(
                 Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('nds10', '>=', 1)
+                    ->whereHas('folder_receipts', function ($query) use ($folder) {
+                        $query->where('folder_id', $folder->id);
+                    })
             );
         }
 
         if ($request->has('no_nds_only')) {
-            $receipts = $receipts->where('nds0', '>=', 1)->union(
-                Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('ndsNo', '>=', 1)
-            );
+            $receipts = $receipts->where('nds0', '>=', 1)
+                ->union(
+                    Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('ndsNo', '>=', 1)
+                        ->whereHas('folder_receipts', function ($query) use ($folder) {
+                            $query->where('folder_id', $folder->id);
+                        })
+                );
         }
+
 
         $receipts = $receipts
             ->whereHas('folder_receipts', function ($query) use ($folder) {
