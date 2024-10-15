@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\Filter;
 use App\Models\Receipt;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateReceiptRequest;
@@ -14,7 +15,6 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Rostislav\LaravelFilters\Filter;
 
 class ReceiptController extends Controller
 {
