@@ -19,8 +19,13 @@ class AuthController extends Controller
                 'email' => trans('auth.failed')
             ]);
         }
-
-        auth()->login(JWTAuth::user(), true);
+        $user = JWTAuth::user();
+        if (!$user->is_confirmed) throw ValidationException::withMessages([
+            'email' => trans('auth.confirmed')
+        ]);
+        // dd($user);
+        // is_confirmed
+        auth()->login($user, true);
 
         return $this->redirectProfile($token);
     }

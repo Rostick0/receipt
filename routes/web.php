@@ -26,7 +26,7 @@ Route::group(['middleware' => 'guest'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
 
     Route::view('/register', 'pages.register')->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware(['throttle:3,1']);
 });
 
 Route::group(['middleware' => 'auth'], function () {
