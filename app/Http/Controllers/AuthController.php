@@ -23,8 +23,7 @@ class AuthController extends Controller
         if (!$user->is_confirmed) throw ValidationException::withMessages([
             'email' => trans('auth.confirmed')
         ]);
-        // dd($user);
-        // is_confirmed
+
         auth()->login($user, true);
 
         return $this->redirectProfile($token);
