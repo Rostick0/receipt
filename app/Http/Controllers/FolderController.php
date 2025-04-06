@@ -94,6 +94,7 @@ class FolderController extends Controller
                 $query->where('folder_id', $folder->id);
             })
             ->paginate(20);
+
         $sum_query = $receipts->sum('totalSum');
 
         (new ReceiptController)->dateTimeRemoveDay($request);
