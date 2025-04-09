@@ -92,10 +92,11 @@ class FolderController extends Controller
         $receipts = $receipts
             ->whereHas('folder_receipts', function ($query) use ($folder) {
                 $query->where('folder_id', $folder->id);
-            })
-            ->paginate(20);
+            });
 
         $sum_query = $receipts->sum('totalSum');
+
+        $receipts = $receipts->paginate(20);
 
         (new ReceiptController)->dateTimeRemoveDay($request);
         (new ReceiptController)->mergePriceAll($request, '/');
