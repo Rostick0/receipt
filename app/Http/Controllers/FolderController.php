@@ -94,7 +94,7 @@ class FolderController extends Controller
                 $query->where('folder_id', $folder->id);
             });
 
-        $sum_query = $receipts->sum('totalSum');
+        $sum_query = DB::table($receipts->getQuery(), 'tmp')->sum('totalSum');
 
         $receipts = $receipts->paginate(20);
 
