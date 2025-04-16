@@ -15,7 +15,8 @@ class IntegrationToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token = '3rtgth@wdecsce!213e3wrerfads';
+        $token = config('telegram.bot_token');
+        $token = config('integration.integration_token');
 
         if ($request->header('Authorization') !== $token) {
             return response()->json([
