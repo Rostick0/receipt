@@ -19,10 +19,14 @@ class ReceiptUploaderUtil
         if ($folder_id) {
             $folder = Folder::where([
                 [
-                    'user_id', '=', $user_id,
+                    'user_id',
+                    '=',
+                    $user_id,
                 ],
                 [
-                    'id', '=', $folder_id,
+                    'id',
+                    '=',
+                    $folder_id,
                 ]
             ])->first();
 
