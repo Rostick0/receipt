@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('retailPlaceAddress')->nullable();
             $table->integer('shiftNumber')->nullable();
             $table->string('operator')->nullable();
-            $table->integer('taxationType')->unsigned();
+            $table->integer('taxationType')->nullable()->unsigned();
             $table->integer('totalSum')->default(0);
             $table->string('user')->nullable();
             $table->string('userInn');

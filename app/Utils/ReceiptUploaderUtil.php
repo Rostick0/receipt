@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Http\Requests\StoreReceiptForUploadRequest;
 use App\Http\Requests\StoreReceiptRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Folder;
@@ -49,7 +50,7 @@ class ReceiptUploaderUtil
 
             $validator = Validator::make(
                 $item['ticket']['document']['receipt'],
-                (new StoreReceiptRequest)->rules()
+                (new StoreReceiptForUploadRequest)->rules()
             );
 
             $products = [];
