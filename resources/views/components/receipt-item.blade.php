@@ -26,9 +26,11 @@
         <div class="receipt-item__center">{{ $receipt->user }}</div>
         <div class="receipt-item__center">{{ $receipt->userInn }}</div>
         <div class="receipt-item__bottom">
-            <div class="receipt-item__date">
-                {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
-            </div>
+            @if ($receipt->dateTime)
+                <div class="receipt-item__date">
+                    {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
+                </div>
+            @endif
             <div class="receipt-item__amount">
                 <strong>Итого:</strong>
                 <div>{{ $receipt->totalSum / 100 }} руб.</div>
@@ -40,8 +42,11 @@
         <div class="text-center">{{ $receipt->retailPlaceAddress }}</div>
         <div class="text-center">{{ $receipt->userInn }}</div>
         <br>
-        <div class="text-center">
-            {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}</div>
+        @if ($receipt->dateTime)
+            <div class="text-center">
+                {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
+            </div>
+        @endif
         <div class="text-center">Чек № {{ $receipt->requestNumber ?? '-' }}</div>
         <div class="text-center">Смена № {{ $receipt->shiftNumber ?? '-' }}</div>
         <div class="text-center">Кассир {{ $receipt->operator ?? '-' }}</div>
