@@ -49,7 +49,11 @@ class ReceiptUploaderUtil
             if (!isset($item['ticket']['document']['receipt'])) return;
 
             $validator = Validator::make(
-                $item['ticket']['document']['receipt'],
+                [
+                    ...$item['ticket']['document']['receipt'],
+                    'dateTime' => $item['createdAt'],
+                    '_id' => $item['_id']
+                ],
                 (new StoreReceiptForUploadRequest)->rules()
             );
 
