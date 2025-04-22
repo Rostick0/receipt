@@ -33,7 +33,7 @@ class ReceiptUploaderController extends Controller
 
                 $data->push([
                     '_id' => $receipt['id'],
-                    'createdAt' => $receipt->created_at,
+                    'createdAt' => $receipt->dateTime,
                     'ticket' => [
                         'document' => [
                             'receipt' => [
@@ -86,7 +86,7 @@ class ReceiptUploaderController extends Controller
         return response(json_encode([
             [
                 '_id' => $data['id'],
-                'createdAt' => $data->created_at,
+                'createdAt' => $data->dateTime,
                 'ticket' => [
                     'document' => [
                         'receipt' => [

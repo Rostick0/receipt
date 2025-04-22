@@ -26,11 +26,9 @@
         <div class="receipt-item__center">{{ $receipt->user }}</div>
         <div class="receipt-item__center">{{ $receipt->userInn }}</div>
         <div class="receipt-item__bottom">
-            @if ($receipt->dateTime)
-                <div class="receipt-item__date">
-                    {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
-                </div>
-            @endif
+            <div class="receipt-item__date">
+                {{ Carbon\Carbon::parse($receipt->dateTime)->translatedFormat('d.m.Y H:i:s') }}
+            </div>
             <div class="receipt-item__amount">
                 <strong>Итого:</strong>
                 <div>{{ $receipt->totalSum / 100 }} руб.</div>
