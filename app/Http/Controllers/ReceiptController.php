@@ -124,6 +124,7 @@ class ReceiptController extends Controller
         $receipts = $receipts->paginate(20);
 
         $this->mergePriceAll($request, '/');
+        $this->dateTimeRemoveDay($request);
 
         return view('pages.receipt.index', compact(['receipts']));
     }
