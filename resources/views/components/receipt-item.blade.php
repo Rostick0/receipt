@@ -158,7 +158,7 @@
                     <a class="btn" href="{{ route('receipt.edit', ['receipt' => $receipt->id]) }}">Изменить</a>
                 @endcan
                 &ensp;
-                <a class="link" href="{{ route('receipt-upload.show', ['receipt_upload' => $receipt->id]) }}"
+                <a class="link" href="{{ route('api.receipt-upload.show', ['receipt_upload' => $receipt->id]) }}"
                     download="{{ App\Utils\ReceiptUploaderUtil::getNameFile($receipt) }}">Скачать</a>
             </div>
         </div>
