@@ -262,7 +262,7 @@
                 </form>
                 <h3>Вы также можете загрузить файлом JSON</h3>
                 <br>
-                <form class="form" id="form-upload-json" action="{{ route('receipt-upload.site.store') }}"
+                <form class="form" id="form-upload-json" action="{{ route('api.receipt-upload.site.store') }}"
                     method="POST" enctype="multipart/form-data">
                     <div class="form__inputs">
                         <label class="label">
