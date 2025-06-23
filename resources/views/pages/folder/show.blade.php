@@ -16,7 +16,7 @@
                             </div>
                             @if ($receipts->total() > 0)
                                 <a class="ml-auto link"
-                                    href="{{ route('receipt-upload.index', [
+                                    href="{{ route('api.receipt-upload.index', [
                                         'folder_id' => $folder->id,
                                     ]) }}">
                                     Скачать все

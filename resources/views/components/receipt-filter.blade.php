@@ -4,7 +4,7 @@
     $sort = (new App\Http\Controllers\ReceiptController())->sort;
     $taxation_types = App\Models\TaxationType::get();
     $operation_types = App\Models\OperationType::get();
-    $users = App\Models\User::get();
+    $users = App\Models\User::where('is_confirmed', 1)->get();
 
     $filterProductName = Request::has('exact_title') ? 'filterEQ' : 'filterLIKE';
 @endphp
