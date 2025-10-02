@@ -37,7 +37,8 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        return $user->id == $product->receipt?->user_id || $user->role == 'admin';
+        return true;
+        // return $user->id == $product->receipt?->user_id || $user->role == 'admin';
     }
 
     /**
@@ -45,7 +46,8 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product): bool
     {
-        return $user->id == $product->receipt?->user_id || $user->role == 'admin';
+        return true;
+        // return $user->id == $product->receipt?->user_id || $user->role == 'admin';
     }
 
     /**

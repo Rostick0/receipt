@@ -37,7 +37,8 @@ class ReceiptPolicy
      */
     public function update(User $user, Receipt $receipt): bool
     {
-        return $user->id == $receipt->user_id || $user->role == 'admin';
+        return true;
+        // return $user->id == $receipt->user_id || $user->role == 'admin';
     }
 
     /**
@@ -45,7 +46,8 @@ class ReceiptPolicy
      */
     public function delete(User $user, Receipt $receipt): bool
     {
-        return $user->id == $receipt->user_id || $user->role == 'admin';
+        return true;
+        // return $user->id == $receipt->user_id || $user->role == 'admin';
     }
 
     /**
@@ -53,7 +55,8 @@ class ReceiptPolicy
      */
     public function restore(User $user, Receipt $receipt): bool
     {
-        return  $user->role == 'admin';
+        return true;
+        // return  $user->role == 'admin';
     }
 
     /**
@@ -61,6 +64,7 @@ class ReceiptPolicy
      */
     public function forceDelete(User $user, Receipt $receipt): bool
     {
-        return  $user->role == 'admin';
+        return true;
+        // return  $user->role == 'admin';
     }
 }
