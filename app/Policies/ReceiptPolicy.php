@@ -55,8 +55,7 @@ class ReceiptPolicy
      */
     public function restore(User $user, Receipt $receipt): bool
     {
-        return true;
-        // return  $user->role == 'admin';
+        return $user->role == 'admin';
     }
 
     /**
@@ -64,7 +63,6 @@ class ReceiptPolicy
      */
     public function forceDelete(User $user, Receipt $receipt): bool
     {
-        return true;
-        // return  $user->role == 'admin';
+        return $user->role == 'admin';
     }
 }
