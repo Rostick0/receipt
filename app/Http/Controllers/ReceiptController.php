@@ -112,6 +112,8 @@ class ReceiptController extends Controller
         if ($request->has('nds_only')) {
             $receipts = $receipts->where('nds18', '>=', 1)->union(
                 Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds10', '>=', 1)
+            )->union(
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds22', '>=', 1)
             );
         }
 
@@ -146,7 +148,10 @@ class ReceiptController extends Controller
      */
     public function store(StoreReceiptRequest $request)
     {
-        $request->merge([
+        $formData = $request->validated();
+
+        $formData = array_merge($formData, [
+            'totalSum' => PriceUtil::checkAndMultiplication($request->totalSum),
             'cashTotalSum' => PriceUtil::checkAndMultiplication($request->cashTotalSum),
             'creditSum' => PriceUtil::checkAndMultiplication($request->creditSum),
             'ecashTotalSum' => PriceUtil::checkAndMultiplication($request->ecashTotalSum),
@@ -155,7 +160,7 @@ class ReceiptController extends Controller
         ]);
 
         $receipt = Receipt::create([
-            ...$request->validated(),
+            ...$formData,
             'user_id' => auth()->id()
         ]);
 
@@ -195,7 +200,10 @@ class ReceiptController extends Controller
 
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
 
-        $request->merge([
+        $formData = $request->validated();
+
+        $formData = array_merge($formData, [
+            'totalSum' => PriceUtil::checkAndMultiplication($request->totalSum),
             'cashTotalSum' => PriceUtil::checkAndMultiplication($request->cashTotalSum),
             'creditSum' => PriceUtil::checkAndMultiplication($request->creditSum),
             'ecashTotalSum' => PriceUtil::checkAndMultiplication($request->ecashTotalSum),
@@ -203,7 +211,7 @@ class ReceiptController extends Controller
             'provisionSum' => PriceUtil::checkAndMultiplication($request->provisionSum),
         ]);
 
-        $data->update($request->validated());
+        $data->update($formData);
 
         return redirect()->back();
     }

@@ -26,6 +26,7 @@ class Receipt extends Model
         'ndsNo',
         'nds10',
         'nds18',
+        'nds22',
         'operationType',
         'prepaidSum',
         'provisionSum',

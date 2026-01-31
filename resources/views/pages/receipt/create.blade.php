@@ -131,6 +131,14 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
+                            <label class="label">
+                                <span class="label__title">НДС 22</span>
+                                <input class="input" type="text" name="nds22" maxlength="8"
+                                    value="{{ old('nds22') }}">
+                                @error('nds22')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
                         </div>
                         <div class="form__col-2">
                             <label class="label">

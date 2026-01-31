@@ -106,6 +106,12 @@
                     <div>{{ $receipt->nds18 }}</div>
                 </div>
             @endif
+            @if ($receipt->nds22)
+                <div class="d-flex justify-content-between">
+                    <div>НДС 22%:</div>
+                    <div>{{ $receipt->nds22 }}</div>
+                </div>
+            @endif
             @if ($receipt->ndsNo)
                 <div class="d-flex justify-content-between">
                     <div>НДС не облагается:</div>

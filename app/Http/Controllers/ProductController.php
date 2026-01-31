@@ -23,13 +23,15 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $request->merge([
+        $formData = $request->validated();
+
+        $formData = array_merge($formData, [
             'price' => PriceUtil::checkAndMultiplication($request->price),
         ]);
 
         $product = Product::create([
-            ...$request->validated(),
-            'sum' => $request->price * $request->quantity
+            ...$formData,
+            'sum' => $formData['price'] * $formData['quantity']
         ]);
 
         return redirect()->route('product.edit', ['product' => $product->id]);
@@ -56,13 +58,15 @@ class ProductController extends Controller
 
         if (AccessUtil::cannot('update', $data)) return AccessUtil::errorMessage();
 
-        $request->merge([
+        $formData = $request->validated();
+
+        $formData = array_merge($formData, [
             'price' => PriceUtil::checkAndMultiplication($request->price),
         ]);
 
         $data->update([
-            ...$request->validated(),
-            'sum' => $request->price * $request->quantity
+            ...$formData,
+            'sum' => $formData['price'] * $formData['quantity']
         ]);
 
         return redirect()->back();
