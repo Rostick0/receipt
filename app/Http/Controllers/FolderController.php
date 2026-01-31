@@ -75,10 +75,8 @@ class FolderController extends Controller
                     ->whereHas('folder_receipts', function ($query) use ($folder) {
                         $query->where('folder_id', $folder->id);
                     })
-            );
-
-            $receipts = $receipts->where('nds22', '>=', 1)->union(
-                Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('nds10', '>=', 1)
+            )->union(
+                Filter::query($request, new Receipt, (new ReceiptController)->fillable_block)->where('nds22', '>=', 1)
                     ->whereHas('folder_receipts', function ($query) use ($folder) {
                         $query->where('folder_id', $folder->id);
                     })
