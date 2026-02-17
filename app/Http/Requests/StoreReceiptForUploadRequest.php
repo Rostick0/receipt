@@ -39,7 +39,6 @@ class StoreReceiptForUploadRequest extends FormRequest
             'ndsNo' => 'nullable|numeric',
             'nds10' => 'nullable|numeric',
             'nds18' => 'nullable|numeric',
-            'nds22' => 'nullable|numeric',
             'operationType' => 'required|' . Rule::exists('operation_types', 'id'),
             'prepaidSum' => 'nullable|numeric',
             'provisionSum' => 'nullable|numeric',

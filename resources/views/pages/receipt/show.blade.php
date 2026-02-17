@@ -90,14 +90,10 @@
                                 @endif
                                 @if ($receipt->nds18)
                                     <div class="d-flex justify-content-between">
-                                        <div>НДС 20%:</div>
+                                        <div>НДС
+                                            {{ App\Services\NdsProcentService::getDefaultProcent($receipt->dateTime) }}%:
+                                        </div>
                                         <div>{{ $receipt->nds18 }}</div>
-                                    </div>
-                                @endif
-                                @if ($receipt->nds22)
-                                    <div class="d-flex justify-content-between">
-                                        <div>НДС 22%:</div>
-                                        <div>{{ $receipt->nds22 }}</div>
                                     </div>
                                 @endif
                                 @if ($receipt->ndsNo)

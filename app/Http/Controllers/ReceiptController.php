@@ -113,7 +113,7 @@ class ReceiptController extends Controller
             $receipts = $receipts->where('nds18', '>=', 1)->union(
                 Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds10', '>=', 1)
             )->union(
-                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds22', '>=', 1)
+                Filter::query($request, new Receipt, $this->fillable_block, $this::getWhere())->where('nds18', '>=', 1)
             );
         }
 

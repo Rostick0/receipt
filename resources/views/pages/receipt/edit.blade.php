@@ -127,21 +127,22 @@
                                 @enderror
                             </label>
                             <label class="label">
-                                <span class="label__title">НДС 20</span>
+                                <span class="label__title">НДС
+                                    {{ App\Services\NdsProcentService::getDefaultProcent(old('dateTime', $receipt->dateTime ?? now())) }}</span>
                                 <input class="input" type="text" name="nds18" maxlength="8"
                                     value="{{ old('nds18') ?? $receipt->nds18 }}">
                                 @error('nds18')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
-                            <label class="label">
+                            {{-- <label class="label">
                                 <span class="label__title">НДС 22</span>
                                 <input class="input" type="text" name="nds22" maxlength="8"
                                     value="{{ old('nds22') ?? $receipt->nds22 }}">
                                 @error('nds22')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
-                            </label>
+                            </label> --}}
                         </div>
                         <div class="form__col-2">
                             <label class="label">
