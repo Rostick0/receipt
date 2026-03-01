@@ -135,6 +135,42 @@
                         </div>
                         <div class="form__col-2">
                             <label class="label">
+                                <span class="label__title">НДС 5</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_7]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_7]') }}">
+                                @error('amountsReceiptNds[nds_7]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
+                                <span class="label__title">НДС 5/105</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_9]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_9]') }}">
+                                @error('amountsReceiptNds[nds_9]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">НДС 7/107</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_10]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_10]') }}">
+                                @error('amountsReceiptNds[nds_10]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
+                                <span class="label__title">НДС 22/122</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_12]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_12]') }}">
+                                @error('amountsReceiptNds[nds_12]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
+                        <div class="form__col-2">
+                            <label class="label">
                                 <span class="label__title">Вид чека*</span>
                                 <select class="input" name="operationType" required>
                                     <option value="" hidden></option>

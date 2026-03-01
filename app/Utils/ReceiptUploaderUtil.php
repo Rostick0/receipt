@@ -9,6 +9,7 @@ use App\Models\Folder;
 use App\Models\Receipt;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 class ReceiptUploaderUtil
@@ -56,6 +57,7 @@ class ReceiptUploaderUtil
                 (new StoreReceiptForUploadRequest)->rules()
             );
 
+            $amountsReceiptNds = [];
             $products = [];
 
             if ($first_receipt = Receipt::where([
@@ -87,13 +89,23 @@ class ReceiptUploaderUtil
                 }
             }
 
+            if (!empty($item['ticket']['document']['receipt']['amountsReceiptNds']['amountsNds'] ?? null)) {
+                foreach ($item['ticket']['document']['receipt']['amountsReceiptNds']['amountsNds'] as $item) {
+                    $amountsReceiptNds[] = [
+                        'nds' => (int) $item['nds'],
+                        'ndsSum' => (int) $item['ndsSum'],
+                    ];
+                }
+            }
+
             if ($validator->passes()) {
                 $access += 1;
                 $for_load[] = [
                     'receipt' => [
                         ...$validator->validated(),
                     ],
-                    'products' => $products
+                    'products' => $products,
+                    'amountsReceiptNds' => $amountsReceiptNds,
                 ];
             } else {
                 $errors[] = [
@@ -105,15 +117,21 @@ class ReceiptUploaderUtil
 
         collect($for_load)->lazy()->chunk(250)->each(function ($items) use ($user_id, $folder) {
             foreach ($items as $item) {
+                DB::beginTransaction();
+
                 $receipt = User::find($user_id)->receipts()->create($item['receipt']);
 
                 $receipt->products()->createMany($item['products']);
+
+                $receipt->amountsReceiptNds()->createMany($item['amountsReceiptNds']);
 
                 if ($folder) {
                     $folder->folder_receipts()->create([
                         'receipt_id' => $receipt->id,
                     ]);
                 }
+
+                DB::commit();
             }
 
             sleep(0.05);

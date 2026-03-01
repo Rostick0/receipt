@@ -159,10 +159,32 @@ class ReceiptController extends Controller
             'provisionSum' => PriceUtil::checkAndMultiplication($request->provisionSum),
         ]);
 
+        DB::beginTransaction();
+
         $receipt = Receipt::create([
             ...$formData,
             'user_id' => auth()->id()
         ]);
+
+        $amountsReceiptNds = array_filter(
+            $request->input('amountsReceiptNds'),
+            fn($value) => !empty($value)
+        );
+
+        if (!empty($amountsReceiptNds)) {
+            $receipt->amountsReceiptNds()->createMany(
+                array_map(
+                    fn($key, $value) => [
+                        'nds' => str_replace('nds_', '', $key),
+                        'ndsSum' => $value * 100,
+                    ],
+                    array_keys($amountsReceiptNds),
+                    array_values($amountsReceiptNds),
+                )
+            );
+        }
+
+        DB::commit();
 
         return redirect()->route('receipt.update', ['receipt' => $receipt->id]);
     }
@@ -182,7 +204,7 @@ class ReceiptController extends Controller
      */
     public function edit(int $id)
     {
-        $receipt = Receipt::findOrFail($id);
+        $receipt = Receipt::with('amountsReceiptNds')->findOrFail($id);
 
         $operation_types = OperationType::get();
         $taxation_types = TaxationType::get();;
@@ -211,7 +233,30 @@ class ReceiptController extends Controller
             'provisionSum' => PriceUtil::checkAndMultiplication($request->provisionSum),
         ]);
 
+        DB::beginTransaction();
+
         $data->update($formData);
+
+        $amountsReceiptNds = array_filter(
+            $request->input('amountsReceiptNds'),
+            fn($value) => !empty($value)
+        );
+
+        $data->amountsReceiptNds()->delete();
+        if (!empty($amountsReceiptNds)) {
+            $data->amountsReceiptNds()->createMany(
+                array_map(
+                    fn($key, $value) => [
+                        'nds' => str_replace('nds_', '', $key),
+                        'ndsSum' => $value * 100,
+                    ],
+                    array_keys($amountsReceiptNds),
+                    array_values($amountsReceiptNds),
+                )
+            );
+        }
+
+        DB::commit();
 
         return redirect()->back();
     }

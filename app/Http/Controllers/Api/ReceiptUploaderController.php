@@ -23,15 +23,16 @@ class ReceiptUploaderController extends Controller
         $data = collect();
         $data_comments = collect();
 
-        $folder = Folder::find($request->folder_id);
+        $folder = Folder::with('folder_receipts.receipt.amountsReceiptNds')->find($request->folder_id);
 
         $folder?->folder_receipts()->whereHas('receipt', function ($query) {
             $query->whereNull('deleted_at');
         })->chunk(200, function ($item) use (&$data, &$data_comments) {
             foreach ($item as $elem) {
+
                 $receipt = $elem->receipt;
 
-                $data->push([
+                $format = [
                     '_id' => $receipt['id'],
                     'createdAt' => $receipt->dateTime,
                     'ticket' => [
@@ -43,7 +44,16 @@ class ReceiptUploaderController extends Controller
                             ],
                         ],
                     ]
-                ]);
+                ];
+
+                if ($receipt->amountsReceiptNds->count()) {
+                    $format['ticket']['document']['receipt']['amountsReceiptNds']['amountsNds'] = $receipt->amountsReceiptNds->map(fn($el) => [
+                        'nds' => $el->nds,
+                        'ndsSum' => $el->ndsSum * 100,
+                    ]);
+                }
+
+                $data->push($format);
 
                 $data_comments->push($elem->comment);
             }
@@ -83,21 +93,29 @@ class ReceiptUploaderController extends Controller
     {
         $data = Receipt::findOrFail($id);
 
-        return response(json_encode([
-            [
-                '_id' => $data['id'],
-                'createdAt' => $data->dateTime,
-                'ticket' => [
-                    'document' => [
-                        'receipt' => [
-                            ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime'])->toArray(),
-                            'dateTime' => Carbon::make($data->dateTime)->format('Y-m-d\TH:i:s'),
-                            'items' => $data->products
-                        ],
+        $format = [
+            '_id' => $data['id'],
+            'createdAt' => $data->dateTime,
+            'ticket' => [
+                'document' => [
+                    'receipt' => [
+                        ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime'])->toArray(),
+                        // '' => [],
+                        'dateTime' => Carbon::make($data->dateTime)->format('Y-m-d\TH:i:s'),
+                        'items' => $data->products
                     ],
-                ]
+                ],
             ]
-        ], JSON_UNESCAPED_UNICODE));
+        ];
+
+        if ($data->amountsReceiptNds()->count()) {
+            $format['ticket']['document']['receipt']['amountsReceiptNds']['amountsNds'] = $data->amountsReceiptNds()->get()->map(fn($el) => [
+                'nds' => $el->nds,
+                'ndsSum' => $el->ndsSum * 100,
+            ]);
+        }
+
+        return response(json_encode([$format], JSON_UNESCAPED_UNICODE));
     }
 
     public function store(StoreReceiptUploaderRequest $request)

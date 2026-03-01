@@ -91,25 +91,49 @@
             @if ($receipt->nds0)
                 <div class="d-flex justify-content-between">
                     <div>НДС 0%:</div>
-                    <div>{{ $receipt->nds0 }}</div>
+                    <div>{{ $receipt->nds0 / 100 }}</div>
+                </div>
+            @endif
+            @if ($nds5 = $receipt->amountsReceiptNds->firstWhere('nds', 7)->ndsSum ?? null)
+                <div class="d-flex justify-content-between">
+                    <div>НДС 5%:</div>
+                    <div>{{ $nds5 }}</div>
                 </div>
             @endif
             @if ($receipt->nds10)
                 <div class="d-flex justify-content-between">
                     <div>НДС 10%:</div>
-                    <div>{{ $receipt->nds10 }}</div>
+                    <div>{{ $receipt->nds10 / 100 }}</div>
                 </div>
             @endif
             @if ($receipt->nds18)
                 <div class="d-flex justify-content-between">
                     <div>НДС {{ App\Services\NdsProcentService::getDefaultProcent($receipt->dateTime) }}%:</div>
-                    <div>{{ $receipt->nds18 }}</div>
+                    <div>{{ $receipt->nds18 / 100 }}</div>
                 </div>
             @endif
             @if ($receipt->ndsNo)
                 <div class="d-flex justify-content-between">
                     <div>НДС не облагается:</div>
-                    <div>{{ $receipt->ndsNo }}</div>
+                    <div>{{ $receipt->ndsNo / 100 }}</div>
+                </div>
+            @endif
+            @if ($nds5_105 = $receipt->amountsReceiptNds->firstWhere('nds', 9)->ndsSum ?? null)
+                <div class="d-flex justify-content-between">
+                    <div>НДС со ставкой 5/105:</div>
+                    <div>{{ $nds5_105 }}</div>
+                </div>
+            @endif
+            @if ($nds7_107 = $receipt->amountsReceiptNds->firstWhere('nds', 10)->ndsSum ?? null)
+                <div class="d-flex justify-content-between">
+                    <div>НДС со ставкой 7/107:</div>
+                    <div>{{ $nds7_107 }}</div>
+                </div>
+            @endif
+            @if ($nds22_122 = $receipt->amountsReceiptNds->firstWhere('nds', 12)->ndsSum ?? null)
+                <div class="d-flex justify-content-between">
+                    <div>НДС со ставкой 22/122:</div>
+                    <div>{{ $nds22_122 }}</div>
                 </div>
             @endif
             <div class="d-flex justify-content-between">

@@ -71,4 +71,9 @@ class Receipt extends Model
     {
         return $this->hasMany(FolderReceipt::class);
     }
+
+    public function amountsReceiptNds()
+    {
+        return $this->hasMany(AmountsReceiptNds::class);
+    }
 }

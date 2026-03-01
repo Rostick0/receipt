@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\AmountsReceiptNds;
 use App\Models\Okved;
 use App\Models\Product;
+use App\Observers\AmountsReceiptNdsObserver;
 use App\Observers\OkvedObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Registered;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Okved::observe(OkvedObserver::class);
+        AmountsReceiptNds::observe(AmountsReceiptNdsObserver::class);
         // Product::observe(ProductObserver::class);
     }
 

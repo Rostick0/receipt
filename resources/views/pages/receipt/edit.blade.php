@@ -135,14 +135,42 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
-                            {{-- <label class="label">
-                                <span class="label__title">НДС 22</span>
-                                <input class="input" type="text" name="nds22" maxlength="8"
-                                    value="{{ old('nds22') ?? $receipt->nds22 }}">
-                                @error('nds22')
+                        </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">НДС 5</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_7]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_7]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 7)?->ndsSum }}">
+                                @error('amountsReceiptNds[nds_7]')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
-                            </label> --}}
+                            </label>
+                            <label class="label">
+                                <span class="label__title">НДС 5/105</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_9]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_9]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 9)?->ndsSum }}">
+                                @error('amountsReceiptNds[nds_9]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">НДС 7/107</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_10]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_10]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 10)?->ndsSum }}">
+                                @error('amountsReceiptNds[nds_10]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
+                                <span class="label__title">НДС 22/122</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_12]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_12]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 12)?->ndsSum }}">
+                                @error('amountsReceiptNds[nds_12]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
                         </div>
                         <div class="form__col-2">
                             <label class="label">
