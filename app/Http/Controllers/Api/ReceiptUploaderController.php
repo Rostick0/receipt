@@ -38,7 +38,7 @@ class ReceiptUploaderController extends Controller
                     'ticket' => [
                         'document' => [
                             'receipt' => [
-                                ...$receipt->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime'])->toArray(),
+                                ...$receipt->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime', 'nds22'])->toArray(),
                                 'dateTime' => Carbon::make($receipt->dateTime)->format('Y-m-d\TH:i:s'),
                                 'items' => $receipt->products
                             ],
@@ -99,7 +99,7 @@ class ReceiptUploaderController extends Controller
             'ticket' => [
                 'document' => [
                     'receipt' => [
-                        ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime'])->toArray(),
+                        ...$data->makeHidden(['user_id', 'deleted_at', 'created_at', 'updated_at', 'dateTime', 'nds22'])->toArray(),
                         // '' => [],
                         'dateTime' => Carbon::make($data->dateTime)->format('Y-m-d\TH:i:s'),
                         'items' => $data->products

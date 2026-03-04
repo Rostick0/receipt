@@ -11,7 +11,7 @@ class AmountsReceiptNdsObserver
      */
     public function created(AmountsReceiptNds $amountsReceiptNds): void
     {
-        if (in_array($amountsReceiptNds->nds, [11, 1])) {
+        if ($amountsReceiptNds->nds == 1) {
             $amountsReceiptNds->receipt()->update([
                 'nds18' => $amountsReceiptNds->ndsSum * 100,
             ]);

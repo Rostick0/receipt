@@ -124,8 +124,7 @@
                                 @enderror
                             </label>
                             <label class="label">
-                                <span class="label__title">НДС
-                                    {{ App\Services\NdsProcentService::getDefaultProcent(old('dateTime', now())) }}</span>
+                                <span class="label__title">НДС 18</span>
                                 <input class="input" type="text" name="nds18" maxlength="8"
                                     value="{{ old('nds18') }}">
                                 @error('nds18')
@@ -135,6 +134,14 @@
                         </div>
                         <div class="form__col-2">
                             <label class="label">
+                                <span class="label__title">НДС 22</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_11]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_11]') }}">
+                                @error('amountsReceiptNds[nds_11]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
                                 <span class="label__title">НДС 5</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_7]" maxlength="8"
                                     value="{{ old('amountsReceiptNds[nds_7]') }}">
@@ -142,6 +149,8 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
+                        </div>
+                        <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">НДС 5/105</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_9]" maxlength="8"
@@ -150,8 +159,6 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
-                        </div>
-                        <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">НДС 7/107</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_10]" maxlength="8"
@@ -160,6 +167,8 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>
+                        </div>
+                        <div class="form__col-2">
                             <label class="label">
                                 <span class="label__title">НДС 22/122</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_12]" maxlength="8"
