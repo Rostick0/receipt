@@ -127,7 +127,7 @@
                                 @enderror
                             </label>
                             <label class="label">
-                                <span class="label__title">НДС 18</span>
+                                <span class="label__title">НДС 20</span>
                                 <input class="input" type="text" name="nds18" maxlength="8"
                                     value="{{ old('nds18') ?? $receipt->nds18 }}">
                                 @error('nds18')
