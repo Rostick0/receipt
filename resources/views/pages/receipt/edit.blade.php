@@ -346,7 +346,7 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ \App\Services\NdsProcentService::NDS[$item->nds] }}</td>
+                                <td>{{ \App\Services\NdsProcentService::NDS[$item->nds] ?? '-' }}</td>
                                 <td>{{ $item->price / 100 }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->sum / 100 }}</td>
