@@ -63,7 +63,13 @@
                 @foreach ($receipt->products as $index => $product)
                     <tr class="receipt-item-info__tr">
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $product->name }}</td>
+                        <td>
+                            {{ $product->name }}
+                            @if ($product_nds = \App\Services\NdsProcentService::NDS[$product->nds] ?? '')
+                                <br />
+                                {{ $product_nds }}
+                            @endif
+                        </td>
                         <td>{{ $product->price / 100 }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ $product->sum / 100 }}</td>
@@ -134,6 +140,12 @@
                 <div class="d-flex justify-content-between">
                     <div>НДС со ставкой 7/107:</div>
                     <div>{{ $nds7_107 }}</div>
+                </div>
+            @endif
+            @if ($nds20_120 = $receipt->amountsReceiptNds->firstWhere('nds', 3)->ndsSum ?? null)
+                <div class="d-flex justify-content-between">
+                    <div>НДС со ставкой 20/120:</div>
+                    <div>{{ $nds20_120 }}</div>
                 </div>
             @endif
             @if ($nds22_122 = $receipt->amountsReceiptNds->firstWhere('nds', 12)->ndsSum ?? null)

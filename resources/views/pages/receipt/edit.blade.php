@@ -173,6 +173,14 @@
                         </div>
                         <div class="form__col-2">
                             <label class="label">
+                                <span class="label__title">НДС 20/120</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_3]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_3]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 3)?->ndsSum }}">
+                                @error('amountsReceiptNds[nds_3]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
                                 <span class="label__title">НДС 22/122</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_12]" maxlength="8"
                                     value="{{ old('amountsReceiptNds[nds_12]') ?? $receipt->amountsReceiptNds->firstWhere('nds', 12)?->ndsSum }}">
@@ -327,6 +335,7 @@
                     <thead>
                         <th>ID</th>
                         <th>Название</th>
+                        <th>НДС</th>
                         <th>Цена</th>
                         <th>Количества</th>
                         <th>Сумма</th>
@@ -337,6 +346,7 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ \App\Services\NdsProcentService::NDS[$item->nds] }}</td>
                                 <td>{{ $item->price / 100 }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->sum / 100 }}</td>

@@ -43,10 +43,27 @@
                                 @enderror
                             </label>
                         </div>
+                        <div class="form__col-2">
+                            <label class="label">
+                                <span class="label__title">НДС*</span>
+                                <select class="input" name="nds" required>
+                                    <option value="" hidden></option>
+                                    @foreach ($nds_list as $item)
+                                        <option @if (old('nds') == $item['value']) selected @endif
+                                            value="{{ $item['value'] }}">
+                                            {{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                @error('nds')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                        </div>
                     </div>
                     <button class="btn">Создать</button>
                 </form>
-                <a class="link" href="{{ route('receipt.edit', ['receipt' => Request::get('receipt_id')]) }}">Вернуться к чеку</a>
+                <a class="link" href="{{ route('receipt.edit', ['receipt' => Request::get('receipt_id')]) }}">Вернуться к
+                    чеку</a>
             </div>
         </div>
     </div>

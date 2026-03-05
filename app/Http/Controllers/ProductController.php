@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Services\NdsProcentService;
 use App\Utils\AccessUtil;
 use App\Utils\PriceUtil;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private NdsProcentService $ndsProcentService
+    ) {}
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('pages.product.create');
+        $nds_list = $this->ndsProcentService->getList();
+
+        return view('pages.product.create', compact(['nds_list']));
     }
 
     /**
@@ -46,7 +53,9 @@ class ProductController extends Controller
 
         if (AccessUtil::cannot('update', $product)) return AccessUtil::errorMessage();
 
-        return view('pages.product.edit', compact('product'));
+        $nds_list = $this->ndsProcentService->getList();
+
+        return view('pages.product.edit', compact('product', 'nds_list'));
     }
 
     /**

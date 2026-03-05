@@ -21,7 +21,8 @@
                             <label class="label">
                                 <span class="label__title">Цена</span>
                                 <input class="input" type="number" name="price" step="0.01"
-                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('price') ?? $product->price) }}" required>
+                                    value="{{ App\Utils\PriceUtil::checkAndDivision(old('price') ?? $product->price) }}"
+                                    required>
                                 @error('price')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
@@ -33,6 +34,20 @@
                                 <input class="input" type="number" name="quantity"
                                     value="{{ old('quantity') ?? $product->quantity }}" required>
                                 @error('quantity')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
+                                <span class="label__title">НДС</span>
+                                <select class="input" name="nds" required>
+                                    <option value="" hidden></option>
+                                    @foreach ($nds_list as $item)
+                                        <option @if ((old('nds') ?? $item['value']) == $product->nds) selected @endif
+                                            value="{{ $item['value'] }}">
+                                            {{ $item['name'] }}</option>
+                                    @endforeach
+                                </select>
+                                @error('nds')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </label>

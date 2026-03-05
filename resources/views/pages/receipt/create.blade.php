@@ -170,6 +170,14 @@
                         </div>
                         <div class="form__col-2">
                             <label class="label">
+                                <span class="label__title">НДС 20/120</span>
+                                <input class="input" type="text" name="amountsReceiptNds[nds_3]" maxlength="8"
+                                    value="{{ old('amountsReceiptNds[nds_3]') }}">
+                                @error('amountsReceiptNds[nds_3]')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </label>
+                            <label class="label">
                                 <span class="label__title">НДС 22/122</span>
                                 <input class="input" type="text" name="amountsReceiptNds[nds_12]" maxlength="8"
                                     value="{{ old('amountsReceiptNds[nds_12]') }}">

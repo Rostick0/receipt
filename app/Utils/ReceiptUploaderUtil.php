@@ -98,12 +98,20 @@ class ReceiptUploaderUtil
                 }
             }
 
+            $validated = $validator->validated();
+
+            if ($nds20_120 = ($item['ticket']['document']['receipt']['nds18118'] ?? null)) {
+                $amountsReceiptNds[] = [
+                    'nds' => 3,
+                    'ndsSum' => (int) $nds20_120,
+                ];
+            }
+
             if ($validator->passes()) {
                 $access += 1;
+
                 $for_load[] = [
-                    'receipt' => [
-                        ...$validator->validated(),
-                    ],
+                    'receipt' => $validated,
                     'products' => $products,
                     'amountsReceiptNds' => $amountsReceiptNds,
                 ];

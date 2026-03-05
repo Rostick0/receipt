@@ -24,6 +24,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => 'nullable|max:255',
+            'nds' => 'nullable|numeric',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
             'receipt_id' => 'required|' . Rule::exists('receipts', 'id'),

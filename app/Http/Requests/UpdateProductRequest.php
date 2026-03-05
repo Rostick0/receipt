@@ -23,6 +23,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'nullable|max:255',
+            'nds' => 'nullable|numeric',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
         ];
